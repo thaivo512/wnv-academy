@@ -10,7 +10,7 @@ function generate({id, name, email, role, is_active}){
         role: role,
         is_active: is_active
     }, 'SECRET_KEY', {
-        expiresIn: 100 // seconds
+        expiresIn: 15 * 60 // seconds
     });
 }
 
@@ -23,8 +23,18 @@ function validate(accessToken){
     }
 }
 
+function validateIgnoreExpired(accessToken){
+    try{
+        return jwt.verify(accessToken, 'SECRET_KEY', { ignoreExpiration: true });
+    }
+    catch(err) {
+        return null;
+    }
+}
+
 
 module.exports = {
     generate,
-    validate
+    validate,
+    validateIgnoreExpired
 }

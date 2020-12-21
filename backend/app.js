@@ -19,6 +19,7 @@ app.get('/', function (req, res) {
 
 
 app.use('/api/auth', require('./routes/auth.route'));
+app.use('/api/user', require('./routes/user.route'));
 
 
 app.use(function (req, res, next) {
