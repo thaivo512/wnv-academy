@@ -2,6 +2,7 @@
     "required": [
         "name",
         "email",
+        "username",
         "password"
     ],
     "additionalProperties": false,
@@ -10,6 +11,9 @@
             "type": "string"
         },
         "email": {
+            "type": "string"
+        },
+        "username": {
             "type": "string"
         },
         "password": {

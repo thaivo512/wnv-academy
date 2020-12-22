@@ -70,12 +70,6 @@ router.post('/reset-password', auth(), async (req, res) => {
     
     const user = await userModel.single(req.accessTokenPayload.id);
 
-    if(user.password == null) {
-        return res.json({
-            is_success: false,
-            message: "Ban dang nhap bang Google OAuth khong can mat khau"
-        })
-    }
     if (!bcrypt.compareSync(old_password, user.password)) {
         return res.json({
             is_success: false,
@@ -181,7 +175,13 @@ router.get('/:id', auth(userRole.ADMIN), async (req, res) => {
     
     const user = await userModel.single(req.params.id);
 
-    res.json(user)
+    res.json({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        is_active: user.is_active
+    })
 })
 
 

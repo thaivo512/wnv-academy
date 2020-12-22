@@ -18,19 +18,24 @@ router.post('/sign-up', validate(user_schema), async (req, res) => {
 
     const user = req.body;
     user.is_active = false;
+    user.role = userRole.STUDENT;
+    user.password = bcrypt.hashSync(user.password, 10);
     user.otp_code = randomstring.generate({
         length: 6,
         charset: 'numeric'
     })
 
-    const isExist = await userModel.existByEmail(user.email);
-    if(isExist) return res.json({
+    const isExistEmail = await userModel.existByEmail(user.email);
+    if(isExistEmail) return res.json({
         is_success: false,
         message: 'Email da duoc dang ky!!!'
     }); 
+    const isExistUsername = await userModel.existByUsername(user.username);
+    if(isExistUsername) return res.json({
+        is_success: false,
+        message: 'Username da duoc dang ky!!!'
+    }); 
 
-    user.role = userRole.STUDENT;
-    user.password = bcrypt.hashSync(user.password, 10);
 
 
     var filepath = path.join(__dirname, '..', 'config', 'mail-sign-up-template.html');
@@ -44,6 +49,7 @@ router.post('/sign-up', validate(user_schema), async (req, res) => {
     res.json({
         is_success: true,
         id: user.id,
+        username: user.username,
         name: user.name,
         email: user.email,
         role: user.role
@@ -52,24 +58,26 @@ router.post('/sign-up', validate(user_schema), async (req, res) => {
   
 
 router.post('/sign-in', async (req, res) => {
+    const {username, password} = req.body;
 
-    const user = await userModel.singleByEmail(req.body.email);
+    const user = await userModel.singleByUsername(username);
 
     if (user === null) {
         return res.json({
             is_success: false,
+            message: "Username hoac password khong dung"
         });
-    }
-
-    if (!bcrypt.compareSync(req.body.password, user.password)) {
+    } 
+    if (!bcrypt.compareSync(password, user.password)) {
         return res.json({
-            is_success: false
+            is_success: false,
+            message: "Username hoac password khong dung"
         });
     }
     
-    const accessToken = accessTokenUtils.generate(user);
     const refreshToken = randomstring.generate();
     await userModel.refreshToken(user.id, refreshToken);
+    const accessToken = accessTokenUtils.generate(user);
 
     res.json({
         is_success: true,
@@ -81,28 +89,45 @@ router.post('/sign-in', async (req, res) => {
 
 router.post('/gg-oauth', async (req, res) => {
 
-    const ggTokenPayload = await ggClient.verify(req.body.gg_token);
+    const {gg_token, username, password} = req.body;
+
+    const ggTokenPayload = await ggClient.verify(gg_token);
     if(ggTokenPayload == null) {
         return res.json({
             is_success: false,
+            message: "Google token khong hop le"
         });
     }
     
-    const {name, email} = ggTokenPayload;
+    const { name, email } = ggTokenPayload;
     let user = await userModel.singleByEmail(email);
     if(user === null) {
+        if(!username || !password) return res.json({
+            is_success: true,
+            access_token: null,
+            refresh_token: null
+        })
+
+        const isExistUsername = await userModel.existByUsername(username);
+        if(isExistUsername) return res.json({
+            is_success: false,
+            message: 'Username da duoc dang ky!!!'
+        }); 
+
         user = {
             name: name,
             email: email,
+            username: username,
+            password: password,
             role: 'STUDENT',
             is_active: true
         }
         user.id = await userModel.add(user);
     }
 
-    const accessToken = accessTokenUtils.generate(user);
     const refreshToken = randomstring.generate();
     await userModel.refreshToken(user.id, refreshToken);
+    const accessToken = accessTokenUtils.generate(user);
 
     res.json({
         is_success: true,
@@ -112,15 +137,14 @@ router.post('/gg-oauth', async (req, res) => {
 })
 
 
-router.post('/refresh', async (req, res) => {
-    let tokenPayload;
+router.post('/refresh', async (req, res) => { 
     const { access_token, refresh_token } = req.body;
     
-    tokenPayload = accessTokenUtils.validateIgnoreExpired(access_token);
+    const tokenPayload = accessTokenUtils.validateIgnoreExpired(access_token);
     if(tokenPayload == null) {
         return res.status(200).json({
             isSuccess: false,
-            message: 'Invalid access token.'
+            message: 'Access token khong hop le.'
         })
     }
 
@@ -129,7 +153,7 @@ router.post('/refresh', async (req, res) => {
     if(!isValid) {
         return res.status(200).json({
             isSuccess: false,
-            message: 'Invalid refresh token.'
+            message: 'Refresh token khong hop le.'
         })
     }
 

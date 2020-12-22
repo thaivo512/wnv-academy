@@ -23,8 +23,20 @@ module.exports = {
         return users.length === 0? null : users[0];
     },
 
+    async singleByUsername(username) {
+        const users = await db('users').where('username', username);
+        
+        return users.length === 0? null : users[0];
+    },
+
     async existByEmail(email) {
         const users = await db('users').where('email', email);
+        
+        return users.length > 0;
+    },
+
+    async existByUsername(username) {
+        const users = await db('users').where('username', username);
         
         return users.length > 0;
     },
@@ -32,6 +44,13 @@ module.exports = {
     async add(user) {
         const ids = await db('users').insert(user);
         return ids[0];
+    },
+
+    initAccount(id, username, password) {
+        return db('users').where('id', id).update({
+            'username': username,
+            'password': password
+        });
     },
 
     changeName(id, name) {

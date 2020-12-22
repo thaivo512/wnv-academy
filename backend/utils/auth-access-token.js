@@ -2,15 +2,16 @@
 const jwt = require('jsonwebtoken');
 
 
-function generate({id, name, email, role, is_active}){
+function generate({id, username, name, email, role, is_active}){
     return jwt.sign({
         id: id,
+        username: username,
         name: name,
         email: email,
         role: role,
         is_active: is_active
     }, 'SECRET_KEY', {
-        expiresIn: 15 * 60 // seconds
+        expiresIn: 150 * 60 // seconds
     });
 }
 
