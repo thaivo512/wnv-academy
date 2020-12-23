@@ -102,6 +102,12 @@ router.post('/gg-oauth', async (req, res) => {
     const { name, email } = ggTokenPayload;
     let user = await userModel.singleByEmail(email);
     if(user === null) {
+        const isExistEmail = await userModel.existByEmail(email);
+        if(isExistEmail) return res.json({
+            is_success: false,
+            message: 'Email nay da bi chan!!!'
+        }); 
+
         if(!username || !password) return res.json({
             is_success: true,
             access_token: null,

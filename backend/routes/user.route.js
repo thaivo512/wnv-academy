@@ -17,11 +17,15 @@ const router = express.Router();
 router.post('/request-otp', auth(), async (req, res) => {
     
     const user = await userModel.single(req.accessTokenPayload.id);
+    if(user == null) return res.json({
+        is_success: false,
+        message: 'Khong tim thay user'
+    })
+
     user.otp_code = randomstring.generate({
         length: 6,
         charset: 'numeric'
     })
-
     
     await userModel.renewOTPCode(user.id, user.otp_code);
     var filepath = path.join(__dirname, '..', 'config', 'mail-sign-up-template.html');
@@ -40,6 +44,10 @@ router.post('/verify-email', auth(), async (req, res) => {
     const { otp_code } = req.body;
     
     const user = await userModel.single(req.accessTokenPayload.id);
+    if(user == null) return res.json({
+        is_success: false,
+        message: 'Khong tim thay user'
+    })
 
     if(user.otp_code && user.otp_code == otp_code) {
         const accessToken = accessTokenUtils.generate(user);
@@ -70,6 +78,10 @@ router.post('/reset-password', auth(), async (req, res) => {
     
     const user = await userModel.single(req.accessTokenPayload.id);
 
+    if(user == null) return res.json({
+        is_success: false,
+        message: 'Khong tim thay user'
+    })
     if (!bcrypt.compareSync(old_password, user.password)) {
         return res.json({
             is_success: false,
@@ -96,7 +108,13 @@ router.put('/change-name', auth(), async (req, res) => {
     const { name } = req.body;
     
     await userModel.changeName(req.accessTokenPayload.id, name);
+    
     const user = await userModel.single(req.accessTokenPayload.id);
+    if(user == null) return res.json({
+        is_success: false,
+        message: 'Khong tim thay user'
+    })
+
     const accessToken = accessTokenUtils.generate(user)
 
     res.json({
@@ -110,8 +128,26 @@ router.put('/change-email', auth(), async (req, res) => {
     const { email } = req.body;
     
     await userModel.changeEmail(req.accessTokenPayload.id, email);
+    
     const user = await userModel.single(req.accessTokenPayload.id);
-    const accessToken = accessTokenUtils.generate(user)
+    if(user == null) return res.json({
+        is_success: false,
+        message: 'Khong tim thay user'
+    })
+
+
+    otp_code = randomstring.generate({
+        length: 6,
+        charset: 'numeric'
+    })
+    await userModel.renewOTPCode(user.id, otp_code);
+    const accessToken = accessTokenUtils.generate(user);
+
+    var filepath = path.join(__dirname, '..', 'config', 'mail-sign-up-template.html');
+    html = fs.readFileSync(filepath, 'utf8');
+    html = html.replace('{{name}}', user.name);
+    html = html.replace('{{code}}', otp_code);
+    await mailSender.send(user.email, 'Verify your WNC-Academy account', html);
 
     res.json({
         is_success: true,
@@ -123,10 +159,14 @@ router.get('/me', auth(), async (req, res) => {
     const user = await userModel.single(req.accessTokenPayload.id);
 
     if(user == null) {
-        return res.json({ })
+        return res.json({
+            is_success: false,
+            message: 'Khong tim thay user'
+        })
     }  
 
     res.json({
+        is_success: true,
         id: user.id,
         name: user.name,
         email: user.email,
@@ -141,10 +181,15 @@ router.post('/teachers', validate(user_schema), auth(userRole.ADMIN), async (req
     user.role = userRole.TEACHER;
     user.password = bcrypt.hashSync(user.password, 10);
 
-    const isExist = await userModel.existByEmail(user.email);
-    if(isExist) return res.json({
+    const isExistEmail = await userModel.existByEmail(user.email);
+    if(isExistEmail) return res.json({
         is_success: false,
         message: 'Email da duoc dang ky!!!'
+    }); 
+    const isExistUsername = await userModel.existByUsername(user.username);
+    if(isExistUsername) return res.json({
+        is_success: false,
+        message: 'Username da duoc dang ky!!!'
     }); 
 
     user.id = await userModel.add(user);
@@ -157,6 +202,7 @@ router.post('/teachers', validate(user_schema), auth(userRole.ADMIN), async (req
         role: user.role
     });
 })
+
 
 router.get('/', auth(userRole.ADMIN), async (req, res) => {
     
@@ -174,8 +220,14 @@ router.get('/', auth(userRole.ADMIN), async (req, res) => {
 router.get('/:id', auth(userRole.ADMIN), async (req, res) => {
     
     const user = await userModel.single(req.params.id);
+    
+    if (user == null) return res.json({
+        is_success: false,
+        message: 'Khong tim thay user'
+    })
 
     res.json({
+        is_success: true,
         id: user.id,
         name: user.name,
         email: user.email,
@@ -184,6 +236,14 @@ router.get('/:id', auth(userRole.ADMIN), async (req, res) => {
     })
 })
 
+router.delete('/:id', auth(userRole.ADMIN), async (req, res) => {
+    
+     await userModel.delete(req.params.id);
+  
+    res.json({
+        is_success: true
+    })
+})
 
 
 
