@@ -1,9 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
-require('express-async-errors');
-const auth = require('./middlewares/auth.mdw');
-const cors = require('cors'); 
-
+require('express-async-errors'); 
+const cors = require('cors');   
+const path = require('path'); 
 
 const app = express();
 
@@ -13,8 +12,9 @@ app.use(cors());
 app.use(express.json());
 
 
-app.get('/', function (req, res) {
-    res.send('Hello World!');
+app.get('/', function (req, res) {  
+ 
+    res.sendFile(path.join(__dirname, 'config', 'index.html'));
 });
 
 

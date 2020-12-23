@@ -51,7 +51,8 @@ module.exports = {
     },
 
     async add(user) {
-        const ids = await db('users').insert(user);
+        const ids = await db('users').insert(user).returning('id');
+        console.log(ids);
         return ids[0];
     },
 

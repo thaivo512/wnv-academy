@@ -20,6 +20,7 @@
         "morgan": "^1.10.0",
         "mysql2": "^2.2.5",
         "nodemailer": "^6.4.17",
+        "pg": "^8.5.1",
         "randomstring": "^1.1.5"
     }
 }

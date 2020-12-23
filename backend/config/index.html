@@ -1,0 +1,58 @@
+<!DOCTYPE html> <html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to WNC-Academy API Gateway</title>
+
+    <style>
+        body { 
+            padding-top: 100px;
+            background: teal;
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+        } 
+        h1 {
+            color: white;
+        }
+        p {
+            color: whitesmoke; 
+            font-weight: bold;
+            font-size: 50px;
+            line-height: 50px;
+            margin: 0;
+        }
+        h3 {
+            color: yellowgreen; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello World!</h1>
+    <h3>Thursday December 23, 2020</h3>
+    <p>14:35:08</p>
+
+    <script>
+        Date.prototype.getDayname = function() {
+            var monthNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+            return monthNames[this.getDay()];
+        }
+        Date.prototype.getMonthName = function() {
+            var monthNames = [ "January", "February", "March", "April", "May", "June", 
+                            "July", "August", "September", "October", "November", "December" ];
+            return monthNames[this.getMonth()];
+        }
+        
+        let elementDate = document.getElementsByTagName("h3")[0];
+        let elementTime = document.getElementsByTagName("p")[0]; 
+        setInterval(() => {        
+            let date = new Date();
+
+            elementDate.innerHTML = `${date.getDayname()} ${date.getMonthName()} ${date.getDate()}, ${date.getFullYear()}`;
+
+            let hour = date.getHours();
+            let minnute = date.getMinutes();
+            let second = date.getSeconds();
+            elementTime.innerHTML = `${hour<10? '0':''}${hour}:${minnute<10? '0':''}${minnute}:${second<10? '0':''}${second}`;
+        }, 1);
+    </script>
+
+</body></html>

@@ -1,11 +1,12 @@
 const knex = require('knex')({
-    client: 'mysql2',
+    client: 'pg',
     connection: {
-        host: '127.0.0.1',
-        user: 'root',
-        password: 'root',
-        database: 'wnc-academy',
-        port: 3306
+        host: 'ec2-3-211-167-220.compute-1.amazonaws.com',
+        user: 'scrlzhmfijhmrf',
+        password: '6bc8cee4449096d4859ce59f316213112d70e96b863f30d3b94ddfcc8803e109',
+        database: 'd3lls1km7hgpeo',
+        port: 5432,
+        ssl: { rejectUnauthorized: false }
     },
     pool: {
         min: 0,
