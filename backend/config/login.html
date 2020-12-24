@@ -1,0 +1,41 @@
+<html>
+
+<head>
+	<meta name="google-signin-client_id"
+		content="233633475297-iraf1qjlm6lvotjd5kqc32alt9840qs5.apps.googleusercontent.com">
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <style>
+        #root{
+            margin: 20px;
+            padding: 20px;
+        }
+        span{
+            font-weight: bold;
+        }
+    </style>
+</head>
+	
+<body>
+	<div class="g-signin2" data-onsuccess="googleSignIn"></div>
+
+    <div id="root"></div>
+
+	<script>
+        let rootInfo = document.getElementById("root");
+
+		function googleSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            
+            root.innerHTML = `
+                <p><span>ID:</span> ${profile.getId()}</p>
+                <p><span>Name:</span> ${profile.getName()}</p>
+                <p><span>Image URL:</span> ${profile.getImageUrl()}</p>
+                <p><span>Email:</span> ${profile.getEmail()}</p>
+                <p><span>Token:</span> ${googleUser.getAuthResponse().id_token}</p>
+            ` 
+		}
+	</script>
+</body>
+
+</html>

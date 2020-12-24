@@ -12,9 +12,11 @@ app.use(cors());
 app.use(express.json());
 
 
-app.get('/', function (req, res) {  
- 
+app.get('/', function (req, res) {   
     res.sendFile(path.join(__dirname, 'config', 'index.html'));
+});
+app.get('/login', function (req, res) {   
+    res.sendFile(path.join(__dirname, 'config', 'login.html'));
 });
 
 
