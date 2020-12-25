@@ -14,9 +14,9 @@ const user_schema = require('../schemas/user.json');
 const router = express.Router();
 
 
-router.post('/request-otp', auth(), async (req, res) => {
+router.post('/request-otp', async (req, res) => {
     
-    const user = await userModel.single(req.accessTokenPayload.id);
+    const user = await userModel.singleByEmail(req.body.email);
     if(user == null) return res.json({
         is_success: false,
         message: 'Khong tim thay user'
@@ -39,11 +39,11 @@ router.post('/request-otp', auth(), async (req, res) => {
     })
 })
 
-router.post('/verify-email', auth(), async (req, res) => {
+router.post('/verify-email', async (req, res) => {
 
-    const { otp_code } = req.body;
+    const { email, otp_code } = req.body;
     
-    const user = await userModel.single(req.accessTokenPayload.id);
+    const user = await userModel.singleByEmail(email);
     if(user == null) return res.json({
         is_success: false,
         message: 'Khong tim thay user'

@@ -4,14 +4,19 @@
 
 > ENDPOINT: localhost:3000/api/user/request-otp
 
-> HEADER: x-access-token
+> HEADER: None
 
-> BODY: None
+> BODY: 
+```json
+{
+    "email": "asdasd@gmail.com"
+}
+```
 
 > RESPONSE:
 
 ```json
-Co the user da bi xoa
+Email chua duoc dang ky
 {
     is_success: false,
     message: "Khong tim thay user"

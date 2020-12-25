@@ -4,11 +4,12 @@
 
 > ENDPOINT: localhost:3000/api/user/verify-email
 
-> HEADER: x-access-token
+> HEADER: None
 
 > BODY: 
 ```json
 {
+    "email": "asdsd@gmail.com",
     "otp_code": "441016"
 }
 ```
@@ -16,7 +17,7 @@
 > RESPONSE:
 
 ```json
-Co the user da bi xoa
+Email chua duoc dang ky hoac tai khoan da bi xoa
 {
     is_success: false,
     message: "Khong tim thay user"
