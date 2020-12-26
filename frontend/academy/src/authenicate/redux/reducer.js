@@ -1,6 +1,7 @@
 import {
     RECEIVE_API_LOGIN, RECEIVE_API_REGISTER,
-    RECEIVE_API_OPT, RECEIVE_API_VERIFY_EMAIL
+    RECEIVE_API_OPT, RECEIVE_API_VERIFY_EMAIL,
+    RECEIVE_API_LOGI_GOOGLE
 } from './action';
 
 export const loginReducer = (state = {}, { type, loginInformation }) => {
@@ -39,3 +40,11 @@ export const verifyEmailReducer = (state = {}, { type, verifyInformation }) => {
     }
 }
 
+export const loginGoogleReducer = (state = {}, { type, loginGoogleInformation }) => {
+    switch (type) {
+        case RECEIVE_API_LOGI_GOOGLE:
+            return loginGoogleInformation;
+        default:
+            return state;
+    }
+}

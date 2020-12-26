@@ -3,12 +3,13 @@ import {
     REQUEST_API_REGISTER, receiveApiRegister,
     REQUEST_API_LOGIN, receiveApiLogin,
     REQUEST_API_OPT, receiveApiOPT,
-    REQUEST_API_VERIFY_EMAIL, receiveApiVerify
-
+    REQUEST_API_VERIFY_EMAIL, receiveApiVerify,
+    REQUEST_API_LOGIN_GOOGLE, receiveApiLoginGoole
 } from './action';
 import {
     registerApi, loginApi,
-    requestOptToEmailApi, verifyYourEmailApi
+    requestOptToEmailApi, verifyYourEmailApi,
+    loginWithGoogle
 } from './api';
 
 function* postRegisterSaga(action) {
@@ -47,10 +48,19 @@ function* postVerifyEmailSaga(action) {
     }
 }
 
+function* postLoginByGoogle(action) {
+    try {
+        const data = yield call(loginWithGoogle, action.payload);
+        yield put(receiveApiLoginGoole(data))
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 export default function* authenicateSaga() {
     yield takeLatest(REQUEST_API_REGISTER, postRegisterSaga);
     yield takeLatest(REQUEST_API_LOGIN, postLoginSaga);
     yield takeLatest(REQUEST_API_OPT, postRequestOPTSaga);
     yield takeLatest(REQUEST_API_VERIFY_EMAIL, postVerifyEmailSaga);
-
+    yield takeLatest(REQUEST_API_LOGIN_GOOGLE, postLoginByGoogle);
 }

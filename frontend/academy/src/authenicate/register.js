@@ -7,6 +7,7 @@ import { GoogleLogin } from 'react-google-login';
 import { requestApiRegister, requestApiOPT } from './redux/action';
 import { connect } from 'react-redux';
 import { Redirect } from "react-router-dom";
+import { API_URL } from './constants';
 
 class Register extends Component {
     constructor(props) {
@@ -66,7 +67,7 @@ class Register extends Component {
                 <Button className="styling-of-button" variant="primary" type="button" onClick={() => this.onRegister()}> Sign Up </Button>
                 <Button className="styling-of-button" variant="success" type="button" onClick={() => this.onRedirectToLogin()}> Sign in </Button>
                 <GoogleLogin className="styling-of-button"
-                    clientId="86529023029-eldc5ub8ehvc6kpd5dhd3sb25tb2jaog.apps.googleusercontent.com"
+                    clientId="233633475297-iraf1qjlm6lvotjd5kqc32alt9840qs5.apps.googleusercontent.com"
                     buttonText="Login with Google"
                     onSuccess={this.responseGoogle()}
                     onFailure={this.responseGoogle()}
@@ -76,7 +77,33 @@ class Register extends Component {
         );
     }
 
-    responseGoogle() {
+    responseGoogle(response) {
+        if (response != null) {
+            const requestOptions = {
+                headers: { 'Content-Type': 'application/json' },
+                method: 'POST',
+                redirect: 'follow',
+                body: JSON.stringify({
+                    gg_token: response.tokenId,
+                })
+            };
+            try {
+                fetch(API_URL + "auth/gg-oauth", requestOptions)
+                    .then(response => response.text())
+                    .then(result => {
+                        if (result.is_success) {
+                            localStorage.setItem("access_token", result.access_token);
+                            localStorage.setItem("is_success", result.is_success);
+                            localStorage.setItem("refresh_token", result.refresh_token);
+                            window.location.reload();
+                        }
+                    })
+                    .catch(error => console.log('error', error));
+            } catch (e) {
+                toast.error(e);
+                return { isFail: true };
+            }
+        }
     }
 
     onRegister() {

@@ -98,3 +98,28 @@ export const verifyYourEmailApi = async (params) => {
         return { isFail: true };
     }
 }
+
+
+export const loginWithGoogle = async (params) => {
+    const requestOptions = {
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        body: JSON.stringify({
+            gg_token: params,
+        })
+    };
+    try {
+        const response = await fetch(API_URL + 'auth/gg-oauth', requestOptions);
+        var info = await response.json();
+        if (info == null) return;
+        debugger;
+        if (!info.is_success) {
+            toast.error(info.message);
+            return null;
+        }
+        return info;
+    } catch (e) {
+        toast.error(e);
+        return { isFail: true };
+    }
+}
