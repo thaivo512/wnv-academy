@@ -1,0 +1,35 @@
+{
+    "required": [
+        "name",
+        "image_avatar",
+        "short_description",
+        "detail_description",
+        "price",
+        "price_promote",
+        "category_id"
+    ],
+    "additionalProperties": false,
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "image_avatar": {
+            "type": "string"
+        },
+        "short_description": {
+            "type": "string"
+        },
+        "detail_description": {
+            "type": "string"
+        },
+        "price": {
+            "type": "number"
+        },
+        "price_promote": {
+            "type": "number"
+        },
+        "category_id": {
+            "type": "number"
+        }
+    }
+}
