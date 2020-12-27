@@ -1,0 +1,89 @@
+$sidebar-bg-color: #1d1d1d;
+
+@import '~react-pro-sidebar/dist/scss/styles.scss';
+
+.sidebar-footer-cus {
+    text-align: center;
+}
+
+.sidebar-header-cus {
+    text-align: center;
+}
+
+.cus-logo {
+    width: 120px;
+}
+
+.button-custom-style {
+    width: 80%;
+    margin: 3% 0% 3% 0%;
+}
+
+.admin-page-container {
+    width: 100%;
+    height: 100vh;
+}
+
+.managed-teacher-custom-row {
+    margin-left: 0px !important;
+    width: 81%;
+    box-shadow: -9px 11px 31px 2px rgba(0, 0, 0, 0.75);
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    left: 56%;
+    transform: translate(-50%, -50%);
+    text-align: left;
+    height: 95vh;
+    background-color: white;
+}
+
+.managed-teacher-container {
+    width: 96%;
+    margin-top: 1%;
+    margin-left: 2%;
+
+    .search-box-custom {
+        width: 100%;
+    }
+
+    .row {
+        margin: 0 !important;
+    }
+
+    .col {
+        padding: 0 !important;
+    }
+
+    .col-sm-12 {
+        padding: 0 !important;
+    }
+
+    .table {
+        margin: 1% 0% 1% 0%;
+    }
+
+    h3 {
+        color: $sidebar-bg-color;
+    }
+
+    .mdb-datatable {
+        margin-top: 1%;
+        width: 100%;
+    }
+
+    input {
+        font-size: 20px;
+        height: 40px;
+        width: 100%;
+    }
+
+
+    .datatable-input {
+        width: 100%;
+    }
+
+    .datatable-search {
+        width: 30%;
+    }
+}

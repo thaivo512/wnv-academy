@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
-
+import 'react-pro-sidebar/dist/css/styles.css';
 import RouterConfig from './RouterConfig';
 
 class App extends Component {

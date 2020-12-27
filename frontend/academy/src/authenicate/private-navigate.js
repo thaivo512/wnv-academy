@@ -17,8 +17,8 @@ class PrivateNavigate extends Component {
         if (access_token) {
             var payload = JSON.parse(atob(access_token.split(".")[1]))
         }
-        if (is_success && is_success) {
-            return <> {this.showByRole(payload.role)} </>
+        if (!is_success) {
+            return this.showByRole(POSITION.ADMIN)
         }
         else {
             var currentURL = window.location.href;
@@ -50,7 +50,7 @@ class PrivateNavigate extends Component {
     showByRole = (position) => {
         switch (position) {
             case POSITION.ADMIN:
-                return <Redirect to='/admin-home-page' />
+                return <Redirect to='./admin-home-page' />
             case POSITION.STUDENT:
             case POSITION.TEACHER:
             default:
