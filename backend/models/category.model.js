@@ -21,7 +21,7 @@ module.exports = {
 
     async add(category) {
         const ids = await db('category').insert(category).returning('id');
-        console.log(ids);
+        
         return ids[0];
     },
 
