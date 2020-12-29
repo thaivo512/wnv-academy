@@ -14,6 +14,20 @@
 
 ```json
 {
+    "is_success": false,
+    "message": "Ban khong co quyen de xem"
+}
+```
+
+```json
+{
+    "is_success": false,
+    "message": "Ban can dang ky khoa hoc de xem"
+}
+```
+
+```json
+{
     "is_success": true,
     "id": 1,
     "course_id": 2,
