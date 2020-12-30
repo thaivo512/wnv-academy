@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarFooter, SidebarContent } from 'react-pro-sidebar';
-import { FaGem, FaHeart, FaSignOutAlt } from 'react-icons/fa';
+import { FaGem, FaHeart, FaSignOutAlt, FaUserAlt, FaList } from 'react-icons/fa';
 import '../../assets/admin.scss';
 import { Row } from 'react-bootstrap';
-import ManagedTeacher from './managed-teacher/manged-techer';
+import ManagedTeacher from './managed-teacher';
+import ManagedStudent from './managed-student';
+import Dashboard from './dashboard';
 
 class AdminHomePage extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            numberOfClick: 0
+        }
     }
 
     render() {
@@ -25,18 +31,11 @@ class AdminHomePage extends Component {
                     </SidebarHeader>
                     <SidebarContent>
                         <Menu iconShape="square">
-                            <MenuItem icon={<FaGem />}>Dashboard</MenuItem>
-                            <SubMenu title="Managed Users" icon={<FaHeart />}>
-                                <MenuItem>Teacher</MenuItem>
-                                <MenuItem>Student</MenuItem>
-                            </SubMenu>
-                            <SubMenu title="Managed Courses" icon={<FaHeart />}>
-                                <MenuItem>Component 1</MenuItem>
-                                <MenuItem>Component 2</MenuItem>
-                            </SubMenu>
-                            <SubMenu title="Managed Topics" icon={<FaHeart />}>
-                                <MenuItem>Component 1</MenuItem>
-                                <MenuItem>Component 2</MenuItem>
+                            <MenuItem icon={<FaGem />} onClick={() => this.onSelectMenu(0)}>Dashboard</MenuItem>
+                            <MenuItem onClick={() => this.onSelectMenu(1)} icon={<FaList />}> Managed Categories</MenuItem>
+                            <SubMenu title="Managed Users" icon={<FaUserAlt />}>
+                                <MenuItem onClick={() => this.onSelectMenu(2)}>Teacher</MenuItem>
+                                <MenuItem onClick={() => this.onSelectMenu(3)}>Student</MenuItem>
                             </SubMenu>
                         </Menu>
                     </SidebarContent>
@@ -44,10 +43,28 @@ class AdminHomePage extends Component {
                     </SidebarFooter>
                 </ProSidebar>
                 <div className="managed-teacher-custom-row">
-                    <ManagedTeacher />
+                    {this.onChangeMenuItem()}
                 </div>
             </Row>
         )
+    }
+
+    onChangeMenuItem() {
+        var number = this.state.numberOfClick;
+        switch (number) {
+            case 0:
+                return <Dashboard />
+            case 1:
+                return <ManagedTeacher />
+            case 2:
+                return <ManagedTeacher />
+            case 3:
+                return <ManagedStudent />
+        }
+    }
+
+    onSelectMenu(num) {
+        this.setState({ numberOfClick: num })
     }
 }
 
