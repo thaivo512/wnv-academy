@@ -1,0 +1,19 @@
+{
+    "required": [
+        "lesson_id",
+        "progress_time",
+        "is_done"
+    ],
+    "additionalProperties": false,
+    "properties": {
+        "course_id": {
+            "type": "number"
+        },
+        "progress_time": {
+            "type": "number"
+        },
+        "is_done": {
+            "type": "boolean"
+        }
+    }
+}
