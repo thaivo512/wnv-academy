@@ -1,0 +1,23 @@
+{
+    "required": [
+        "course_id",
+        "lesson_name",
+        "file_name",
+        "file_url"
+    ],
+    "additionalProperties": false,
+    "properties": {
+        "course_id": {
+            "type": "number"
+        },
+        "lesson_name": {
+            "type": "string"
+        },
+        "file_name": {
+            "type": "string"
+        },
+        "file_url": {
+            "type": "string"
+        }
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "required": [
+        "course_id",
+        "slide_name",
+        "file_name",
+        "file_url",
+        "is_allow_preview"
+    ],
+    "additionalProperties": false,
+    "properties": {
+        "course_id": {
+            "type": "number"
+        },
+        "slide_name": {
+            "type": "string"
+        },
+        "file_name": {
+            "type": "string"
+        },
+        "file_url": {
+            "type": "string"
+        },
+        "is_allow_preview": {
+            "type": "boolean"
+        }
+    }
+}
