@@ -38,6 +38,12 @@ $sidebar-bg-color: #1d1d1d;
     background-color: white;
 }
 
+.form-group {
+    width: 100% !important;
+    margin: 0px !important;
+    padding-bottom: 3%;
+}
+
 .managed-teacher-container {
     width: 96%;
     margin-top: 1%;
@@ -78,12 +84,16 @@ $sidebar-bg-color: #1d1d1d;
         width: 100%;
     }
 
-
     .datatable-input {
         width: 100%;
     }
 
     .datatable-search {
         width: 30%;
+    }
+
+    button {
+        margin-right: 1%;
+        width: 12%;
     }
 }

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import '../../../assets/admin.scss';
-import { Row, Col, Table, Button, InputGroup, FormControl } from 'react-bootstrap';
+import '../../assets/admin.scss';
+import { Row, Col, Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 import { MDBDataTableV5 } from 'mdbreact';
+import EsolModal from '../../components/modal';
+import { FaTrashAlt, FaPlus, FaEdit } from 'react-icons/fa';
 
 class ManagedTeacher extends Component {
     constructor(props) {
@@ -9,6 +11,8 @@ class ManagedTeacher extends Component {
 
         this.state = {
             isClicked: false,
+            isShowModal: false,
+            selectedList: [],
             datatable:
             {
                 columns: [
@@ -513,45 +517,88 @@ class ManagedTeacher extends Component {
     }
 
     render() {
-        var datatable = this.state.datatable;
-
+        var { isShowModal, datatable, selectedList } = this.state;
         return (
-            <div className="managed-teacher-container">
-                <Row>
-                    <Col>
-                        <h3>Managed Teacher</h3>
-                    </Col>
-
-                </Row>
-                <Row>
-                    <Col>
-                        <Button variant="dark" type="button">+ Add Teacher</Button>
-                    </Col>
-                    <MDBDataTableV5
-                        scrollX
-                        scrollY
-                        maxHeight="60vh"
-                        bordered
-                        hover
-                        entries={10}
-                        pagesAmount={4}
-                        data={datatable}
-                        searchTop
-                        searchBottom={false}
-                        checkbox
-                        headCheckboxID='id2'
-                        bodyCheckboxID='checkboxes2'
-                        getValueCheckBox={(e) => {
-                            console.log(e)
-                        }} />
-                </Row>
-            </div>
+            <>
+                <EsolModal isShow={isShowModal}
+                    title="Add Teacher"
+                    onHide={() => this.onShowOrCloseModalAddTeacher()}
+                    body={this.renderAddTeacherBodyModal()}
+                    size="xs"
+                />
+                <div className="managed-teacher-container">
+                    <Row>
+                        <Col>
+                            <h3>Teacher Management</h3>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Button variant="success" type="button" onClick={() => this.onShowOrCloseModalAddTeacher()}>
+                                <FaPlus /> Add Teacher
+                            </Button>
+                            <Button variant="primary" type="button"><FaEdit />Edit Teacher</Button>
+                            <Button variant="danger" type="button"><FaTrashAlt /> Remove</Button>
+                        </Col>
+                        <MDBDataTableV5
+                            scrollX
+                            scrollY
+                            maxHeight="60vh"
+                            bordered
+                            hover
+                            entries={10}
+                            pagesAmount={4}
+                            data={datatable}
+                            searchTop
+                            searchBottom={false}
+                            checkbox
+                            headCheckboxID='id2'
+                            bodyCheckboxID='checkboxes2'
+                            getValueCheckBox={(e) => {
+                              
+                            }} />
+                    </Row>
+                </div>
+            </>
         )
     }
 
     onClickActive() {
         var isClicked = this.state.isClicked;
         this.setState({ isClicked: !isClicked })
+    }
+
+    renderAddTeacherBodyModal() {
+        return (
+            <Form style={{ textAlign: "left" }}>
+                <Form.Group >
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="text" placeholder="Enter email" />
+                </Form.Group>
+                <Form.Group >
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="text" placeholder="Enter email" />
+                </Form.Group>
+                <Form.Group >
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="text" placeholder="Enter email" />
+                </Form.Group>
+                <Form.Group >
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="text" placeholder="Enter email" />
+                </Form.Group>
+                <Form.Group >
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="text" placeholder="Enter email" />
+                </Form.Group>
+                <Button type="button">Add New Teacher</Button>
+            </Form>
+        )
+    }
+
+    onShowOrCloseModalAddTeacher() {
+        var isShowModal = this.state.isShowModal;
+        this.setState({ isShowModal: !isShowModal });
     }
 }
 
