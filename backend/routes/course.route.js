@@ -16,6 +16,12 @@ const enrolSchema = require('../schemas/enrol.json');
 const enrolModel = require('../models/enrol.model');
 const watchlistSchema = require('../schemas/watchlist.json');
 const watchlistModel = require('../models/watchlist.model');
+const feedbackSchema = require('../schemas/feedback.json');
+const feedbackModel = require('../models/feedback.model');
+const progressSchema = require('../schemas/progress.json');
+const progressModel = require('../models/progress.model');
+
+const requireActive = require('../middlewares/requireActive.mdw');
 
 const router = express.Router();
 
@@ -296,7 +302,7 @@ router.get('/lesson/:course_id/:lession_id', auth(), async(req, res) => {
 
 
 // ENROL
-router.post('/enrol', auth(userRole.STUDENT), validate(enrolSchema), async(req, res) => {
+router.post('/enrol', auth(userRole.STUDENT), requireActive(), validate(enrolSchema), async(req, res) => {
     enrolCourse = req.body;
     enrolCourse.user_id = req.accessTokenPayload.id;
     enrolCourse.enrol_at = +new Date();
@@ -346,6 +352,87 @@ router.post('/watchlist', auth(userRole.STUDENT), validate(watchlistSchema), asy
 
     res.json({
         is_success: true
+    })
+})
+
+
+// FEEDBACK
+router.post('/feedback', auth(userRole.STUDENT), validate(feedbackSchema), async(req, res) => {
+    feedback = req.body;
+    feedback.user_id = req.accessTokenPayload.id;
+    feedback.last_update = +new Date();
+
+    const course = await courseModel.single(feedback.course_id);
+    if(course == null || course.status != courseStatus.PUBLIC)
+        return res.json({
+            is_success: false,
+            message: "Ban khong the danh gia khoa hoc nay"
+        })
+ 
+    const isEnrolled = await enrolModel.isEnrolled(feedback.user_id, feedback.course_id);
+    if(!isEnrolled) return res.json({
+        is_success: false,
+        message: 'Ban chua dang ky khoa hoc nen khong the danh gia'
+    })
+    
+
+    await feedbackModel.add(feedback);
+
+    res.json({
+        is_success: true
+    })
+})
+
+router.get('/feedback/:courseId', auth(), async(req, res) => {
+    
+    const course_id = req.params.courseId;
+
+    const data = await feedbackModel.all(course_id);
+
+    res.json({
+        is_success: true,
+        data: data
+    })
+})
+
+
+// PROGRESS
+router.post('/progress', auth(userRole.STUDENT), validate(progressModel), async(req, res) => {
+    progress = req.body;
+    progress.user_id = req.accessTokenPayload.id;
+    
+    const lesson = await lessonModel.single(progress.lesson_id);
+    if(lesson == null)
+        return res.json({
+            is_success: false,
+            message: "Khong tim thay bai hoc yeu cau"
+        }) 
+    
+
+    await progressModel.add(progress);
+
+    res.json({
+        is_success: true
+    })
+})
+
+router.get('/progress/:lessonId', auth(), async(req, res) => {
+    
+    const lessonId = req.params.lessonId;
+    const userId = req.accessTokenPayload.id;
+
+    const data = await progressModel.single(userId, lessonId);
+
+    if (data == null) {
+        return res.json({
+            is_success: false,
+            message: "Khong co du lieu"
+        })
+    }
+
+    return res.json({
+        is_success: true,
+        data: data
     })
 })
 
