@@ -26,6 +26,7 @@ const requireActive = require('../middlewares/requireActive.mdw');
 const router = express.Router();
 
 
+// COURSE
 router.post('/', auth(userRole.TEACHER), validate(courseSchema), async(req, res) => {
     course = req.body;
     course.view_count = 0
@@ -107,6 +108,80 @@ router.delete('/:id', auth(userRole.ADMIN), async(req, res) => {
 })
 
 
+// COURSE SEARCH
+router.get('/top4enroll', auth(), async(req, res) => {
+    const data = await courseModel.top4enroll();
+
+    res.json({
+        is_success: true,
+        data: data
+    });
+})
+
+router.get('/top10view', auth(), async(req, res) => {
+    const data = await courseModel.top10view();
+
+    res.json({
+        is_success: true,
+        data: data
+    });
+})
+
+
+router.get('/top10new', auth(), async(req, res) => {
+    const data = await courseModel.top10new();
+
+    res.json({
+        is_success: true,
+        data: data
+    });
+})
+
+
+router.get('/top5enrolSimilar/:courseId', auth(), async(req, res) => {
+
+    const courseId = req.params.courseId;
+
+    const course = await courseModel.single(courseId);
+    if(course == null) {
+        return res.json({
+            is_success: false,
+            message: "Khong tim thay khoa hoc yeu cau"
+        })
+    }
+
+    const data = await courseModel.top5enrolSimilar(course.category_id, course.id);
+
+    res.json({
+        is_success: true,
+        data: data
+    });
+})
+
+
+router.get('/:courseId', auth(), async(req, res) => {
+
+    const courseId = req.params.courseId;
+    const userId = req.accessTokenPayload.id;
+
+    const course = await courseModel.singleView(courseId);
+    if(course == null) {
+        return res.json({
+            is_success: false,
+            message: "Khong tim thay khoa hoc yeu cau"
+        })
+    }
+
+    course.is_enrolled = await enrolModel.isEnrolled(userId, courseId);
+    course.is_watchlisted = await watchlistModel.exist(userId, courseId);
+
+    await courseModel.increaseViewCount(courseId);
+
+    res.json({
+        is_success: true,
+        data: course
+    });
+})
 
 
 // SLIDE
@@ -327,6 +402,17 @@ router.post('/enrol', auth(userRole.STUDENT), requireActive(), validate(enrolSch
         is_success: true
     })
 })
+router.get('/enrol', auth(userRole.STUDENT), async(req, res) => {
+
+    userId = req.accessTokenPayload.id;
+
+    const data = await enrolModel.all(userId);
+
+    res.json({
+        is_success: true,
+        data: data
+    });
+})
 
 
 // WATCH LIST
@@ -353,6 +439,18 @@ router.post('/watchlist', auth(userRole.STUDENT), validate(watchlistSchema), asy
     res.json({
         is_success: true
     })
+})
+
+router.get('/watchlist', auth(userRole.STUDENT), async(req, res) => {
+
+    userId = req.accessTokenPayload.id;
+
+    const data = await watchlistModel.all(userId);
+
+    res.json({
+        is_success: true,
+        data: data
+    });
 })
 
 

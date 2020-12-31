@@ -11,6 +11,13 @@ module.exports = {
         return course.length === 0? null : course[0];
     },
 
+    async increaseViewCount(id) {
+        
+        await db('course')
+            .where('id', '=', id)
+            .increment('view_count', 1);
+    },
+
     async canModify(id, teacher_id) {
         const course = await db('course').where({
             id: id,
@@ -59,6 +66,49 @@ module.exports = {
         catch(err) {
             return false;
         }
-    }
+    },
+
+
+    async top4enroll() {
+        return await db('course_view')
+            .orderBy('total_enrol', 'desc')
+            .limit(4);
+
+    },
+
+    async top10view() {
+        return await db('course_view')
+            .orderBy('view_count', 'desc')
+            .limit(10);
+
+    },
+
+    async top10new() {
+        return await db('course_view')
+            .orderBy('last_update', 'desc')
+            .limit(10);
+
+    },
+
+    async top5enrolSimilar(categoryId, courseId) {
+        return await db('course_view')
+            .where({
+                category_id: categoryId
+            })
+            .whereNot('id', courseId)
+            .orderBy('view_count', 'desc')
+            .limit(5);
+
+    },
+
+    async singleView(courseId) {
+        const course = await db('course_view')
+            .where({
+                id: courseId
+            });
+
+        if (course.length == 0) return null;
+        return course[0];
+    },
 
 };

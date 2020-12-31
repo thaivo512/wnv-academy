@@ -59,5 +59,10 @@ module.exports = {
 
     allView() {
         return db('category_view').where({parent_id: null});
-    }
+    },
+
+
+    topEnrolWeek() {
+        return db('top_category_enroll_week').orderBy('count', 'desc');
+    },
 };

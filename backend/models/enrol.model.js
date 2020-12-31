@@ -15,6 +15,12 @@ module.exports = {
         });
 
         return lessons.length > 0;
-    }
+    },
+
+    async all(userId) {
+        
+       return await db('course_enrol_view').where({user_id: userId});
+        
+    },
 
 };

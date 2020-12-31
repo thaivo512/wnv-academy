@@ -3,8 +3,18 @@ const morgan = require('morgan');
 require('express-async-errors'); 
 const cors = require('cors');   
 const path = require('path'); 
+const fileUpload = require('express-fileupload');
+const bodyParser = require('body-parser');
 
 const app = express();
+
+// enable files upload
+app.use(fileUpload({
+    createParentPath: true
+}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
 
 
 app.use(morgan('dev'));
@@ -24,7 +34,7 @@ app.use('/api/auth', require('./routes/auth.route'));
 app.use('/api/user', require('./routes/user.route'));
 app.use('/api/category', require('./routes/category.route'));
 app.use('/api/course', require('./routes/course.route'));
-
+app.use('/api/storage', require('./routes/storage.route'));
 
 app.use(function (req, res, next) {
     res.status(404).send({

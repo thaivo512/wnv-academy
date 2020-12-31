@@ -15,6 +15,10 @@ module.exports = {
         });
 
         return lessons.length > 0;
-    }
+    },
 
+    async all(userId) {
+        
+        return await db('watchlist_view').where({ user_id: userId });
+    },
 };

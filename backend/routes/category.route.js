@@ -106,5 +106,11 @@ router.get('/', auth(), async(req, res) => {
     res.json(categories)
 })
 
+router.get('/topEnrollWeek', auth(), async(req, res) => {
+
+    const categories = await categoryModel.topEnrolWeek();
+
+    res.json(categories)
+})
 
 module.exports = router;

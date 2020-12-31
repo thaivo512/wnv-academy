@@ -17,7 +17,7 @@ module.exports = {
     },
 
     async all(courseId) {
-        return db('feedback').where({ 
+        return db('feedback_view').where({ 
             course_id: courseId
         });
     }
