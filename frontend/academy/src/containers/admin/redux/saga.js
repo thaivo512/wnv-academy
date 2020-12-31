@@ -1,9 +1,10 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import {
     REQUEST_API_GET_ALL_USERS, receiveApiGetAllUser,
+    REQUEST_API_DELETE_USER, receiveApiDeleteUser
 } from './action';
 import {
-    requestGetAllUsers
+    requestGetAllUsers, requestDeleteUser
 } from './api';
 
 function* getallUsersSaga() {
@@ -15,6 +16,17 @@ function* getallUsersSaga() {
     }
 }
 
+function* requestDeleteUserSaga() {
+    try {
+        const data = yield call(requestDeleteUser);
+        yield put(receiveApiDeleteUser(data));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
 export default function* adminSaga() {
     yield takeLatest(REQUEST_API_GET_ALL_USERS, getallUsersSaga);
+    yield takeLatest(REQUEST_API_DELETE_USER, requestDeleteUserSaga);
 }

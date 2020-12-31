@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Redirect } from 'react-router-dom';
+import { BrowserRouter as Redirect, withRouter } from 'react-router-dom';
 import { POSITION } from './constants';
 
 class PrivateNavigate extends Component {
@@ -16,8 +16,9 @@ class PrivateNavigate extends Component {
         var { is_success, access_token } = this.state;
         if (access_token) {
             var payload = JSON.parse(atob(access_token.split(".")[1]))
+            console.log(payload);
         }
-        if (!is_success) {
+        if (is_success) {
             return this.showByRole(POSITION.ADMIN)
         }
         else {
@@ -59,4 +60,4 @@ class PrivateNavigate extends Component {
     }
 }
 
-export default PrivateNavigate;
+export default withRouter(PrivateNavigate);
