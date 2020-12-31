@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Form, Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import '../assets/authen.scss';
-import { Redirect } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 import { GoogleLogin } from 'react-google-login';
 import { connect } from 'react-redux';
 import { requestApiLogin } from './redux/action';
@@ -99,7 +99,6 @@ class Login extends Component {
                 fetch(API_URL + "auth/gg-oauth", requestOptions)
                     .then(response => response.text())
                     .then(result => {
-                        debugger;
                         if (result.is_success) {
                             localStorage.setItem("access_token", result.access_token);
                             localStorage.setItem("is_success", result.is_success);
@@ -126,4 +125,4 @@ const mapStateToProps = state => ({
     loginInformation: state.loginReducer,
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login))

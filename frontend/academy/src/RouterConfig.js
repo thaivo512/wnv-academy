@@ -1,6 +1,6 @@
 import './App.scss';
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
 import Login from './authenicate/login';
 import Register from './authenicate/register';
 import VerifyEmail from './authenicate/verify-by-opt';
@@ -15,11 +15,13 @@ class RouterConfig extends Component {
     render() {
         return (
             <Router>
-                <PrivateNavigate />
-                <Route path='/login' exact={true} component={Login} />
-                <Route path='/verify/:emailHashed' exact={true} component={VerifyEmail} />
-                <Route path='/register' exact={true} component={Register} />
-                <Route path='/admin-home-page' exact={true} component={AdminHomePage} />
+                <Switch>
+                    <PrivateNavigate />
+                    <Route path='/login' exact={true} component={Login} />
+                    <Route path='/verify/:emailHashed' exact={true} component={VerifyEmail} />
+                    <Route path='/register' exact={true} component={Register} />
+                    <Route path='/admin-home-page' exact={true} component={AdminHomePage} />
+                </Switch>
             </Router>
         )
     }
