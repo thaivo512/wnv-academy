@@ -22,6 +22,7 @@ const progressSchema = require('../schemas/progress.json');
 const progressModel = require('../models/progress.model');
 
 const requireActive = require('../middlewares/requireActive.mdw');
+const { query } = require('express');
 
 const router = express.Router();
 
@@ -176,6 +177,26 @@ router.get('/:courseId', auth(), async(req, res) => {
     course.is_watchlisted = await watchlistModel.exist(userId, courseId);
 
     await courseModel.increaseViewCount(courseId);
+
+    res.json({
+        is_success: true,
+        data: course
+    });
+})
+
+
+router.get('/', auth(), async(req, res) => {
+    
+    let q = req.query.q;
+    let sort = req.query.sort;
+    let direct = req.query.direct;
+    let categories = req.query.categories;
+
+    if(categories) categories = categories.trim();
+    if(categories) categories = categories.split(',');
+    let query = viTextHelper.normalized(q).replace(/\s+/g, '&');
+
+    let course = await courseModel.search(categories, query, sort, direct);
 
     res.json({
         is_success: true,

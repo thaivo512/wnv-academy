@@ -1,0 +1,69 @@
+{
+	"info": {
+		"_postman_id": "76d61b8c-1179-4f4f-abf4-019265fbc4be",
+		"name": "wnc-storage",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Upload File",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInVzZXJuYW1lIjoiamhoMjk1NzkiLCJuYW1lIjoiSmhoIFp3b2hvIiwiZW1haWwiOiJqaGgyOTU3OUB6d29oby5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA5MzkzMjQwLCJleHAiOjE2MDk0MDIyNDB9.UX8sT3gTqMYvua20nSHey65MuPQlLhSgCGEt0kl4paY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/thaivo/Videos/demo-2020-10-20_21.00.52.mp4"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{wnc}}/api/storage/",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"storage",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get File",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInVzZXJuYW1lIjoiamhoMjk1NzkiLCJuYW1lIjoiSmhoIFp3b2hvIiwiZW1haWwiOiJqaGgyOTU3OUB6d29oby5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA5MzkzMjQwLCJleHAiOjE2MDk0MDIyNDB9.UX8sT3gTqMYvua20nSHey65MuPQlLhSgCGEt0kl4paY",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{wnc}}/api/storage/24UVlOFbLmaLWk5IlVGv.pdf",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"storage",
+						"24UVlOFbLmaLWk5IlVGv.pdf"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

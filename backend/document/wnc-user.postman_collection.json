@@ -1,0 +1,346 @@
+{
+	"info": {
+		"_postman_id": "115ec1eb-0d3b-491c-b778-f17110cc4c8f",
+		"name": "wnc-user",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Request OTP",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"wwg86148@zwoho.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/user/request-otp",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"request-otp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify Email",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"kgo52345@eoopy.com\",\n    \"otp_code\": \"717842\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/user/verify-email",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"verify-email"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset Password",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsInVzZXJuYW1lIjoiaHhvODMwNDIiLCJuYW1lIjoiSHhvIEN1b2x5IiwiZW1haWwiOiJoeG84MzA0MkBjdW9seS5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6MCwiaWF0IjoxNjA4NjQ3MjU5LCJleHAiOjE2MDg2NTYyNTl9.lIFukNhczVnG8ZUqBRW8sZsO7Fe5ED1F7wU23f0kZe0"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"old_password\": \"hxo83042\",\n    \"new_password\": \"hxo83042\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/user/reset-password",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"reset-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Info",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJjcmowODQ3NSIsIm5hbWUiOiJDcmogVsO1IEVvb3B5IiwiZW1haWwiOiJjcmowODQ3NUBlb29weS5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA4NzA5OTY3LCJleHAiOjE2MDg3MTg5Njd9.ueYsgrEUXXRAjJx_yg4xRqdIxXNJGBLEe8lQdtS0ZgA"
+					}
+				],
+				"url": {
+					"raw": "{{wnc}}/api/user/me",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change Name",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsInVzZXJuYW1lIjoiaHhvODMwNDIiLCJuYW1lIjoiSHhvIEN1b2x5IiwiZW1haWwiOiJoeG84MzA0MkBjdW9seS5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6MSwiaWF0IjoxNjA4NjQ3MzM2LCJleHAiOjE2MDg2NTYzMzZ9.eC32MDVn9PNRumXyXX5ct_afCttBe5p1dkGklUvq1uE"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Hxo De Cuoly\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/user/change-name",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"change-name"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change Email",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsInVzZXJuYW1lIjoiaHhvODMwNDIiLCJuYW1lIjoiSHhvIERlIEN1b2x5IiwiZW1haWwiOiJncmwxOTU0MkBlb29weS5jb20iLCJyb2xlIjoiQURNSU4iLCJpc19hY3RpdmUiOjEsImlhdCI6MTYwODY5ODA4OCwiZXhwIjoxNjA4NzA3MDg4fQ.xvElbga8zmYc2pprdkkbF3Elu-FIV42YZUUXXSgIZ80"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"chm82156@cuoly.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/user/change-email",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"change-email"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Teacher Account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsInVzZXJuYW1lIjoiaHhvODMwNDIiLCJuYW1lIjoiSHhvIERlIEN1b2x5IiwiZW1haWwiOiJncmwxOTU0MkBlb29weS5jb20iLCJyb2xlIjoiQURNSU4iLCJpc19hY3RpdmUiOjEsImlhdCI6MTYwODY0NzU1NSwiZXhwIjoxNjA4NjU2NTU1fQ.xBnKbM1XhUEsMbLtNCbtbrJNEbw1iRoh_5i16r1lrPI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"onz50186\",\n    \"name\": \"Onz Couly\",\n    \"email\": \"onz50186@cuoly.com\",\n    \"password\": \"onz50186\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/user/teachers",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All User",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJyYms5ODY4OSIsIm5hbWUiOiJSYmsgWldvaG8iLCJlbWFpbCI6InJiazk4Njg5QHp3b2hvLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA4NzA2NzA3LCJleHAiOjE2MDg3MTU3MDd9.DgQysLQ4liwIyibwce7WXuTBEtDL2d88CkW9Ex_Dl3Q"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"GVT Woho\",\n    \"email\": \"gvt261830@zwoho.com\",\n    \"password\": \"thaivo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/user?is_active=&role=",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"user"
+					],
+					"query": [
+						{
+							"key": "is_active",
+							"value": ""
+						},
+						{
+							"key": "role",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User By Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJyYms5ODY4OSIsIm5hbWUiOiJSYmsgWldvaG8iLCJlbWFpbCI6InJiazk4Njg5QHp3b2hvLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA4NzA2NzA3LCJleHAiOjE2MDg3MTU3MDd9.DgQysLQ4liwIyibwce7WXuTBEtDL2d88CkW9Ex_Dl3Q"
+					}
+				],
+				"url": {
+					"raw": "{{wnc}}/api/user/1",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"1"
+					],
+					"query": [
+						{
+							"key": "is_active",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "role",
+							"value": "STUDENT",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsInVzZXJuYW1lIjoiaHhvODMwNDIiLCJuYW1lIjoiSHhvIERlIEN1b2x5IiwiZW1haWwiOiJncmwxOTU0MkBlb29weS5jb20iLCJyb2xlIjoiQURNSU4iLCJpc19hY3RpdmUiOjEsImlhdCI6MTYwODY0NzU1NSwiZXhwIjoxNjA4NjU2NTU1fQ.xBnKbM1XhUEsMbLtNCbtbrJNEbw1iRoh_5i16r1lrPI"
+					}
+				],
+				"url": {
+					"raw": "{{wnc}}/api/user/28",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"28"
+					],
+					"query": [
+						{
+							"key": "is_active",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "role",
+							"value": "STUDENT",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

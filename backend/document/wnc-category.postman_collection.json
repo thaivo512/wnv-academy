@@ -1,0 +1,185 @@
+{
+	"info": {
+		"_postman_id": "d3e9e3a3-8bc9-4c84-8782-ce1471a2aa45",
+		"name": "wnc-category",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Root Category",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJjcmowODQ3NSIsIm5hbWUiOiJDcmogVsO1IEVvb3B5IiwiZW1haWwiOiJjcmowODQ3NUBlb29weS5jb20iLCJyb2xlIjoiQURNSU4iLCJpc19hY3RpdmUiOnRydWUsImlhdCI6MTYwODc4MTM3NCwiZXhwIjoxNjA4NzkwMzc0fQ.9k7CCg0fn0TcDYNyGMBN3cLeSVrHOeIcfO_tgsf1gNk",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Thiết kế\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/category",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"category"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Sub Category",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJjcmowODQ3NSIsIm5hbWUiOiJDcmogVsO1IEVvb3B5IiwiZW1haWwiOiJjcmowODQ3NUBlb29weS5jb20iLCJyb2xlIjoiQURNSU4iLCJpc19hY3RpdmUiOnRydWUsImlhdCI6MTYwODc4MTM3NCwiZXhwIjoxNjA4NzkwMzc0fQ.9k7CCg0fn0TcDYNyGMBN3cLeSVrHOeIcfO_tgsf1gNk"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Thiết kế hiệu ứng 3D\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/category/7",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"category",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Category Name",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJjcmowODQ3NSIsIm5hbWUiOiJDcmogVsO1IEVvb3B5IiwiZW1haWwiOiJjcmowODQ3NUBlb29weS5jb20iLCJyb2xlIjoiQURNSU4iLCJpc19hY3RpdmUiOnRydWUsImlhdCI6MTYwODc4MTM3NCwiZXhwIjoxNjA4NzkwMzc0fQ.9k7CCg0fn0TcDYNyGMBN3cLeSVrHOeIcfO_tgsf1gNk"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Thiết kế đồ họa 3D\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/category/13",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"category",
+						"13"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Category",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJjcmowODQ3NSIsIm5hbWUiOiJDcmogVsO1IEVvb3B5IiwiZW1haWwiOiJjcmowODQ3NUBlb29weS5jb20iLCJyb2xlIjoiQURNSU4iLCJpc19hY3RpdmUiOnRydWUsImlhdCI6MTYwODc5Mjc4MiwiZXhwIjoxNjA4ODAxNzgyfQ.K_gUV1A5RdoLhyMFbREj1spvB86T29ycdBu42R8opv4"
+					}
+				],
+				"url": {
+					"raw": "{{wnc}}/api/category/7",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"category",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Category",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJjcmowODQ3NSIsIm5hbWUiOiJDcmogVsO1IEVvb3B5IiwiZW1haWwiOiJjcmowODQ3NUBlb29weS5jb20iLCJyb2xlIjoiQURNSU4iLCJpc19hY3RpdmUiOnRydWUsImlhdCI6MTYwODc5Mjc4MiwiZXhwIjoxNjA4ODAxNzgyfQ.K_gUV1A5RdoLhyMFbREj1spvB86T29ycdBu42R8opv4"
+					}
+				],
+				"url": {
+					"raw": "{{wnc}}/api/category/",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"category",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Category",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJjcmowODQ3NSIsIm5hbWUiOiJDcmogVsO1IEVvb3B5IiwiZW1haWwiOiJjcmowODQ3NUBlb29weS5jb20iLCJyb2xlIjoiQURNSU4iLCJpc19hY3RpdmUiOnRydWUsImlhdCI6MTYwODc4MTM3NCwiZXhwIjoxNjA4NzkwMzc0fQ.9k7CCg0fn0TcDYNyGMBN3cLeSVrHOeIcfO_tgsf1gNk",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{wnc}}/api/category/1",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"category",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,80 @@
+{
+	"info": {
+		"_postman_id": "0ade5572-fdd2-4d31-a468-6b1a9d43fd2b",
+		"name": "wnc-enrol",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Enroll Course",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInVzZXJuYW1lIjoiamhoMjk1NzkiLCJuYW1lIjoiSmhoIFp3b2hvIiwiZW1haWwiOiJqaGgyOTU3OUB6d29oby5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA5MzM0NDc2LCJleHAiOjE2MDkzNDM0NzZ9.tSpQtsV0gmaPs3-H8jqxKHq1j9LS7uzMn37U9SsIbPo",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_id\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/enrol",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"enrol"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Course Enrol",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInVzZXJuYW1lIjoiamhoMjk1NzkiLCJuYW1lIjoiSmhoIFp3b2hvIiwiZW1haWwiOiJqaGgyOTU3OUB6d29oby5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA5NDE1MTY4LCJleHAiOjE2MDk0MjQxNjh9.OSVXhictL5YYh_7ut8pY2m3YsnVG_umPPKVGCPUohf4"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_id\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/enrol",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"enrol"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

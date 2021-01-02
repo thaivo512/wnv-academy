@@ -1,0 +1,69 @@
+{
+	"info": {
+		"_postman_id": "328762a2-b4a7-4e67-a1df-dd00d8941f3d",
+		"name": "wnc-feedback",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All Feedback",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInVzZXJuYW1lIjoiamhoMjk1NzkiLCJuYW1lIjoiSmhoIFp3b2hvIiwiZW1haWwiOiJqaGgyOTU3OUB6d29oby5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA5MzM0NDc2LCJleHAiOjE2MDkzNDM0NzZ9.tSpQtsV0gmaPs3-H8jqxKHq1j9LS7uzMn37U9SsIbPo"
+					}
+				],
+				"url": {
+					"raw": "{{wnc}}/api/course/feedback/2",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"feedback",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Feedback",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInVzZXJuYW1lIjoiamhoMjk1NzkiLCJuYW1lIjoiSmhoIFp3b2hvIiwiZW1haWwiOiJqaGgyOTU3OUB6d29oby5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6ZmFsc2UsImlhdCI6MTYwOTMyNzYxNywiZXhwIjoxNjA5MzM2NjE3fQ.b7X0r6JlcOiiwuACVrTB52KI15zYPYBScjC76GPe2VA"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_id\": 2,\n    \"review\": \"Khoa hoc ngon lanh\",\n    \"rate\": 4\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/feedback",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"feedback"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

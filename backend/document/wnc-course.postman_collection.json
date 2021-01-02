@@ -1,0 +1,650 @@
+{
+	"info": {
+		"_postman_id": "209bd38f-ddae-468f-81c4-f446ffc6e9b1",
+		"name": "wnc-course",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Course",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsInVzZXJuYW1lIjoiaWtjMTg5OTkiLCJuYW1lIjoiSWtjIEN1b2x5IiwiZW1haWwiOiJpa2MxODk5OUBjdW9seS5jb20iLCJyb2xlIjoiVEVBQ0hFUiIsImlzX2FjdGl2ZSI6ZmFsc2UsImlhdCI6MTYwOTA1MjIxOSwiZXhwIjoxNjA5MDYxMjE5fQ.t7g_aS7Vyg-66NlGp7vSWqH1INpLToXYlq3gKGkpDDg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Khoa hoc Reactjs\",\n    \"image_avatar\": \"https://images\",\n    \"short_description\": \"Day la mo ta ngan gon\",\n    \"detail_description\": \"Day la mo ta cu the\",\n    \"price\": 350000,\n    \"price_promote\": 350000,\n    \"category_id\": 8\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Slide",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsInVzZXJuYW1lIjoiaWtjMTg5OTkiLCJuYW1lIjoiSWtjIEN1b2x5IiwiZW1haWwiOiJpa2MxODk5OUBjdW9seS5jb20iLCJyb2xlIjoiVEVBQ0hFUiIsImlzX2FjdGl2ZSI6ZmFsc2UsImlhdCI6MTYwOTE1OTMyMiwiZXhwIjoxNjA5MTY4MzIyfQ.xk8uL4bHRx28-EhncEN8e0Q4ZURgaF_g81SZEWr51oI"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_id\": 2,\n    \"slide_name\": \"Chương 1. Nhập môn React\",\n    \"file_name\": \"NhapMonReact.pdf\",\n    \"file_url\": \"https://wnc-anc.com/inassassd\",\n    \"is_allow_preview\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/slide",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"slide"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Lesson",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsInVzZXJuYW1lIjoiaWtjMTg5OTkiLCJuYW1lIjoiSWtjIEN1b2x5IiwiZW1haWwiOiJpa2MxODk5OUBjdW9seS5jb20iLCJyb2xlIjoiVEVBQ0hFUiIsImlzX2FjdGl2ZSI6ZmFsc2UsImlhdCI6MTYwOTE1OTMyMiwiZXhwIjoxNjA5MTY4MzIyfQ.xk8uL4bHRx28-EhncEN8e0Q4ZURgaF_g81SZEWr51oI"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_id\": 2,\n    \"lesson_name\": \"Chương 2. Các khái niệm cơ bản React\",\n    \"file_name\": \"CacKhaiNiemCoBan.pdf\",\n    \"file_url\": \"https://wnc-anc.com/1213inassassd\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/lesson",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"lesson"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Slide",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsInVzZXJuYW1lIjoiaWtjMTg5OTkiLCJuYW1lIjoiSWtjIEN1b2x5IiwiZW1haWwiOiJpa2MxODk5OUBjdW9seS5jb20iLCJyb2xlIjoiVEVBQ0hFUiIsImlzX2FjdGl2ZSI6ZmFsc2UsImlhdCI6MTYwOTE1OTMyMiwiZXhwIjoxNjA5MTY4MzIyfQ.xk8uL4bHRx28-EhncEN8e0Q4ZURgaF_g81SZEWr51oI"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_id\": 2,\n    \"slide_name\": \"Giới thiệu về khóa học\",\n    \"file_name\": \"Introduce.pdf\",\n    \"file_url\": \"https://wnc-anc.com/inasd\",\n    \"is_allow_preview\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/slide/2/1",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"slide",
+						"2",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Lesson",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsInVzZXJuYW1lIjoiaWtjMTg5OTkiLCJuYW1lIjoiSWtjIEN1b2x5IiwiZW1haWwiOiJpa2MxODk5OUBjdW9seS5jb20iLCJyb2xlIjoiVEVBQ0hFUiIsImlzX2FjdGl2ZSI6ZmFsc2UsImlhdCI6MTYwOTE1OTMyMiwiZXhwIjoxNjA5MTY4MzIyfQ.xk8uL4bHRx28-EhncEN8e0Q4ZURgaF_g81SZEWr51oI"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_id\": 2,\n    \"slide_name\": \"Giới thiệu về khóa học\",\n    \"file_name\": \"Introduce.pdf\",\n    \"file_url\": \"https://wnc-anc.com/inasd\",\n    \"is_allow_preview\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/lesson/2/1",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"lesson",
+						"2",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Slide",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsInVzZXJuYW1lIjoiaWtjMTg5OTkiLCJuYW1lIjoiSWtjIEN1b2x5IiwiZW1haWwiOiJpa2MxODk5OUBjdW9seS5jb20iLCJyb2xlIjoiVEVBQ0hFUiIsImlzX2FjdGl2ZSI6ZmFsc2UsImlhdCI6MTYwOTE1OTMyMiwiZXhwIjoxNjA5MTY4MzIyfQ.xk8uL4bHRx28-EhncEN8e0Q4ZURgaF_g81SZEWr51oI"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_id\": 2,\n    \"slide_name\": \"Giới thiệu về khóa học\",\n    \"file_name\": \"Introduce.pdf\",\n    \"file_url\": \"https://wnc-anc.com/inasd\",\n    \"is_allow_preview\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/slide/2",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"slide",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Top 4 Enroll",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInVzZXJuYW1lIjoiamhoMjk1NzkiLCJuYW1lIjoiSmhoIFp3b2hvIiwiZW1haWwiOiJqaGgyOTU3OUB6d29oby5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA5NDE1MTY4LCJleHAiOjE2MDk0MjQxNjh9.OSVXhictL5YYh_7ut8pY2m3YsnVG_umPPKVGCPUohf4"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_id\": 2,\n    \"slide_name\": \"Giới thiệu về khóa học\",\n    \"file_name\": \"Introduce.pdf\",\n    \"file_url\": \"https://wnc-anc.com/inasd\",\n    \"is_allow_preview\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/top4enroll",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"top4enroll"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Top 10 View",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInVzZXJuYW1lIjoiamhoMjk1NzkiLCJuYW1lIjoiSmhoIFp3b2hvIiwiZW1haWwiOiJqaGgyOTU3OUB6d29oby5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA5NDE1MTY4LCJleHAiOjE2MDk0MjQxNjh9.OSVXhictL5YYh_7ut8pY2m3YsnVG_umPPKVGCPUohf4"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_id\": 2,\n    \"slide_name\": \"Giới thiệu về khóa học\",\n    \"file_name\": \"Introduce.pdf\",\n    \"file_url\": \"https://wnc-anc.com/inasd\",\n    \"is_allow_preview\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/top10view",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"top10view"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Top 10 New",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInVzZXJuYW1lIjoiamhoMjk1NzkiLCJuYW1lIjoiSmhoIFp3b2hvIiwiZW1haWwiOiJqaGgyOTU3OUB6d29oby5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA5NDE1MTY4LCJleHAiOjE2MDk0MjQxNjh9.OSVXhictL5YYh_7ut8pY2m3YsnVG_umPPKVGCPUohf4"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_id\": 2,\n    \"slide_name\": \"Giới thiệu về khóa học\",\n    \"file_name\": \"Introduce.pdf\",\n    \"file_url\": \"https://wnc-anc.com/inasd\",\n    \"is_allow_preview\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/top10new",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"top10new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Top 5 Similar Enrol",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInVzZXJuYW1lIjoiamhoMjk1NzkiLCJuYW1lIjoiSmhoIFp3b2hvIiwiZW1haWwiOiJqaGgyOTU3OUB6d29oby5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA5NDE1MTY4LCJleHAiOjE2MDk0MjQxNjh9.OSVXhictL5YYh_7ut8pY2m3YsnVG_umPPKVGCPUohf4"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_id\": 2,\n    \"slide_name\": \"Giới thiệu về khóa học\",\n    \"file_name\": \"Introduce.pdf\",\n    \"file_url\": \"https://wnc-anc.com/inasd\",\n    \"is_allow_preview\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/top5enrolSimilar/2",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"top5enrolSimilar",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Course",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInVzZXJuYW1lIjoiamhoMjk1NzkiLCJuYW1lIjoiSmhoIFp3b2hvIiwiZW1haWwiOiJqaGgyOTU3OUB6d29oby5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA5NDE1MTY4LCJleHAiOjE2MDk0MjQxNjh9.OSVXhictL5YYh_7ut8pY2m3YsnVG_umPPKVGCPUohf4"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_id\": 2,\n    \"slide_name\": \"Giới thiệu về khóa học\",\n    \"file_name\": \"Introduce.pdf\",\n    \"file_url\": \"https://wnc-anc.com/inasd\",\n    \"is_allow_preview\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/2",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search COurse",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInVzZXJuYW1lIjoiamhoMjk1NzkiLCJuYW1lIjoiSmhoIFp3b2hvIiwiZW1haWwiOiJqaGgyOTU3OUB6d29oby5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA5NTg1ODQ2LCJleHAiOjE2MDk1OTQ4NDZ9.mjFnmAzEFDrSlsll5k9vfaJwU-xAXhpluKNsuFcMCV4"
+					}
+				],
+				"url": {
+					"raw": "{{wnc}}/api/course/?q=khoa hoc reactjs&sort=view_count&direct=asc&categories=7,8",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						""
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "khoa hoc reactjs"
+						},
+						{
+							"key": "sort",
+							"value": "view_count"
+						},
+						{
+							"key": "direct",
+							"value": "asc"
+						},
+						{
+							"key": "categories",
+							"value": "7,8"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Lesson",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsInVzZXJuYW1lIjoiaWtjMTg5OTkiLCJuYW1lIjoiSWtjIEN1b2x5IiwiZW1haWwiOiJpa2MxODk5OUBjdW9seS5jb20iLCJyb2xlIjoiVEVBQ0hFUiIsImlzX2FjdGl2ZSI6ZmFsc2UsImlhdCI6MTYwOTE1OTMyMiwiZXhwIjoxNjA5MTY4MzIyfQ.xk8uL4bHRx28-EhncEN8e0Q4ZURgaF_g81SZEWr51oI"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_id\": 2,\n    \"slide_name\": \"Giới thiệu về khóa học\",\n    \"file_name\": \"Introduce.pdf\",\n    \"file_url\": \"https://wnc-anc.com/inasd\",\n    \"is_allow_preview\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/lesson/2",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"lesson",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Lesson",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsInVzZXJuYW1lIjoiaWtjMTg5OTkiLCJuYW1lIjoiSWtjIEN1b2x5IiwiZW1haWwiOiJpa2MxODk5OUBjdW9seS5jb20iLCJyb2xlIjoiVEVBQ0hFUiIsImlzX2FjdGl2ZSI6ZmFsc2UsImlhdCI6MTYwOTE1OTMyMiwiZXhwIjoxNjA5MTY4MzIyfQ.xk8uL4bHRx28-EhncEN8e0Q4ZURgaF_g81SZEWr51oI"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_id\": 2,\n    \"slide_name\": \"Giới thiệu về khóa học\",\n    \"file_name\": \"Introduce.pdf\",\n    \"file_url\": \"https://wnc-anc.com/inasd\",\n    \"is_allow_preview\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/lesson/2/1",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"lesson",
+						"2",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Preview Slide",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsInVzZXJuYW1lIjoiaWtjMTg5OTkiLCJuYW1lIjoiSWtjIEN1b2x5IiwiZW1haWwiOiJpa2MxODk5OUBjdW9seS5jb20iLCJyb2xlIjoiVEVBQ0hFUiIsImlzX2FjdGl2ZSI6ZmFsc2UsImlhdCI6MTYwOTE1OTMyMiwiZXhwIjoxNjA5MTY4MzIyfQ.xk8uL4bHRx28-EhncEN8e0Q4ZURgaF_g81SZEWr51oI"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_id\": 2,\n    \"slide_name\": \"Giới thiệu về khóa học\",\n    \"file_name\": \"Introduce.pdf\",\n    \"file_url\": \"https://wnc-anc.com/inasd\",\n    \"is_allow_preview\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/slide/preview/2",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"slide",
+						"preview",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Course",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsInVzZXJuYW1lIjoiaWtjMTg5OTkiLCJuYW1lIjoiSWtjIEN1b2x5IiwiZW1haWwiOiJpa2MxODk5OUBjdW9seS5jb20iLCJyb2xlIjoiVEVBQ0hFUiIsImlzX2FjdGl2ZSI6ZmFsc2UsImlhdCI6MTYwOTA1MjIxOSwiZXhwIjoxNjA5MDYxMjE5fQ.t7g_aS7Vyg-66NlGp7vSWqH1INpLToXYlq3gKGkpDDg"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Khoa hoc Reactjs 2\",\n    \"image_avatar\": \"https://images2\",\n    \"short_description\": \"Day la mo ta ngan gon 2\",\n    \"detail_description\": \"Day la mo ta cu the 2\",\n    \"price\": 350002,\n    \"price_promote\": 350002,\n    \"category_id\": 8\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/2",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Publish Course",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsInVzZXJuYW1lIjoiaWtjMTg5OTkiLCJuYW1lIjoiSWtjIEN1b2x5IiwiZW1haWwiOiJpa2MxODk5OUBjdW9seS5jb20iLCJyb2xlIjoiVEVBQ0hFUiIsImlzX2FjdGl2ZSI6ZmFsc2UsImlhdCI6MTYwOTA1MjIxOSwiZXhwIjoxNjA5MDYxMjE5fQ.t7g_aS7Vyg-66NlGp7vSWqH1INpLToXYlq3gKGkpDDg"
+					}
+				],
+				"url": {
+					"raw": "{{wnc}}/api/course/2/publish",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"2",
+						"publish"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Block Course",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsInVzZXJuYW1lIjoid3dnODYxNDgiLCJuYW1lIjoiV3dnIFp3b2hvIiwiZW1haWwiOiJ3d2c4NjE0OEB6d29oby5jb20iLCJyb2xlIjoiQURNSU4iLCJpc19hY3RpdmUiOnRydWUsImlhdCI6MTYwOTA1MzgxNiwiZXhwIjoxNjA5MDYyODE2fQ.5sDrPYPZ0LDfml4AB1EJGasV1QfJG2dxxxPE3QDvUL0"
+					}
+				],
+				"url": {
+					"raw": "{{wnc}}/api/course/2",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

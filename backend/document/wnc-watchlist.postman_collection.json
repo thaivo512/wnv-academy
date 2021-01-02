@@ -1,0 +1,80 @@
+{
+	"info": {
+		"_postman_id": "5e05ead8-13ef-45d0-be87-3846cd30e335",
+		"name": "wnc-watchlist",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add Watchlist",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInVzZXJuYW1lIjoiamhoMjk1NzkiLCJuYW1lIjoiSmhoIFp3b2hvIiwiZW1haWwiOiJqaGgyOTU3OUB6d29oby5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6ZmFsc2UsImlhdCI6MTYwOTMyNzYxNywiZXhwIjoxNjA5MzM2NjE3fQ.b7X0r6JlcOiiwuACVrTB52KI15zYPYBScjC76GPe2VA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_id\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/watchlist",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"watchlist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All WatchList",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInVzZXJuYW1lIjoiamhoMjk1NzkiLCJuYW1lIjoiSmhoIFp3b2hvIiwiZW1haWwiOiJqaGgyOTU3OUB6d29oby5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA5NDE1MTY4LCJleHAiOjE2MDk0MjQxNjh9.OSVXhictL5YYh_7ut8pY2m3YsnVG_umPPKVGCPUohf4"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_id\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/watchlist",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"watchlist"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

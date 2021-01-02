@@ -111,4 +111,22 @@ module.exports = {
         return course[0];
     },
 
+    async search(categories, query, sort, direct) {
+
+        if(categories && categories.length > 0) {
+            if(query && query.length > 0)
+                return await db('course_view')
+                    .whereIn('category_id', categories)
+                    .where(db.raw(`to_tsvector(search_term) @@ to_tsquery(?)`, query))
+                    .orderBy(sort, direct); 
+
+            return await db('course_view')
+                .whereIn('category_id', categories)
+                .orderBy(sort, direct); 
+        }
+
+        return await db('course_view')
+            .where(db.raw(`to_tsvector(search_term) @@ to_tsquery(?)`, query))
+            .orderBy(sort, direct); 
+    },
 };

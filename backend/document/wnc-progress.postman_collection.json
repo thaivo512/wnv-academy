@@ -1,0 +1,69 @@
+{
+	"info": {
+		"_postman_id": "feb29503-e8b7-405c-9460-f27412871eed",
+		"name": "wnc-progress",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Progress",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInVzZXJuYW1lIjoiamhoMjk1NzkiLCJuYW1lIjoiSmhoIFp3b2hvIiwiZW1haWwiOiJqaGgyOTU3OUB6d29oby5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA5MzM0NDc2LCJleHAiOjE2MDkzNDM0NzZ9.tSpQtsV0gmaPs3-H8jqxKHq1j9LS7uzMn37U9SsIbPo"
+					}
+				],
+				"url": {
+					"raw": "{{wnc}}/api/course/progress/2",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"progress",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Progress",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInVzZXJuYW1lIjoiamhoMjk1NzkiLCJuYW1lIjoiSmhoIFp3b2hvIiwiZW1haWwiOiJqaGgyOTU3OUB6d29oby5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA5MzM0NDc2LCJleHAiOjE2MDkzNDM0NzZ9.tSpQtsV0gmaPs3-H8jqxKHq1j9LS7uzMn37U9SsIbPo"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"lesson_id\": 2,\n    \"progress_time\": 111,\n    \"is_done\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/course/progress",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"progress"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,121 @@
+{
+	"info": {
+		"_postman_id": "db32a564-7b9f-49d6-a994-875ae01a2bc8",
+		"name": "wnc-auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Sign up",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Jhh Zwoho\",\n    \"username\": \"jhh29579\",\n    \"email\": \"jhh29579@zwoho.com\",\n    \"password\": \"jhh29579\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/auth/sign-up",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"sign-up"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Google OAuth",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n    \"gg_token\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6IjZhZGMxMDFjYzc0OThjMDljMDEwZGMzZDUxNzZmYTk3Yzk2MjdlY2IiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiMjMzNjMzNDc1Mjk3LWlyYWYxcWpsbTZsdm90amQ1a3FjMzJhbHQ5ODQwcXM1LmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiMjMzNjMzNDc1Mjk3LWlyYWYxcWpsbTZsdm90amQ1a3FjMzJhbHQ5ODQwcXM1LmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTAzNjg5MDYzNjk4NjA3NTM5NDQ0IiwiZW1haWwiOiJkZXYuZmxpY2sudm5AZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJPV1U1QUpkeFFCRXM3MTc0czd4d3l3IiwibmFtZSI6IkNvbXBhbnkgRmxpY2siLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDUuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy10SVZSREo5SHpuMC9BQUFBQUFBQUFBSS9BQUFBQUFBQUFBQS9BTVp1dWNuRHgzRnV6X091M1Y4cFhycjVCR0dmWFZ5c2pRL3M5Ni1jL3Bob3RvLmpwZyIsImdpdmVuX25hbWUiOiJDb21wYW55IiwiZmFtaWx5X25hbWUiOiJGbGljayIsImxvY2FsZSI6InZpIiwiaWF0IjoxNjA4OTc3NTAyLCJleHAiOjE2MDg5ODExMDIsImp0aSI6IjcyNzI2NGRlOWQ1YTY5MjdkYWIzZTM2MTEzMzRiMDk5ZWUzZTEzMTUifQ.rqktti2LCqxhqyG_6hLtl-XM8XtLVb7itLTUKh3BgP6CHov_as1Tm-i5nyoqilNGuur5ihlnts0nRVJMb3VZY7T6gDTOllltHlefzQzF0wdV4jd2Jfc3L2uLBD7VoYe0VAalj_n-fNBUijq5lj-MYeF7K43rlYI5y7xvJSik7kPAvhPgeQgeKJT--WGqTq4H8_uiagDYyIHBzsUDPOE0qEO92Hy4ZLwIcdf_aln9q9MRqx56xlXQBiNA3ItAiHGdrU7ulJBrjA-2OLWTLdugzWBi5af0nAeKqnRq58q3V4iOzvkKLRrBPGT3GbXsM4K1dSM7tatHI_4zywfetfGmAA\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/auth/gg-oauth",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"gg-oauth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign in",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n    \"username\": \"jhh29579\",\n    \"password\": \"jhh29579\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/auth/sign-in",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"sign-in"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsInVzZXJuYW1lIjoiaHhvODMwNDIiLCJuYW1lIjoiSHhvIEN1b2x5IiwiZW1haWwiOiJoeG84MzA0MkBjdW9seS5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6MCwiaWF0IjoxNjA4NjQ3MjE4LCJleHAiOjE2MDg2NTYyMTh9.p8wZ76ptJSI21kVGblyFNugFQ8ple-yQhc4t2Ub9zs4\",\n    \"refresh_token\": \"jDx6gtbgHy07vc5npZluw5Y0cTCYuotQ\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wnc}}/api/auth/refresh",
+					"host": [
+						"{{wnc}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

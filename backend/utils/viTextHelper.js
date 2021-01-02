@@ -18,7 +18,7 @@ function normalized(str) {
     str = str.replace(/\s+/g, ' ');
 
 
-    return str.trim();
+    return str.trim().toLowerCase();
 }
 
 
