@@ -71,6 +71,7 @@ module.exports = {
 
     async top4enroll() {
         return await db('course_view')
+            .where('status', courseStatus.PUBLIC)
             .orderBy('total_enrol', 'desc')
             .limit(4);
 
@@ -78,6 +79,7 @@ module.exports = {
 
     async top10view() {
         return await db('course_view')
+            .where('status', courseStatus.PUBLIC)
             .orderBy('view_count', 'desc')
             .limit(10);
 
@@ -85,6 +87,7 @@ module.exports = {
 
     async top10new() {
         return await db('course_view')
+            .where('status', courseStatus.PUBLIC)
             .orderBy('last_update', 'desc')
             .limit(10);
 
@@ -93,7 +96,8 @@ module.exports = {
     async top5enrolSimilar(categoryId, courseId) {
         return await db('course_view')
             .where({
-                category_id: categoryId
+                category_id: categoryId,
+                status: courseStatus.PUBLIC
             })
             .whereNot('id', courseId)
             .orderBy('view_count', 'desc')
@@ -116,16 +120,19 @@ module.exports = {
         if(categories && categories.length > 0) {
             if(query && query.length > 0)
                 return await db('course_view')
+                    .where('status', courseStatus.PUBLIC)
                     .whereIn('category_id', categories)
                     .where(db.raw(`to_tsvector(search_term) @@ to_tsquery(?)`, query))
                     .orderBy(sort, direct); 
 
             return await db('course_view')
+                .where('status', courseStatus.PUBLIC)
                 .whereIn('category_id', categories)
                 .orderBy(sort, direct); 
         }
 
         return await db('course_view')
+            .where('status', courseStatus.PUBLIC)
             .where(db.raw(`to_tsvector(search_term) @@ to_tsquery(?)`, query))
             .orderBy(sort, direct); 
     },

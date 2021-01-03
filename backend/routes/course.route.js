@@ -191,6 +191,9 @@ router.get('/', auth(), async(req, res) => {
     let sort = req.query.sort;
     let direct = req.query.direct;
     let categories = req.query.categories;
+    let page = +req.query.page || 1;
+    let size = +req.query.size || 10;
+    let skip = (page-1)*size;
 
     if(categories) categories = categories.trim();
     if(categories) categories = categories.split(',');
@@ -200,7 +203,10 @@ router.get('/', auth(), async(req, res) => {
 
     res.json({
         is_success: true,
-        data: course
+        total: course.length,
+        page: page,
+        size: size,
+        data: course.slice(skip, skip + size)
     });
 })
 

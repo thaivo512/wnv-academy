@@ -410,11 +410,11 @@
 					{
 						"key": "x-access-token",
 						"type": "text",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInVzZXJuYW1lIjoiamhoMjk1NzkiLCJuYW1lIjoiSmhoIFp3b2hvIiwiZW1haWwiOiJqaGgyOTU3OUB6d29oby5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA5NTg1ODQ2LCJleHAiOjE2MDk1OTQ4NDZ9.mjFnmAzEFDrSlsll5k9vfaJwU-xAXhpluKNsuFcMCV4"
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInVzZXJuYW1lIjoiamhoMjk1NzkiLCJuYW1lIjoiSmhoIFp3b2hvIiwiZW1haWwiOiJqaGgyOTU3OUB6d29oby5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlzX2FjdGl2ZSI6dHJ1ZSwiaWF0IjoxNjA5NjUyMTMxLCJleHAiOjE2MDk2NjExMzF9.xZOfysQgN4gjWYlGC3ga5ziR52yawGqyU11ynJuUYLw"
 					}
 				],
 				"url": {
-					"raw": "{{wnc}}/api/course/?q=khoa hoc reactjs&sort=view_count&direct=asc&categories=7,8",
+					"raw": "{{wnc}}/api/course/?q=khoa hoc&sort=view_count&direct=asc&categories=7,8&page=1&size=1",
 					"host": [
 						"{{wnc}}"
 					],
@@ -426,7 +426,7 @@
 					"query": [
 						{
 							"key": "q",
-							"value": "khoa hoc reactjs"
+							"value": "khoa hoc"
 						},
 						{
 							"key": "sort",
@@ -439,6 +439,14 @@
 						{
 							"key": "categories",
 							"value": "7,8"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "1"
 						}
 					]
 				}
