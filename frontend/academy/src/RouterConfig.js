@@ -15,13 +15,11 @@ class RouterConfig extends Component {
     render() {
         return (
             <Router>
-                <Switch>
-                    <PrivateNavigate />
-                    <Route path='/login' exact={true} component={Login} />
-                    <Route path='/verify/:emailHashed' exact={true} component={VerifyEmail} />
-                    <Route path='/register' exact={true} component={Register} />
-                    <Route path='/admin-home-page' exact={true} component={AdminHomePage} />
-                </Switch>
+                <PrivateNavigate />
+                <Route path='/login' exact={true} component={Login} />
+                <Route path='/verify/:emailHashed' exact={true} component={VerifyEmail} />
+                <Route path='/register' exact={true} component={Register} />
+                <Route path='/admin-home-page' exact={true} component={AdminHomePage} />
             </Router>
         )
     }

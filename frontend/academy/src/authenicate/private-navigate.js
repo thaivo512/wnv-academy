@@ -60,4 +60,4 @@ class PrivateNavigate extends Component {
     }
 }
 
-export default withRouter(PrivateNavigate);
+export default PrivateNavigate;

@@ -5,7 +5,7 @@ import {
 export const requestGetAllUsersReducer = (state = {}, { type, allUsers }) => {
     switch (type) {
         case RECEIVE_API_GET_ALL_USERS:
-            return allUsers;
+            return [...allUsers];
         default:
             return state;
     }

@@ -14,7 +14,7 @@ class ManagedStudent extends Component {
         this.state = {
             isClicked: false,
             isShowModal: false,
-            selectedList: [],
+            selectedItem: null,
             datatable:
             {
                 columns: [
@@ -40,24 +40,7 @@ class ManagedStudent extends Component {
                     },
                 ],
                 rows: [
-                    {
-                        id: '1',
-                        username: 'System Architect',
-                        name: 'Edinburgh',
-                        email: '61',
-                    },
-                    {
-                        id: '2',
-                        username: 'System Architect',
-                        name: 'Edinburgh',
-                        email: '61',
-                    },
-                    {
-                        id: '3',
-                        username: 'System Architect',
-                        name: 'Edinburgh',
-                        email: '61',
-                    },
+
                 ]
             }
         }
@@ -68,9 +51,8 @@ class ManagedStudent extends Component {
     }
 
     render() {
-        var { isShowModal, datatable, selectedList } = this.state;
-        console.log(this.props.allUsers);
-
+        var { isShowModal, datatable } = this.state;
+        this.onOnDisplayUserData()
         return (
             <>
                 <EsolModal isShow={isShowModal}
@@ -145,16 +127,33 @@ class ManagedStudent extends Component {
         var isShowModal = this.state.isShowModal;
         this.setState({ isShowModal: !isShowModal });
     }
+
+    onOnDisplayUserData() {
+        var { allUsers } = this.props;
+        var { datatable } = this.state;
+        if (allUsers != null && allUsers.length > 0) {
+            allUsers = allUsers.filter(x => x.role == "STUDENT" && x.is_active)
+            allUsers.forEach(element => {
+                datatable.rows.push({
+                    id: element.id,
+                    name: element.name,
+                    email: element.email
+                })
+            });
+
+            this.setState({ datatable })
+        }
+    }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        requestApiGetAllUser : () => dispatch(requestApiGetAllUser()),
+        requestApiGetAllUser: () => dispatch(requestApiGetAllUser()),
     };
 }
 
 const mapStateToProps = state => ({
-    allUsers: state.allUsers,
+    allUsers: state.requestGetAllUsersReducer,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManagedStudent)
