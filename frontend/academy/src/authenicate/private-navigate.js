@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Redirect, withRouter } from 'react-router-dom';
 import { POSITION } from './constants';
 
 class PrivateNavigate extends Component {
@@ -12,30 +11,40 @@ class PrivateNavigate extends Component {
         };
     }
 
+    redirect = redirectUrl => {
+        window.location = redirectUrl;
+    };
+
     render() {
         var { is_success, access_token } = this.state;
+        var currentURL = window.location.href;
         if (access_token) {
             var payload = JSON.parse(atob(access_token.split(".")[1]))
             console.log(payload);
         }
-        if (is_success) {
-            return this.showByRole(POSITION.ADMIN)
+        if (!is_success) {
+            return this.showByRole(POSITION.STUDENT, currentURL)
         }
         else {
-            var currentURL = window.location.href;
             if (this.isContains(currentURL, 'register')) {
-                return <Redirect to='/register' />
+                if (!this.isContains(currentURL, 'register')) {
+                    return this.redirect("/register");
+                }
             }
             else if (this.isContains(currentURL, 'verify')) {
-                var tail = "/verify" + currentURL.substring(currentURL.lastIndexOf("/"));
-                return <Redirect to={tail} />
+                if (!this.isContains(currentURL, 'verify')) {
+                    var tail = "/verify" + currentURL.substring(currentURL.lastIndexOf("/"));
+                    return this.redirect(tail);
+                }
             }
             else {
-                return <Redirect to='/login' />
+                if (!this.isContains(currentURL, 'login')) {
+                    return this.redirect("/login");
+                }
             }
+            return <></>
         }
     }
-
 
     isContains(parent, child) {
         return parent.indexOf(child) >= 0;
@@ -48,12 +57,23 @@ class PrivateNavigate extends Component {
         window.location.reload();
     }
 
-    showByRole = (position) => {
+    showByRole = (position, currentURL) => {
         switch (position) {
             case POSITION.ADMIN:
-                return <Redirect to='./admin-home-page' />
+                if (!this.isContains(currentURL, 'admin-home-page')) {
+                    return this.redirect("/admin-home-page");
+                }
+                return <></>
             case POSITION.STUDENT:
+                if (!this.isContains(currentURL, 'student-home-page')) {
+                    return this.redirect("/student-home-page");
+                }
+                return <></>
             case POSITION.TEACHER:
+                if (!this.isContains(currentURL, 'teacher-home-page')) {
+                    return this.redirect("/teacher-home-page");
+                }
+                return <></>
             default:
         }
 

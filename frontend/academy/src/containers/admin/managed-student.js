@@ -39,9 +39,7 @@ class ManagedStudent extends Component {
                         width: 200,
                     },
                 ],
-                rows: [
-
-                ]
+                rows: []
             }
         }
     }
