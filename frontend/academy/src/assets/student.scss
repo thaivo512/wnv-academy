@@ -1,0 +1,41 @@
+.form-wrap-input {
+    width: 100%;
+}
+
+.custom-input {
+    width: 90% !important;
+    border-radius: 15px;
+}
+
+.custom-radius {
+    border-radius: 15px;
+}
+
+.nav-mr-right {
+    margin-right: 1%;
+}
+
+.nav-wrap-button {
+    width: 50%;
+
+    button {
+        width: 100px;
+    }
+}
+
+.icon-shopping-cart {
+    height: 35px;
+    width: 35px;
+}
+
+.nav-icon-mr-right {
+    margin-right: 5%;
+}
+
+.dropdown:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown>.dropdown-toggle:active {
+    pointer-events: none;
+}
