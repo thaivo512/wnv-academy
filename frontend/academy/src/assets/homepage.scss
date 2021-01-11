@@ -1,0 +1,41 @@
+.home-page-container {
+    display: block;
+    width: 50%;
+    left: 50%;
+    height: 100vh;
+    transform: translate(50%, 0%);
+}
+
+.banner-advertisement {
+    background-image: url("../banner.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 45vh;
+}
+
+.border-bottom {
+    border-bottom: black solid 1px;
+}
+
+.row-margin-top {
+    margin-top: 3%;
+}
+
+.icon-ads {
+    height: 60px;
+    width: 60px;
+    color: #17a2b8;
+}
+
+.row {
+    margin: 0px
+}
+
+a {
+    color: #17a2b8;
+}
+
+.checked {
+    color: orange;
+}

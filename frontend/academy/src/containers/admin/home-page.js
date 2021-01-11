@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarFooter, SidebarContent } from 'react-pro-sidebar';
-import { FaGem, FaHeart, FaSignOutAlt, FaUserAlt, FaList } from 'react-icons/fa';
+import { FaGem, FaSignOutAlt, FaUserAlt, FaList } from 'react-icons/fa';
 import '../../assets/admin.scss';
 import { Row } from 'react-bootstrap';
 import ManagedTeacher from './managed-teacher';
