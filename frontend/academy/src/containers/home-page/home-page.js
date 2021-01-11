@@ -53,7 +53,7 @@ class HomePage extends Component {
                                     <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
                                     <Card.Text>
                                         <div style={{ fontSize: "12px" }}>Teacher Name</div>
-                                        <Row>
+                                        <Row style={{ marginTop: "3%" }}>
                                             <strong style={{ marginRight: "5px", fontSize: "13px" }}>4.6</strong>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
@@ -62,7 +62,10 @@ class HomePage extends Component {
                                             <span class="fa fa-star"></span>
                                             <div style={{ marginLeft: "5px", fontSize: "13px" }}>(334.231)</div>
                                         </Row>
-                                        <div style={{ fontSize: "20px", fontWeight: "bold" }}>$11.99</div>
+                                        <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
+                                        <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
+                                            <strong>Best Seller</strong>
+                                        </div>
                                     </Card.Text>
                                 </Card.Body>
                             </Card>
