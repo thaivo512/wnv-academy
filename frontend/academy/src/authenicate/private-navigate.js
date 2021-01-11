@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { POSITION } from './constants';
+import NavBarComponent from '../components/nav-bar';
 
 class PrivateNavigate extends Component {
     constructor(props) {
@@ -23,7 +24,8 @@ class PrivateNavigate extends Component {
             console.log(payload);
         }
         if (!is_success) {
-            return this.showByRole(POSITION.STUDENT, currentURL)
+            <NavBarComponent />
+            return this.showByRole(POSITION.NONE, currentURL)
         }
         else {
             if (this.isContains(currentURL, 'register')) {
@@ -75,6 +77,10 @@ class PrivateNavigate extends Component {
                 }
                 return <></>
             default:
+                if (!this.isContains(currentURL, 'home-page')) {
+                    return this.redirect("/home-page");
+                }
+                return <></>
         }
 
     }

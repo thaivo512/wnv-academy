@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 
-class StudentHomePage extends Component {
+class HomePage extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
         return (
-            <div>adsad</div>
+            <div></div>
         )
     }
 }
 
-export default StudentHomePage;
+export default HomePage;

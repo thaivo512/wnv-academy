@@ -8,6 +8,7 @@ import PrivateNavigate from './authenicate/private-navigate';
 import AdminHomePage from './containers/admin/home-page';
 import TeacherHomePage from './containers/teacher/home-page';
 import StudentHomePage from './containers/student/home-page';
+import HomePage from './containers/home-page/home-page';
 
 class RouterConfig extends Component {
     constructor(props) {
@@ -24,6 +25,7 @@ class RouterConfig extends Component {
                 <Route path='/admin-home-page' exact={true} component={AdminHomePage} />
                 <Route path='/teacher-home-page' exact={true} component={TeacherHomePage} />
                 <Route path='/student-home-page' exact={true} component={StudentHomePage} />
+                <Route path='/home-page' exact={true} component={HomePage} />
             </Router>
         )
     }
