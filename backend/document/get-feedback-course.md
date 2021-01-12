@@ -2,7 +2,7 @@
 
 > METHOD: GET
 
-> ENDPOINT: localhost:3000/api/course/feedback/:courseId
+> ENDPOINT: localhost:3000/api/feedback/:courseId
 
 > HEADER: x-access-token
 

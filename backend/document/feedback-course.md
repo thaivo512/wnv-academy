@@ -2,7 +2,7 @@
 
 > METHOD: POST
 
-> ENDPOINT: localhost:3000/api/course/feedback
+> ENDPOINT: localhost:3000/api/feedback
 
 > HEADER: x-access-token (yeu cau role STUDENT)
 
