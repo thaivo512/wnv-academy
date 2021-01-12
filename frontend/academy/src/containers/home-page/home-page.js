@@ -73,7 +73,20 @@ class HomePage extends Component {
                     </div>
                 </Tab>
                 <Tab eventKey="excel" title="Excel">
-                    asdasdasd
+                    <Tabs style={{ marginTop: "1%" }}>
+                        <Tab eventKey="topweek" title="Top Week">
+                            asdasdasd
+                        </Tab>
+                        <Tab eventKey="bestseller" title="Best Seller">
+                            asdasdasd
+                        </Tab>
+                        <Tab eventKey="newest" title="Newest">
+                            asdasdasd
+                        </Tab>
+                        <Tab eventKey="topregistion" title="Top Registion">
+                            asdasdasd
+                        </Tab>
+                    </Tabs>
                 </Tab>
                 <Tab eventKey="webdevelopment" title="Web Development">
                     asdasdasd
