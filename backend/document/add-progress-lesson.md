@@ -2,7 +2,7 @@
 
 > METHOD: POST
 
-> ENDPOINT: localhost:3000/api/course/progress
+> ENDPOINT: localhost:3000/api/progress
 
 > HEADER: x-access-token (yeu cau role STUDENT)
 

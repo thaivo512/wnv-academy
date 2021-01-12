@@ -2,7 +2,7 @@
 
 > METHOD: POST
 
-> ENDPOINT: localhost:3000/api/course/watchlist
+> ENDPOINT: localhost:3000/api/watchlist
 
 > HEADER: x-access-token (yeu cau role STUDENT)
 

@@ -2,7 +2,7 @@
 
 > METHOD: GET
 
-> ENDPOINT: localhost:3000/api/course/slide/:course_id
+> ENDPOINT: localhost:3000/api/slide/:course_id
 
 > HEADER: x-access-token
 

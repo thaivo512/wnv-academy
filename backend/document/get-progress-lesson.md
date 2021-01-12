@@ -2,7 +2,7 @@
 
 > METHOD: GET
 
-> ENDPOINT: localhost:3000/api/course/progress/:lessonId
+> ENDPOINT: localhost:3000/api/progress/:lessonId
 
 > HEADER: x-access-token (yeu cau role STUDENT)
 
