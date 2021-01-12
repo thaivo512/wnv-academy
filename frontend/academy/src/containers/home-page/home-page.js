@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../../assets/homepage.scss';
 import { Col, Row, Card, Button, Carousel } from 'react-bootstrap';
 import { FaYoutube, FaMedal, FaHeartbeat, FaClock, FaUserAlt, FaSearch } from 'react-icons/fa';
+import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
 
 class HomePage extends Component {
     constructor(props) {
@@ -66,7 +67,24 @@ class HomePage extends Component {
 
     renderFooter() {
         return <div class="footer">
-            <p>Footer</p>
+            <MDBFooter color="blue" className="font-small pt-4 mt-4">
+                <MDBContainer fluid className="text-center text-md-left">
+                    <MDBRow>
+                        <MDBCol md="6">
+                            <h5 className="title">Footer Content</h5>
+                            <p>
+                                Here you can use rows and columns here to organize your footer
+                                content.
+                            </p>
+                        </MDBCol>
+                    </MDBRow>
+                </MDBContainer>
+                <div className="footer-copyright text-center py-3">
+                    <MDBContainer fluid>
+                        &copy; {new Date().getFullYear()} Copyright: <a href="https://www.mdbootstrap.com"> MDBootstrap.com </a>
+                    </MDBContainer>
+                </div>
+            </MDBFooter>
         </div>
     }
 
@@ -79,15 +97,6 @@ class HomePage extends Component {
                         <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
                         <Card.Text>
                             <div style={{ fontSize: "12px" }}>Teacher Name</div>
-                            <Row style={{ marginTop: "3%" }}>
-                                <strong style={{ marginRight: "5px", fontSize: "13px" }}>4.6</strong>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <div style={{ marginLeft: "5px", fontSize: "13px" }}>(334.231)</div>
-                            </Row>
                             <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
                             <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
                                 <strong>Best Seller</strong>
@@ -103,15 +112,6 @@ class HomePage extends Component {
                         <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
                         <Card.Text>
                             <div style={{ fontSize: "12px" }}>Teacher Name</div>
-                            <Row style={{ marginTop: "3%" }}>
-                                <strong style={{ marginRight: "5px", fontSize: "13px" }}>4.6</strong>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <div style={{ marginLeft: "5px", fontSize: "13px" }}>(334.231)</div>
-                            </Row>
                             <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
                             <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
                                 <strong>Best Seller</strong>
@@ -127,15 +127,6 @@ class HomePage extends Component {
                         <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
                         <Card.Text>
                             <div style={{ fontSize: "12px" }}>Teacher Name</div>
-                            <Row style={{ marginTop: "3%" }}>
-                                <strong style={{ marginRight: "5px", fontSize: "13px" }}>4.6</strong>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <div style={{ marginLeft: "5px", fontSize: "13px" }}>(334.231)</div>
-                            </Row>
                             <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
                             <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
                                 <strong>Best Seller</strong>
@@ -159,111 +150,6 @@ class HomePage extends Component {
                                     <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
                                     <Card.Text>
                                         <div style={{ fontSize: "12px" }}>Teacher Name</div>
-                                        <Row style={{ marginTop: "3%" }}>
-                                            <strong style={{ marginRight: "5px", fontSize: "13px" }}>4.6</strong>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star"></span>
-                                            <span class="fa fa-star"></span>
-                                            <div style={{ marginLeft: "5px", fontSize: "13px" }}>(334.231)</div>
-                                        </Row>
-                                        <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
-                                        <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
-                                            <strong>Best Seller</strong>
-                                        </div>
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </div>
-                        <div class="p-2">
-                            <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
-                                <Card.Img variant="top" src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur" />
-                                <Card.Body>
-                                    <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
-                                    <Card.Text>
-                                        <div style={{ fontSize: "12px" }}>Teacher Name</div>
-                                        <Row style={{ marginTop: "3%" }}>
-                                            <strong style={{ marginRight: "5px", fontSize: "13px" }}>4.6</strong>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star"></span>
-                                            <span class="fa fa-star"></span>
-                                            <div style={{ marginLeft: "5px", fontSize: "13px" }}>(334.231)</div>
-                                        </Row>
-                                        <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
-                                        <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
-                                            <strong>Best Seller</strong>
-                                        </div>
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </div>
-                        <div class="p-2">
-                            <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
-                                <Card.Img variant="top" src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur" />
-                                <Card.Body>
-                                    <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
-                                    <Card.Text>
-                                        <div style={{ fontSize: "12px" }}>Teacher Name</div>
-                                        <Row style={{ marginTop: "3%" }}>
-                                            <strong style={{ marginRight: "5px", fontSize: "13px" }}>4.6</strong>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star"></span>
-                                            <span class="fa fa-star"></span>
-                                            <div style={{ marginLeft: "5px", fontSize: "13px" }}>(334.231)</div>
-                                        </Row>
-                                        <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
-                                        <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
-                                            <strong>Best Seller</strong>
-                                        </div>
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </div>
-                        <div class="p-2">
-                            <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
-                                <Card.Img variant="top" src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur" />
-                                <Card.Body>
-                                    <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
-                                    <Card.Text>
-                                        <div style={{ fontSize: "12px" }}>Teacher Name</div>
-                                        <Row style={{ marginTop: "3%" }}>
-                                            <strong style={{ marginRight: "5px", fontSize: "13px" }}>4.6</strong>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star"></span>
-                                            <span class="fa fa-star"></span>
-                                            <div style={{ marginLeft: "5px", fontSize: "13px" }}>(334.231)</div>
-                                        </Row>
-                                        <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
-                                        <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
-                                            <strong>Best Seller</strong>
-                                        </div>
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </div>
-                        <div class="p-2">
-                            <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
-                                <Card.Img variant="top" src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur" />
-                                <Card.Body>
-                                    <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
-                                    <Card.Text>
-                                        <div style={{ fontSize: "12px" }}>Teacher Name</div>
-                                        <Row style={{ marginTop: "3%" }}>
-                                            <strong style={{ marginRight: "5px", fontSize: "13px" }}>4.6</strong>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star"></span>
-                                            <span class="fa fa-star"></span>
-                                            <div style={{ marginLeft: "5px", fontSize: "13px" }}>(334.231)</div>
-                                        </Row>
                                         <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
                                         <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
                                             <strong>Best Seller</strong>
@@ -283,15 +169,6 @@ class HomePage extends Component {
                                     <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
                                     <Card.Text>
                                         <div style={{ fontSize: "12px" }}>Teacher Name</div>
-                                        <Row style={{ marginTop: "3%" }}>
-                                            <strong style={{ marginRight: "5px", fontSize: "13px" }}>4.6</strong>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star"></span>
-                                            <span class="fa fa-star"></span>
-                                            <div style={{ marginLeft: "5px", fontSize: "13px" }}>(334.231)</div>
-                                        </Row>
                                         <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
                                         <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
                                             <strong>Best Seller</strong>
