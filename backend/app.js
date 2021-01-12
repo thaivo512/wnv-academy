@@ -35,6 +35,14 @@ app.use('/api/user', require('./routes/user.route'));
 app.use('/api/category', require('./routes/category.route'));
 app.use('/api/course', require('./routes/course.route'));
 app.use('/api/storage', require('./routes/storage.route'));
+app.use('/api/progress', require('./routes/progress.route'));
+app.use('/api/feedback', require('./routes/feedback.route'));
+app.use('/api/watchlist', require('./routes/watchlist.route'));
+app.use('/api/enrol', require('./routes/enrol.route'));
+app.use('/api/lesson', require('./routes/lesson.route'));
+app.use('/api/slide', require('./routes/slide.route'));
+app.use('/api/course-search', require('./routes/course-search.route'));
+
 
 app.use(function (req, res, next) {
     res.status(404).send({

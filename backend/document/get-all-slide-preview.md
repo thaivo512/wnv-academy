@@ -2,11 +2,11 @@
 
 > METHOD: GET
 
-> ENDPOINT: localhost:3000/api/course/slide/:course_id/:slide_id
+> ENDPOINT: localhost:3000/api/slide/preview/:course_id
 
 > HEADER: x-access-token
 
-> PATH VARIABLE: course_id, slide_id
+> PATH VARIABLE: course_id
 
 > BODY: None
 

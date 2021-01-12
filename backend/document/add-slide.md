@@ -2,7 +2,7 @@
 
 > METHOD: POST
 
-> ENDPOINT: localhost:3000/api/course/slide
+> ENDPOINT: localhost:3000/api/slide
 
 > HEADER: x-access-token (yeu cau role TEACHER)
 

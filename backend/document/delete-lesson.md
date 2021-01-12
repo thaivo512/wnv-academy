@@ -2,7 +2,7 @@
 
 > METHOD: DELETE
 
-> ENDPOINT: localhost:3000/api/course/lesson/:course_id/:lesson_id
+> ENDPOINT: localhost:3000/api/lesson/:course_id/:lesson_id
 
 > HEADER: x-access-token (yeu cau role TEACHER)
 
