@@ -2,7 +2,6 @@
     display: block;
     width: 50%;
     left: 50%;
-    height: 100vh;
     transform: translate(50%, 0%);
 }
 
@@ -23,8 +22,8 @@
 }
 
 .icon-ads {
-    height: 60px;
-    width: 60px;
+    height: 50px;
+    width: 50px;
     color: #17a2b8;
 }
 
@@ -38,4 +37,9 @@ a {
 
 .checked {
     color: orange;
+}
+
+.footer {
+    margin-top: 1%;
+    border-top: black solid 1px;
 }
