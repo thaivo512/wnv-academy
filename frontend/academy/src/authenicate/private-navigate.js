@@ -21,13 +21,8 @@ class PrivateNavigate extends Component {
         var currentURL = window.location.href;
         if (access_token) {
             var payload = JSON.parse(atob(access_token.split(".")[1]))
-            console.log(payload);
         }
-        if (!is_success) {
-            <NavBarComponent />
-            return this.showByRole(POSITION.NONE, currentURL)
-        }
-        else {
+        if (is_success == null) {
             if (this.isContains(currentURL, 'register')) {
                 if (!this.isContains(currentURL, 'register')) {
                     return this.redirect("/register");
@@ -39,12 +34,24 @@ class PrivateNavigate extends Component {
                     return this.redirect(tail);
                 }
             }
-            else {
+            else if (this.isContains(currentURL, 'login')) {
                 if (!this.isContains(currentURL, 'login')) {
                     return this.redirect("/login");
                 }
             }
+            else {
+                return <>
+                    <NavBarComponent />
+                    { this.showByRole(POSITION.NONE, currentURL)}
+                </>
+            }
             return <></>
+        }
+        else {
+            return <>
+                <NavBarComponent />
+                {this.showByRole(payload.position, currentURL)}
+            </>
         }
     }
 
