@@ -115,6 +115,13 @@ module.exports = {
         return course[0];
     },
 
+    async createdBy(teacherId) {
+        return db('course_view')
+            .where({
+                teacher_id: teacherId
+            }); 
+    },
+
     async search(categories, query, sort, direct) {
 
         if(categories && categories.length > 0) {

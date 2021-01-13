@@ -94,4 +94,16 @@ router.delete('/:id', auth(userRole.ADMIN), async(req, res) => {
 
 
 
+router.get('/', auth(userRole.TEACHER), async(req, res) => {
+    
+    const teacherId = req.accessTokenPayload.id;
+    const courses = await courseModel.createdBy(teacherId);
+    return res.json({
+        is_success: true,
+        data: courses
+    })
+})
+
+
+
 module.exports = router;
