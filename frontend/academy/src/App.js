@@ -6,7 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-pro-sidebar/dist/css/styles.css';
 import RouterConfig from './RouterConfig';
-import NavBarComponent from './components/nav-bar';
 
 class App extends Component {
   constructor(props) {
@@ -16,7 +15,6 @@ class App extends Component {
   render() {
     return (
       <div className="App" >
-        <NavBarComponent />
         <ToastContainer />
         <RouterConfig />
       </div >

@@ -6,6 +6,9 @@ import { FaShoppingCart } from 'react-icons/fa';
 class NavBarComponent extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            is_success: localStorage.getItem('is_success'),
+        }
     }
 
     render() {
@@ -53,16 +56,34 @@ class NavBarComponent extends Component {
                     <Nav.Item className="nav-icon-mr-right">
                         <FaShoppingCart className="icon-shopping-cart" />
                     </Nav.Item>
-                    <Nav.Item className="nav-mr-right">
-                        <Button variant="outline-info">Login</Button>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Button variant="info">Sign up</Button>
-                    </Nav.Item>
+                    {this.state.is_success == null ?
+                        <>
+                            <Nav.Item className="nav-mr-right">
+                                <Button variant="outline-info" onClick={() => this.onClickMoveToLogin()}>Login</Button>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Button variant="info" onClick={() => this.onClickMoveToRegister()}>Sign up</Button>
+                            </Nav.Item>
+                        </>
+                        : <></>
+                    }
                 </Nav>
             </Navbar >
         )
     }
+
+    onClickMoveToRegister() {
+        return this.redirect("/register");
+    }
+
+    onClickMoveToLogin() {
+        return this.redirect("/login");
+    }
+
+    redirect = redirectUrl => {
+        window.location = redirectUrl;
+    };
+
 }
 
 export default NavBarComponent;
