@@ -9,7 +9,7 @@ const router = express.Router();
  
 
 // COURSE SEARCH
-router.get('/top4enroll', auth(), async(req, res) => {
+router.get('/top4enroll', async(req, res) => {
     const data = await courseModel.top4enroll();
 
     res.json({
@@ -18,7 +18,7 @@ router.get('/top4enroll', auth(), async(req, res) => {
     });
 })
 
-router.get('/top10view', auth(), async(req, res) => {
+router.get('/top10view', async(req, res) => {
     const data = await courseModel.top10view();
 
     res.json({
@@ -28,7 +28,7 @@ router.get('/top10view', auth(), async(req, res) => {
 })
 
 
-router.get('/top10new', auth(), async(req, res) => {
+router.get('/top10new', async(req, res) => {
     const data = await courseModel.top10new();
 
     res.json({
@@ -38,7 +38,7 @@ router.get('/top10new', auth(), async(req, res) => {
 })
 
 
-router.get('/top5enrolSimilar/:courseId', auth(), async(req, res) => {
+router.get('/top5enrolSimilar/:courseId', async(req, res) => {
 
     const courseId = req.params.courseId;
 
@@ -59,7 +59,7 @@ router.get('/top5enrolSimilar/:courseId', auth(), async(req, res) => {
 })
 
 
-router.get('/:courseId', auth(), async(req, res) => {
+router.get('/:courseId', async(req, res) => {
 
     const courseId = req.params.courseId;
     const userId = req.accessTokenPayload.id;
@@ -84,7 +84,7 @@ router.get('/:courseId', auth(), async(req, res) => {
 })
 
 
-router.get('/', auth(), async(req, res) => {
+router.get('/', async(req, res) => {
     
     let q = req.query.q;
     let sort = req.query.sort;

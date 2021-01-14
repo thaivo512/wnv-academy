@@ -28,6 +28,16 @@ module.exports = {
         return course.length > 0;
     },
 
+
+    async isCreated(id, teacher_id) {
+        const course = await db('course').where({
+            id: id,
+            teacher_id: teacher_id
+        });
+
+        return course.length > 0;
+    },
+
     async add(course) {
         const ids = await db('course').insert(course).returning('id');
         

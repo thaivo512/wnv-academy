@@ -59,8 +59,8 @@ router.get('/:course_id', auth(), async(req, res) => {
     const role = req.accessTokenPayload.role;
 
     if(role == userRole.TEACHER) {
-        const canExec = await courseModel.canModify(course_id, user_id);
-        if(!canExec) return res.json({
+        const isCreated = await courseModel.isCreated(course_id, user_id);
+        if(!isCreated) return res.json({
             is_success: false,
             message: 'Ban khong co quyen de xem'
         })
@@ -83,7 +83,7 @@ router.get('/:course_id', auth(), async(req, res) => {
     })
 })
 
-router.get('/preview/:course_id', auth(), async(req, res) => {
+router.get('/preview/:course_id', async(req, res) => {
 
     const slides = await slideModel.allPreview(req.params.course_id);
 

@@ -84,7 +84,7 @@ router.delete('/:id', auth(userRole.ADMIN), async(req, res) => {
     })
 })
 
-router.get('/:id', auth(), async(req, res) => {
+router.get('/:id', async(req, res) => {
 
     const category = await categoryModel.singleView(req.params.id);
 
@@ -99,14 +99,14 @@ router.get('/:id', auth(), async(req, res) => {
     })
 })
 
-router.get('/', auth(), async(req, res) => {
+router.get('/', async(req, res) => {
 
     const categories = await categoryModel.allView();
 
     res.json(categories)
 })
 
-router.get('/topEnrollWeek', auth(), async(req, res) => {
+router.get('/topEnrollWeek', async(req, res) => {
 
     const categories = await categoryModel.topEnrolWeek();
 
