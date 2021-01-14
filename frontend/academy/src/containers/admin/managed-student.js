@@ -85,7 +85,6 @@ class ManagedStudent extends Component {
                             headCheckboxID='id2'
                             bodyCheckboxID='checkboxes2'
                             getValueCheckBox={(e) => {
-
                             }} />
                     </Row>
                 </div>
