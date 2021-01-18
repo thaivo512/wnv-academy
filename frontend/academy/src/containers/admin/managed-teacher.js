@@ -7,6 +7,7 @@ import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import EsolModal from '../../components/modal';
 import { FaTrashAlt, FaPlus, FaEdit } from 'react-icons/fa';
+import ModalPage from '../../components/modal-warning'
 
 class ManagedTeacher extends Component {
     constructor(props) {
@@ -103,11 +104,12 @@ class ManagedTeacher extends Component {
     handleChange(e) {
         this.setState({ selectedList: e });
         this.setState.selectedList = e;
+        this.setState.userNameSelected = e.username;
         console.log(this.setState.selectedList.name);
     }
 
     render() {
-        var { isShowModalAdd, isShowModalEdit, datatable, selectedList } = this.state;
+        var { isShowModalAdd, isShowModalEdit, datatable, selectedList, userNameSelected } = this.state;
 
         return (
             <>
@@ -117,12 +119,15 @@ class ManagedTeacher extends Component {
                     body={this.renderAddTeacherBodyModal()}
                     size="xs"
                 />
-                <EsolModal isShow={isShowModalEdit}
-                    title="Edit Teacher"
-                    onHide={() => this.onShowOrCloseModalEditTeacher()}
-                    body={this.renderEditTeacherBodyModal(this.setState.selectedList)}
-                    size="xs"
-                />
+                {isShowModalEdit == true &&
+                    <EsolModal  isShow={isShowModalEdit}
+                                title="Edit Teacher"
+                                onHide={() => this.onShowOrCloseModalEditTeacher()}
+                                body={this.renderEditTeacherBodyModal(this.setState.selectedList)}
+                                size="xs"
+                    />
+                }
+
                 <div className="managed-teacher-container">
                     <Row>
                         <Col>
@@ -137,9 +142,7 @@ class ManagedTeacher extends Component {
                             <Button variant="primary" type="button" onClick={() => this.onShowOrCloseModalEditTeacher()}>
                                 <FaEdit />Edit Teacher
                             </Button>
-                            <Button variant="danger" type="button">
-                                <FaTrashAlt /> Remove
-                            </Button>
+                            <ModalPage userName={this.setState.userNameSelected}></ModalPage>
                         </Col>
                         <MDBDataTableV5
                             scrollX
