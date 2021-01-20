@@ -22,7 +22,7 @@ class PrivateNavigate extends Component {
         if (access_token) {
             var payload = JSON.parse(atob(access_token.split(".")[1]))
         }
-        if (is_success == null) {
+        if (is_success != null) {
             if (this.isContains(currentURL, 'register')) {
                 if (!this.isContains(currentURL, 'register')) {
                     return this.redirect("/register");
@@ -49,8 +49,7 @@ class PrivateNavigate extends Component {
         }
         else {
             return <>
-                <NavBarComponent />
-                {this.showByRole(payload.position, currentURL)}
+                {this.showByRole(POSITION.TEACHER, currentURL)}
             </>
         }
     }
