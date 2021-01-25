@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../assets/admin.scss';
-import { Card, Button, Row, Col, InputGroup, Form, Table } from 'react-bootstrap';
-import { FaEdit, FaTrash, FaCheck } from 'react-icons/fa';
+import { Card, Button, Row, Col, Table } from 'react-bootstrap';
+import { FaEdit, FaTrash, FaCheck, FaPlay, FaArrowLeft } from 'react-icons/fa';
 import { Editor } from "react-draft-wysiwyg";
 import EsolModal from '../../components/modal';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
@@ -14,7 +14,10 @@ class ManagedCourses extends Component {
 
         this.state = {
             isShowModalSlide: false,
+            isShowLesson: false,
             isEditingMode: false,
+            isPreviewMode: false,
+            selectedVideoUrl: "",
             shortDetail: EditorState.createEmpty(),
             detailDes: EditorState.createEmpty(),
             slides: [
@@ -22,7 +25,17 @@ class ManagedCourses extends Component {
                     id: 1,
                     slide_name: "slide 1",
                     file_url: "abcd.com",
-                    is_allow_preview: "false"
+                    is_allow_preview: "false",
+                    course_id: 3
+                }
+            ],
+            lessons: [
+                {
+                    id: 1,
+                    lesson_name: "Lesson 1",
+                    file_name: "asdasdasdasd",
+                    file_url: "asdasda1231321sdasd.com",
+                    course_id: 2
                 }
             ],
             selected_course: null,
@@ -139,8 +152,13 @@ class ManagedCourses extends Component {
         });
     }
 
+    onShowManagedLesson() {
+        var { isShowLesson } = this.state;
+        this.setState({ isShowLesson: !isShowLesson })
+    }
+
     onShowCoursesDetail() {
-        var { isEditingMode, selected_course, isShowModalSlide } = this.state;
+        var { isEditingMode, selected_course, isShowModalSlide, isShowLesson } = this.state;
         var className = "md-2 ";
         var isPublic = false;
         if (selected_course != null) {
@@ -151,7 +169,12 @@ class ManagedCourses extends Component {
             <EsolModal isShow={isShowModalSlide}
                 title="Managed Slide"
                 onHide={() => this.onShowOrCloseModalSlide()}
-                body={this.renderAddTeacherBodyModal(isPublic)}
+                body={this.renderManagedSlide(isPublic)}
+                size="lg" />
+            <EsolModal isShow={isShowLesson}
+                title="Managed Lesson"
+                onHide={() => this.onShowManagedLesson()}
+                body={this.renderManagedLesson(isPublic)}
                 size="lg" />
             {selected_course == null ?
                 <div style={{ textAlign: "center" }}>
@@ -241,7 +264,7 @@ class ManagedCourses extends Component {
                                             </Col>
                                         </Row>
                                         <Button style={{ width: "30%", fontSize: "12px" }} onClick={() => this.onShowOrCloseModalSlide()} variant="primary">View Slide</Button>
-                                        <Button style={{ width: "30%", fontSize: "12px" }} variant="primary">View Lesson</Button>
+                                        <Button style={{ width: "30%", fontSize: "12px" }} onClick={() => this.onShowManagedLesson()} variant="primary">View Lesson</Button>
                                         <Button style={{ width: "30%", fontSize: "12px" }} variant="primary">View FeedBack</Button>
                                     </Col>
                                 </Row>
@@ -331,7 +354,110 @@ class ManagedCourses extends Component {
         return elements;
     }
 
-    renderAddTeacherBodyModal(isPublic) {
+    onPreviewVideo(url) {
+        var { isPreviewMode, selectedVideoUrl } = this.state;
+        this.setState({ isPreviewMode: !isPreviewMode, selectedVideoUrl: url })
+    }
+
+    renderBodyLessonTable(isPublic) {
+        var elements = []
+        var lessons = this.state.lessons;
+        for (let item of lessons) {
+            elements.push(
+                <tr style={{ textAlign: "left" }}>
+                    <td>{item.id}</td>
+                    <td>{item.lesson_name}</td>
+                    <td>{item.file_name}</td>
+                    <td><FaPlay className="button-icon" style={{ color: "blueviolet", width: "20px", height: "20px" }} onClick={() => this.onPreviewVideo("https://www.youtube.com/embed/Tn6-PIqc4UM")} /></td>
+                    {isPublic ? <></> :
+                        <td><FaTrash className="button-icon" style={{ color: "red", width: "20px", height: "20px" }} /></td>
+                    }
+                </tr>
+            )
+        }
+        return elements;
+    }
+
+    renderManagedLesson(isPublic) {
+        var { isPreviewMode, selectedVideoUrl } = this.state;
+        console.log(selectedVideoUrl)
+        return <>
+            {isPreviewMode ?
+                <>
+                    <Row>
+                        <Col className="col-4">
+                            <FaArrowLeft className="button-icon" onClick={() => this.onPreviewVideo()} />
+                        </Col>
+                        <Col style={{ textAlign: "left" }}>
+                            <h3>Preview Video</h3>
+                        </Col>
+                    </Row>
+                    {selectedVideoUrl == "" ? <></> :
+                        <div style={{ marginTop: "5%" }}>
+                            <iframe style={{ width: "100%", height: "60vh" }} src={selectedVideoUrl}
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                            {/* <video style={{ width: "100%" }} controls>
+                                <source src={selectedVideoUrl} type="video/mp4" />
+                            </video> */}
+                        </div>
+                    }
+                </>
+                :
+                <>
+                    <div className="table-wrapper-scroll-y my-custom-scrollbar" style={{ maxHeight: "30vh" }}>
+                        <Table responsive="sm">
+                            <thead>
+                                <tr>
+                                    <th><div>ID</div></th>
+                                    <th><div>Name</div></th>
+                                    <th><div>File Name</div></th>
+                                    <th><div>Preview</div></th>
+                                    {isPublic ? <></> :
+                                        <th><div>Delete</div></th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.renderBodyLessonTable(isPublic)}
+                            </tbody>
+                        </Table>
+                    </div>
+                    <br></br>
+                    {isPublic ? <></> :
+                        <div>
+                            <h4><strong>Add New Lesson</strong></h4>
+                            <div style={{ paddingBottom: "2%" }}>
+                                <label for="exampleForm2">Lesson Name</label>
+                                <input type="text" class="form-control" />
+                            </div>
+                            <div style={{ paddingBottom: "2%" }}>
+                                <label for="exampleForm2">Lesson URL</label>
+                                <input type="text" class="form-control" />
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                                </div>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="inputGroupFile01"
+                                        aria-describedby="inputGroupFileAddon01" />
+                                    <label class="custom-file-label" for="inputGroupFile01">Choose video</label>
+                                </div>
+                            </div>
+                            <div style={{ textAlign: "right" }}>
+                                <Button style={{ marginTop: "5%" }} type="button" >Add</Button>
+                            </div>
+                        </div>
+                    }
+                </>
+            }
+        </>
+    }
+
+    renderManagedSlide(isPublic) {
         return <>
             <div className="table-wrapper-scroll-y my-custom-scrollbar" style={{ maxHeight: "30vh" }}>
                 <Table responsive="sm">
@@ -339,7 +465,7 @@ class ManagedCourses extends Component {
                         <tr>
                             <th><div>ID</div></th>
                             <th><div>Name</div></th>
-                            <th><div>IsPreview</div></th>
+                            <th><div>Is preview</div></th>
                             <th><div>Download</div></th>
                             {isPublic ? <></> :
                                 <th><div>Delete</div></th>
