@@ -14,12 +14,36 @@ class ManagedCourses extends Component {
 
         this.state = {
             isShowModalSlide: false,
-            isShowLesson: false,
+            isShowModalLesson: false,
+            isShowModalFeedBack: false,
             isEditingMode: false,
             isPreviewMode: false,
             selectedVideoUrl: "",
             shortDetail: EditorState.createEmpty(),
             detailDes: EditorState.createEmpty(),
+            feedbacks: [
+                {
+                    userName: "Thắng Nguyễn",
+                    course_id: 1,
+                    review: "Khóa học như cứt",
+                    rate: 1,
+                    last_update: "1609329141384"
+                },
+                {
+                    userName: "Thái Võ",
+                    course_id: 1,
+                    review: "Khóa học tốt đẹp",
+                    rate: 5,
+                    last_update: "1609329141384"
+                },
+                {
+                    userName: "Tần Hà",
+                    course_id: 3,
+                    review: "Khóa học như cặc",
+                    rate: 2,
+                    last_update: "1609329141384"
+                }
+            ],
             slides: [
                 {
                     id: 1,
@@ -153,12 +177,17 @@ class ManagedCourses extends Component {
     }
 
     onShowManagedLesson() {
-        var { isShowLesson } = this.state;
-        this.setState({ isShowLesson: !isShowLesson })
+        var { isShowModalLesson } = this.state;
+        this.setState({ isShowModalLesson: !isShowModalLesson })
+    }
+
+    onShowViewFeedBack() {
+        var { isShowModalFeedBack } = this.state;
+        this.setState({ isShowModalFeedBack: !isShowModalFeedBack })
     }
 
     onShowCoursesDetail() {
-        var { isEditingMode, selected_course, isShowModalSlide, isShowLesson } = this.state;
+        var { isEditingMode, selected_course, isShowModalSlide, isShowModalLesson, isShowModalFeedBack } = this.state;
         var className = "md-2 ";
         var isPublic = false;
         if (selected_course != null) {
@@ -171,10 +200,15 @@ class ManagedCourses extends Component {
                 onHide={() => this.onShowOrCloseModalSlide()}
                 body={this.renderManagedSlide(isPublic)}
                 size="lg" />
-            <EsolModal isShow={isShowLesson}
+            <EsolModal isShow={isShowModalLesson}
                 title="Managed Lesson"
                 onHide={() => this.onShowManagedLesson()}
                 body={this.renderManagedLesson(isPublic)}
+                size="lg" />
+            <EsolModal isShow={isShowModalFeedBack}
+                title="View Feedback"
+                onHide={() => this.onShowViewFeedBack()}
+                body={this.renderViewFeedBack(isPublic)}
                 size="lg" />
             {selected_course == null ?
                 <div style={{ textAlign: "center" }}>
@@ -265,7 +299,7 @@ class ManagedCourses extends Component {
                                         </Row>
                                         <Button style={{ width: "30%", fontSize: "12px" }} onClick={() => this.onShowOrCloseModalSlide()} variant="primary">View Slide</Button>
                                         <Button style={{ width: "30%", fontSize: "12px" }} onClick={() => this.onShowManagedLesson()} variant="primary">View Lesson</Button>
-                                        <Button style={{ width: "30%", fontSize: "12px" }} variant="primary">View FeedBack</Button>
+                                        <Button style={{ width: "30%", fontSize: "12px" }} onClick={() => this.onShowViewFeedBack()} variant="primary">View FeedBack</Button>
                                     </Col>
                                 </Row>
                             </Card.Body>
@@ -510,6 +544,31 @@ class ManagedCourses extends Component {
                     </div>
                 </div>
             }
+        </>
+    }
+
+    renderViewFeedBack() {
+        var feedbacks = this.state.feedbacks;
+        var elements = []
+        for (let item of feedbacks) {
+            elements.push(
+                <Card style={{ width: '97%', marginBottom: "2%" }}>
+                    <Card.Body>
+                        <Card.Title>{item.userName}</Card.Title>
+                        <Card.Subtitle>
+                            {this.renderStars(item.rate)}
+                        </Card.Subtitle>
+                        <Card.Text>
+                            {item.review}
+                        </Card.Text>
+                    </Card.Body>
+                </Card>
+            )
+        }
+        return <>
+            <div style={{ overflowY: 'scroll', height: '80vh' }}>
+                {elements}
+            </div>
         </>
     }
 }

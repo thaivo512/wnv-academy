@@ -31,7 +31,6 @@ class TeacherHomePage extends Component {
                         <Menu iconShape="square">
                             <MenuItem icon={<FaChartLine />} onClick={() => this.onSelectMenu(0)}>Performance</MenuItem>
                             <MenuItem onClick={() => this.onSelectMenu(1)} icon={<FaBook />}> Courses</MenuItem>
-                            <MenuItem onClick={() => this.onSelectMenu(2)} icon={<FaComment />}> Comunication</MenuItem>
                         </Menu>
                     </SidebarContent>
                     <SidebarFooter className="sidebar-footer-cus">
