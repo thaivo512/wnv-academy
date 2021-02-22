@@ -1,14 +1,14 @@
 .form-wrap-input {
-    width: 100%;
+    width: 70%;
 }
 
 .custom-input {
-    width: 90% !important;
-    border-radius: 15px;
+    width: 80% !important;
+    border-radius: 15px !important;
 }
 
 .custom-radius {
-    border-radius: 15px;
+    border-radius: 15px !important;;
 }
 
 .nav-mr-right {
@@ -19,13 +19,14 @@
     width: 30%;
 
     button {
-        width: 100px;
+        width: 150px;
     }
 }
 
 .icon-shopping-cart {
     height: 35px;
     width: 35px;
+    margin-top: 25% !important;
 }
 
 .nav-icon-mr-right {

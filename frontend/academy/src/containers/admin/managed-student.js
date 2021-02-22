@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import '../../assets/admin.scss';
-import { Row, Col, Form, Button, InputGroup, FormControl } from 'react-bootstrap';
+import { Row, Col, Form, Button } from 'react-bootstrap';
 import { MDBDataTableV5 } from 'mdbreact';
 import EsolModal from '../../components/modal';
-import { FaTrashAlt, FaPlus, FaEdit } from 'react-icons/fa';
+import { FaTrashAlt, FaEdit } from 'react-icons/fa';
 import { connect } from 'react-redux';
 import { requestApiGetAllUser } from './redux/action';
 

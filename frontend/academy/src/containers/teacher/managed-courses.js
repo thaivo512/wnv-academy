@@ -6,13 +6,18 @@ import { Editor } from "react-draft-wysiwyg";
 import EsolModal from '../../components/modal';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
+import { connect } from 'react-redux';
+import {
+    requestApiGetAllCourses, requestApiGetAllSlides,
+    requestApiGetAllLessons, requestApiGetAllFeedbacks
+} from './redux/action';
 
 class ManagedCourses extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            isGetCourses: true,
             isShowModalSlide: false,
             isShowModalLesson: false,
             isShowModalFeedBack: false,
@@ -21,82 +26,20 @@ class ManagedCourses extends Component {
             selectedVideoUrl: "",
             shortDetail: EditorState.createEmpty(),
             detailDes: EditorState.createEmpty(),
-            feedbacks: [
-                {
-                    userName: "Thắng Nguyễn",
-                    course_id: 1,
-                    review: "Khóa học như cứt",
-                    rate: 1,
-                    last_update: "1609329141384"
-                },
-                {
-                    userName: "Thái Võ",
-                    course_id: 1,
-                    review: "Khóa học tốt đẹp",
-                    rate: 5,
-                    last_update: "1609329141384"
-                },
-                {
-                    userName: "Tần Hà",
-                    course_id: 3,
-                    review: "Khóa học như cặc",
-                    rate: 2,
-                    last_update: "1609329141384"
-                }
-            ],
-            slides: [
-                {
-                    id: 1,
-                    slide_name: "slide 1",
-                    file_url: "abcd.com",
-                    is_allow_preview: "false",
-                    course_id: 3
-                }
-            ],
-            lessons: [
-                {
-                    id: 1,
-                    lesson_name: "Lesson 1",
-                    file_name: "asdasdasdasd",
-                    file_url: "asdasda1231321sdasd.com",
-                    course_id: 2
-                }
-            ],
-            selected_course: null,
-            courses: [
-                {
-                    id: 1,
-                    name: "name",
-                    image_avatar: "https://www.inovex.de/blog/wp-content/uploads/2022/01/one-year-of-react-native.png",
-                    short_description: "asdasdas",
-                    detail_description: "asdasdas",
-                    price: 12312321,
-                    price_promote: 2323,
-                    status: "PUBLIC",
-                    view_count: 3,
-                    search_term: "asdas",
-                    total_erol: 1,
-                    total_feedback: 1,
-                    avg_feedback: 4,
-                    type: "Lập trình web"
-                },
-                {
-                    id: 2,
-                    name: "naasdasdasddasme",
-                    image_avatar: "https://www.cloudsavvyit.com/thumbcache/0/0/9ae57549b0d5ea676000cc68d140330d/p/uploads/2020/03/9c80fe24.png",
-                    short_description: "asdasdas",
-                    detail_description: "asdasdas",
-                    price: 12312321,
-                    price_promote: 2323,
-                    status: "PROCESS",
-                    view_count: 3,
-                    search_term: "asdas",
-                    total_erol: 1,
-                    total_feedback: 1,
-                    avg_feedback: 3,
-                    type: "Lập trình web",
-                }
-            ]
+            feedbacks: [],
+            selected_course: {},
+            courses: []
+        }
+    }
+
+    componentDidMount() {
+        this.props.requestApiGetAllCourses();
+    }
+
+    componentDidUpdate() {
+        var { isGetCourses } = this.state;
+        if (isGetCourses) {
+            this.setState({ courses: this.props.allCourses, isGetCourses: false })
         }
     }
 
@@ -140,6 +83,9 @@ class ManagedCourses extends Component {
     }
 
     onSelectedCourse(course) {
+        this.props.requestApiGetAllSlides(course.id);
+        this.props.requestApiGetAllLessons(course.id);
+        this.props.requestApiGetAllFeedbacks(course.id);
         this.setState({
             selected_course: course,
             shortDetail: EditorState.createWithContent(ContentState.createFromText(course.short_description)),
@@ -371,14 +317,14 @@ class ManagedCourses extends Component {
 
     renderBodyTable(isPublic) {
         var elements = []
-        var slides = this.state.slides;
+        var slides = this.props.allSlides && this.props.allSlides.length > 0 ? this.props.allSlides : [];
         for (let item of slides) {
             elements.push(
                 <tr style={{ textAlign: "left" }}>
                     <td>{item.id}</td>
                     <td>{item.slide_name}</td>
-                    <td>{item.is_allow_preview}</td>
-                    <td>{item.file_url}</td>
+                    <td>{item.is_allow_preview ? "True" : "False"}</td>
+                    <td><a href="#">{item.file_url}</a></td>
                     {isPublic ? <></> :
                         <td><FaTrash className="button-icon" style={{ color: "red", width: "20px", height: "20px" }} /></td>
                     }
@@ -395,14 +341,14 @@ class ManagedCourses extends Component {
 
     renderBodyLessonTable(isPublic) {
         var elements = []
-        var lessons = this.state.lessons;
+        var lessons = this.props.allLessons && this.props.allLessons.length > 0 ? this.props.allLessons : [];
         for (let item of lessons) {
             elements.push(
                 <tr style={{ textAlign: "left" }}>
                     <td>{item.id}</td>
                     <td>{item.lesson_name}</td>
                     <td>{item.file_name}</td>
-                    <td><FaPlay className="button-icon" style={{ color: "blueviolet", width: "20px", height: "20px" }} onClick={() => this.onPreviewVideo("https://www.youtube.com/embed/Tn6-PIqc4UM")} /></td>
+                    <td><FaPlay className="button-icon" style={{ color: "blueviolet", width: "20px", height: "20px" }} onClick={() => this.onPreviewVideo(item.file_url)} /></td>
                     {isPublic ? <></> :
                         <td><FaTrash className="button-icon" style={{ color: "red", width: "20px", height: "20px" }} /></td>
                     }
@@ -414,7 +360,6 @@ class ManagedCourses extends Component {
 
     renderManagedLesson(isPublic) {
         var { isPreviewMode, selectedVideoUrl } = this.state;
-        console.log(selectedVideoUrl)
         return <>
             {isPreviewMode ?
                 <>
@@ -548,13 +493,13 @@ class ManagedCourses extends Component {
     }
 
     renderViewFeedBack() {
-        var feedbacks = this.state.feedbacks;
+        var feedbacks = this.props.allFeedbacks && this.props.allFeedbacks.length > 0 ? this.props.allFeedbacks : [];
         var elements = []
         for (let item of feedbacks) {
             elements.push(
                 <Card style={{ width: '97%', marginBottom: "2%" }}>
                     <Card.Body>
-                        <Card.Title>{item.userName}</Card.Title>
+                        <Card.Title>{item.user.name}</Card.Title>
                         <Card.Subtitle>
                             {this.renderStars(item.rate)}
                         </Card.Subtitle>
@@ -573,4 +518,21 @@ class ManagedCourses extends Component {
     }
 }
 
-export default ManagedCourses;
+const mapDispatchToProps = dispatch => {
+    return {
+        requestApiGetAllCourses: () => dispatch(requestApiGetAllCourses()),
+        requestApiGetAllSlides: (id) => dispatch(requestApiGetAllSlides(id)),
+        requestApiGetAllLessons: (id) => dispatch(requestApiGetAllLessons(id)),
+        requestApiGetAllFeedbacks: (id) => dispatch(requestApiGetAllFeedbacks(id)),
+    };
+}
+
+const mapStateToProps = state => ({
+    allCourses: state.requestGetAllCoursesReducer,
+    allSlides: state.requestGetAllSlidesReducer,
+    allLessons: state.requestGetAllLessonsReducer,
+    allFeedbacks: state.requestGetAllFeedbacksReducer
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ManagedCourses)
+

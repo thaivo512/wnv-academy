@@ -1,12 +1,22 @@
 
 import { combineReducers } from "redux";
-import { registerReducer, loginReducer, requestOPTReducer, verifyEmailReducer, loginGoogleReducer } from "../authenicate/redux/reducer";
+import {
+    registerReducer, loginReducer,
+    requestOPTReducer, verifyEmailReducer,
+    loginGoogleReducer
+} from "../authenicate/redux/reducer";
 import { requestGetAllUsersReducer, requestDeleteUserReducer } from '../containers/admin/redux/reducer';
+import {
+    requestGetAllCoursesReducer, requestGetAllSlidesReducer,
+    requestGetAllLessonsReducer, requestGetAllFeedbacksReducer
+} from '../containers/teacher/redux/reducer';
 
 const rootReducer = combineReducers({
     registerReducer, loginReducer, requestOPTReducer,
     verifyEmailReducer, loginGoogleReducer, requestGetAllUsersReducer,
-    requestDeleteUserReducer
+    requestDeleteUserReducer, requestGetAllCoursesReducer,
+    requestGetAllSlidesReducer, requestGetAllLessonsReducer,
+    requestGetAllFeedbacksReducer
 })
 
 export default rootReducer;

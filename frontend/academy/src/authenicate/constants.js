@@ -5,4 +5,4 @@ export const POSITION = {
     NONE: "NONE",
 };
 
-export const API_URL = "https://wnc-academy.herokuapp.com/api/";
+export const API_URL = "http://localhost:5000/api/";
