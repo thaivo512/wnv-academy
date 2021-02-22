@@ -94,6 +94,39 @@ $sidebar-bg-color: #1d1d1d;
 
     button {
         margin-right: 1%;
-        width: 12%;
+
     }
+}
+
+.button-icon:hover {
+    cursor: pointer;
+}
+
+.checked {
+    color: orange;
+}
+
+.sldie-modal {
+    table {
+        margin-top: 20px;
+        display: inline-block;
+        overflow: auto;
+    }
+
+    th {
+        background-color: white;
+    }
+
+    th div {
+        margin-top: -20px;
+        position: absolute;
+    }
+}
+
+.PUBLIC {
+    color: green;
+}
+
+.PROCESS {
+    color: goldenrod;
 }
