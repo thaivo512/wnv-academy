@@ -3,6 +3,7 @@ import '../../assets/homepage.scss';
 import { Col, Row, Card, Button, Carousel } from 'react-bootstrap';
 import { FaYoutube, FaMedal, FaHeartbeat, FaClock, FaUserAlt, FaSearch } from 'react-icons/fa';
 import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
+import NavBarComponent from '../../components/nav-bar';
 
 class HomePage extends Component {
     constructor(props) {
@@ -12,6 +13,7 @@ class HomePage extends Component {
     render() {
         return (
             <>
+                <NavBarComponent />
                 <div className="home-page-container">
                     <div className="banner-advertisement ">
                         <div className="img-banner"></div>
