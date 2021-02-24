@@ -22,7 +22,7 @@ class RouterConfig extends Component {
 
     render() {
         var { is_success, access_token } = this.state;
-        var teacherInfo = {};
+        var teacherInfo = { role: "" };
         if (is_success) {
             teacherInfo = JSON.parse(atob(access_token.split(".")[1]));
         }
@@ -42,16 +42,13 @@ class RouterConfig extends Component {
 
     autoRedirect(is_success, role) {
         var currentURL = window.location.href;
+        var position = role.toLowerCase() + "-home-page";
         if (!is_success) {
-            if (!this.isContains(currentURL, 'login') ||
-                !this.isContains(currentURL, 'verify') ||
-                !this.isContains(currentURL, 'register') ||
-                !this.isContains(currentURL, 'home-page')) {
+            if (this.isContains(currentURL, position)) {
                 return <Redirect to="/login" />
             }
         }
         else {
-            var position = role.toLowerCase() + "-home-page";
             if (!this.isContains(currentURL, position))
                 return <Redirect to="/home-page" />
         }
