@@ -21,3 +21,15 @@ export const RECEIVE_API_GET_ALL_FEEDBACKS = "RECEIVE_API_GET_ALL_FEEDBACKS";
 
 export const requestApiGetAllFeedbacks = (id) => ({ type: REQUEST_API_GET_ALL_FEEDBACKS, id });
 export const receiveApiGetAllFeedbacks = feedbacks => ({ type: RECEIVE_API_GET_ALL_FEEDBACKS, feedbacks });
+
+export const REQUEST_API_GET_ALL_CATEGORIES = "REQUEST_API_GET_ALL_CATEGORIES";
+export const RECEIVE_API_GET_ALL_CATEGORIES = "RECEIVE_API_GET_ALL_CATEGORIES";
+
+export const requestApiGetAllCategories = () => ({ type: REQUEST_API_GET_ALL_CATEGORIES });
+export const receiveApiGetAllCategories = categories => ({ type: RECEIVE_API_GET_ALL_CATEGORIES, categories });
+
+export const REQUEST_API_POST_ADD_COURSE = "REQUEST_API_POST_ADD_COURSE";
+export const RECEIVE_API_POST_ADD_COURSE = "RECEIVE_API_POST_ADD_COURSE";
+
+export const requestApiPostAddCourse = (course) => ({ type: REQUEST_API_POST_ADD_COURSE, course });
+export const receiveApiPostAddCourse = result => ({ type: RECEIVE_API_POST_ADD_COURSE, result });

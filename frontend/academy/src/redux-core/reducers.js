@@ -8,7 +8,8 @@ import {
 import { requestGetAllUsersReducer, requestDeleteUserReducer } from '../containers/admin/redux/reducer';
 import {
     requestGetAllCoursesReducer, requestGetAllSlidesReducer,
-    requestGetAllLessonsReducer, requestGetAllFeedbacksReducer
+    requestGetAllLessonsReducer, requestGetAllFeedbacksReducer,
+    requestGetAllCategoriesReducer
 } from '../containers/teacher/redux/reducer';
 
 const rootReducer = combineReducers({
@@ -16,7 +17,7 @@ const rootReducer = combineReducers({
     verifyEmailReducer, loginGoogleReducer, requestGetAllUsersReducer,
     requestDeleteUserReducer, requestGetAllCoursesReducer,
     requestGetAllSlidesReducer, requestGetAllLessonsReducer,
-    requestGetAllFeedbacksReducer
+    requestGetAllFeedbacksReducer, requestGetAllCategoriesReducer
 })
 
 export default rootReducer;

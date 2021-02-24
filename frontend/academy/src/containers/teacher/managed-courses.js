@@ -9,7 +9,8 @@ import draftToHtml from 'draftjs-to-html';
 import { connect } from 'react-redux';
 import {
     requestApiGetAllCourses, requestApiGetAllSlides,
-    requestApiGetAllLessons, requestApiGetAllFeedbacks
+    requestApiGetAllLessons, requestApiGetAllFeedbacks,
+    requestApiGetAllCategories
 } from './redux/action';
 import AddNewCourse from './add-new-course';
 
@@ -36,6 +37,7 @@ class ManagedCourses extends Component {
 
     componentDidMount() {
         this.props.requestApiGetAllCourses();
+        this.props.requestApiGetAllCategories();
     }
 
     componentDidUpdate() {
@@ -567,6 +569,7 @@ class ManagedCourses extends Component {
 const mapDispatchToProps = dispatch => {
     return {
         requestApiGetAllCourses: () => dispatch(requestApiGetAllCourses()),
+        requestApiGetAllCategories: () => dispatch(requestApiGetAllCategories()),
         requestApiGetAllSlides: (id) => dispatch(requestApiGetAllSlides(id)),
         requestApiGetAllLessons: (id) => dispatch(requestApiGetAllLessons(id)),
         requestApiGetAllFeedbacks: (id) => dispatch(requestApiGetAllFeedbacks(id)),
@@ -577,7 +580,8 @@ const mapStateToProps = state => ({
     allCourses: state.requestGetAllCoursesReducer,
     allSlides: state.requestGetAllSlidesReducer,
     allLessons: state.requestGetAllLessonsReducer,
-    allFeedbacks: state.requestGetAllFeedbacksReducer
+    allFeedbacks: state.requestGetAllFeedbacksReducer,
+    allCategories: state.requestGetAllCategoriesReducer
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManagedCourses)

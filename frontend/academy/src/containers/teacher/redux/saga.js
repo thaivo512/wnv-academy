@@ -3,12 +3,15 @@ import {
     REQUEST_API_GET_ALL_COURSES, receiveApiGetAllCourses,
     REQUEST_API_GET_ALL_SLIDES, receiveApiGetAllSlides,
     REQUEST_API_GET_ALL_LESSONS, receiveApiGetAllLessons,
-    REQUEST_API_GET_ALL_FEEDBACKS, receiveApiGetAllFeedbacks
+    REQUEST_API_GET_ALL_FEEDBACKS, receiveApiGetAllFeedbacks,
+    REQUEST_API_GET_ALL_CATEGORIES, receiveApiGetAllCategories,
+    REQUEST_API_POST_ADD_COURSE, receiveApiPostAddCourse
 
 } from './action';
 import {
     requestGetAllCourses, requestGetSlidesByCourseID,
-    requestGetLessonsByCourseID, requestGetFeedbacksByCourseID
+    requestGetLessonsByCourseID, requestGetFeedbacksByCourseID,
+    requestGetAllCategories, requestPostAddCourse
 } from './api';
 
 function* getAllCoursesSaga() {
@@ -47,10 +50,20 @@ function* getAllFeedbacksSaga(id) {
     }
 }
 
+function* getAllCategories() {
+    try {
+        const data = yield call(requestGetAllCategories);
+        yield put(receiveApiGetAllCategories(data));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 
 export default function* courseSaga() {
     yield takeLatest(REQUEST_API_GET_ALL_COURSES, getAllCoursesSaga);
     yield takeLatest(REQUEST_API_GET_ALL_SLIDES, getAllSlidesSaga);
     yield takeLatest(REQUEST_API_GET_ALL_LESSONS, getAllLessonsSaga);
     yield takeLatest(REQUEST_API_GET_ALL_FEEDBACKS, getAllFeedbacksSaga);
+    yield takeLatest(REQUEST_API_GET_ALL_CATEGORIES, getAllCategories);
 }

@@ -1,6 +1,7 @@
 import {
     RECEIVE_API_GET_ALL_COURSES, RECEIVE_API_GET_ALL_SLIDES,
-    RECEIVE_API_GET_ALL_LESSONS, RECEIVE_API_GET_ALL_FEEDBACKS
+    RECEIVE_API_GET_ALL_LESSONS, RECEIVE_API_GET_ALL_FEEDBACKS,
+    RECEIVE_API_GET_ALL_CATEGORIES
 } from './action';
 
 export const requestGetAllCoursesReducer = (state = {}, { type, courses }) => {
@@ -38,3 +39,13 @@ export const requestGetAllFeedbacksReducer = (state = {}, { type, feedbacks }) =
             return state;
     }
 }
+
+export const requestGetAllCategoriesReducer = (state = {}, { type, categories }) => {
+    switch (type) {
+        case RECEIVE_API_GET_ALL_CATEGORIES:
+            return [...categories];
+        default:
+            return state;
+    }
+}
+

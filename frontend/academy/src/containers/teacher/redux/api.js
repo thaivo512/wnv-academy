@@ -77,3 +77,50 @@ export const requestGetFeedbacksByCourseID = async (payload) => {
     }
 }
 
+export const requestGetAllCategories = async () => {
+    const requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem('access_token')
+        },
+        method: 'GET',
+    };
+    try {
+        const response = await fetch(API_URL + 'category', requestOptions);
+        var result = await response.json();
+        if (result == null) return;
+        return result;
+    } catch (e) {
+        toast.error(e);
+        return { isFail: true };
+    }
+}
+
+export const requestPostAddCourse = async (payload) => {
+    const requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem('access_token'),
+            body: JSON.stringify({
+                name: payload.courseName,
+                image_avatar: payload.avatar,
+                short_description: payload.shortDetail,
+                detail_description: payload.detail,
+                price: payload.price,
+                category_id: payload.category
+
+            })
+        },
+        method: 'POST',
+    };
+    try {
+        const response = await fetch(API_URL + 'course', requestOptions);
+        var result = await response.json();
+        if (result == null) return;
+        return result;
+    } catch (e) {
+        toast.error(e);
+        return { isFail: true };
+    }
+}
+
