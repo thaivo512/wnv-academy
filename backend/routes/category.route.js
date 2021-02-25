@@ -106,11 +106,12 @@ router.get('/', async(req, res) => {
     res.json(categories)
 })
 
-router.get('/topEnrollWeek', async(req, res) => {
+router.get('/agg/topEnrollWeek', async(req, res) => {
 
     const categories = await categoryModel.topEnrolWeek();
-
-    res.json(categories)
+    if(categories && categories.length < 5) 
+        return res.json(categories)
+    return res.json(categories.slice(0, 5))
 })
 
 module.exports = router;

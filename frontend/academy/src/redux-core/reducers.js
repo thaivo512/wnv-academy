@@ -11,13 +11,18 @@ import {
     requestGetAllLessonsReducer, requestGetAllFeedbacksReducer,
     requestGetAllCategoriesReducer
 } from '../containers/teacher/redux/reducer';
+import {
+    requestGetTop10CourseViewReducer,
+    requestGetTop10CourseNewReducer
+} from '../containers/home-page/redux/reducer';
 
 const rootReducer = combineReducers({
     registerReducer, loginReducer, requestOPTReducer,
     verifyEmailReducer, loginGoogleReducer, requestGetAllUsersReducer,
     requestDeleteUserReducer, requestGetAllCoursesReducer,
     requestGetAllSlidesReducer, requestGetAllLessonsReducer,
-    requestGetAllFeedbacksReducer, requestGetAllCategoriesReducer
+    requestGetAllFeedbacksReducer, requestGetAllCategoriesReducer,
+    requestGetTop10CourseViewReducer, requestGetTop10CourseNewReducer
 })
 
 export default rootReducer;
