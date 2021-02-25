@@ -38,6 +38,11 @@ class HomePage extends Component {
                     {this.renderThreeOutstandingCourses()}
                     <div className="border-bottom row-margin-top"></div>
                     <div className="row-margin-top" style={{ textAlign: "center" }}>
+                        <h4>Top 10 categories</h4>
+                    </div>
+                    {this.renderTopCategories()}
+                    <div className="border-bottom row-margin-top"></div>
+                    <div className="row-margin-top" style={{ textAlign: "center" }}>
                         <h4>Top 10 most viewed courses</h4>
                     </div>
                     {this.genderTabCourses()}
@@ -88,6 +93,51 @@ class HomePage extends Component {
                 </div>
             </MDBFooter>
         </div>
+    }
+
+    renderTopCategories() {
+        return <div className="row-margin-top" style={{ backgroundColor: "#17a2b8", width: "195%", marginLeft: "-47%" }}>
+            <Carousel>
+                <Carousel.Item>
+                    <div className="d-flex flex-wrap" style={{ justifyContent: "center" }}>
+                        <div class="p-2">
+                            <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
+                                <Card.Img variant="top" src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur" />
+                                <Card.Body>
+                                    <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
+                                    <Card.Text>
+                                        <div style={{ fontSize: "12px" }}>Teacher Name</div>
+                                        <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
+                                        <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
+                                            <strong>Best Seller</strong>
+                                        </div>
+                                    </Card.Text>
+                                </Card.Body>
+                            </Card>
+                        </div>
+                    </div>
+                </Carousel.Item>
+                <Carousel.Item>
+                    <div className="d-flex flex-wrap" style={{ justifyContent: "center" }}>
+                        <div class="p-2">
+                            <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
+                                <Card.Img variant="top" src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur" />
+                                <Card.Body>
+                                    <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
+                                    <Card.Text>
+                                        <div style={{ fontSize: "12px" }}>Teacher Name</div>
+                                        <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
+                                        <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
+                                            <strong>Best Seller</strong>
+                                        </div>
+                                    </Card.Text>
+                                </Card.Body>
+                            </Card>
+                        </div>
+                    </div>
+                </Carousel.Item>
+            </Carousel>
+        </div >
     }
 
     renderThreeOutstandingCourses() {
