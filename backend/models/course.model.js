@@ -79,11 +79,11 @@ module.exports = {
     },
 
 
-    async top4enroll() {
+    async top3enrollweek() {
         return await db('course_view')
             .where('status', courseStatus.PUBLIC)
-            .orderBy('total_enrol', 'desc')
-            .limit(4);
+            .orderBy('week_enrol', 'desc')
+            .limit(3);
 
     },
 

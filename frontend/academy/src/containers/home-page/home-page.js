@@ -5,9 +5,13 @@ import { FaYoutube, FaMedal, FaHeartbeat, FaClock, FaUserAlt, FaSearch } from 'r
 import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
 import NavBarComponent from '../../components/nav-bar';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom'
+
 import {
     requestApiGetTop10CourseView, 
-    requestApiGetTop10CourseNew
+    requestApiGetTop10CourseNew,
+    requestApiGetTopCategoryWeek,
+    requestApiGetTopCourseWeek
 } from './redux/action';
 
 class HomePage extends Component {
@@ -17,23 +21,29 @@ class HomePage extends Component {
         this.state = {
             isGetTop10CourseView: true,
             isGetTop10CourseNew: true,
+            isGetTopCategoryWeek: true,
+            isGetTopCourseWeek: true,
             top10CourseView: [],
-            top10CourseNew: []
+            top10CourseNew: [],
+            topCategoryWeek: [],
+            topCourseWeek: []
         }
     }
 
     componentDidMount() {
         this.props.requestApiGetTop10CourseView();
         this.props.requestApiGetTop10CourseNew();
+        this.props.requestApiGetTopCategoryWeek();
+        this.props.requestApiGetTopCourseWeek();
     }
 
     componentDidUpdate() {
         var { isGetTop10CourseView } = this.state;
         if (isGetTop10CourseView && Array.isArray(this.props.top10CourseView)) {
-            console.log('View', this.props.top10CourseView)
+
             this.setState(
                 {
-                    top10CourseView: [...this.props.top10CourseView,1,1,1,1,1,1],
+                    top10CourseView: this.props.top10CourseView,
                     isGetTop10CourseView: false,
                 }
             )
@@ -43,8 +53,28 @@ class HomePage extends Component {
         if (isGetTop10CourseNew && Array.isArray(this.props.top10CourseNew)) {
             this.setState(
                 {
-                    top10CourseNew: [...this.props.top10CourseNew,1,1,1,1,1,1],
+                    top10CourseNew: this.props.top10CourseNew,
                     isGetTop10CourseNew: false,
+                }
+            )
+        }
+
+        var { isGetTopCategoryWeek } = this.state;
+        if (isGetTopCategoryWeek && Array.isArray(this.props.topCategoryWeek)) {
+            this.setState(
+                {
+                    topCategoryWeek: this.props.topCategoryWeek,
+                    isGetTopCategoryWeek: false,
+                }
+            )
+        }
+
+        var { isGetTopCourseWeek } = this.state;
+        if (isGetTopCourseWeek && Array.isArray(this.props.topCourseWeek)) {
+            this.setState(
+                {
+                    topCourseWeek: this.props.topCourseWeek,
+                    isGetTopCourseWeek: false,
                 }
             )
         }
@@ -91,7 +121,7 @@ class HomePage extends Component {
                     {this.renderThreeOutstandingCourses()}
                     <div className="border-bottom row-margin-top"></div>
                     <div className="row-margin-top" style={{ textAlign: "center" }}>
-                        <h4>Top 10 categories</h4>
+                        <h4>Top categories enroll last week</h4>
                     </div>
                     {this.renderTopCategories()}
                     <div className="border-bottom row-margin-top"></div>
@@ -151,95 +181,50 @@ class HomePage extends Component {
     renderTopCategories() {
         return <div className="row-margin-top" style={{ backgroundColor: "#17a2b8", width: "195%", marginLeft: "-47%" }}>
             <Carousel>
-                <Carousel.Item>
-                    <div className="d-flex flex-wrap" style={{ justifyContent: "center" }}>
-                        <div class="p-2">
-                            <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
-                                <Card.Img variant="top" src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur" />
-                                <Card.Body>
-                                    <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
-                                    <Card.Text>
-                                        <div style={{ fontSize: "12px" }}>Teacher Name</div>
-                                        <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
-                                        <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
-                                            <strong>Best Seller</strong>
-                                        </div>
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
+            { this.chunk(this.state.topCategoryWeek, 4).map((items) =>
+                    <Carousel.Item>
+                        <div className="d-flex flex-wrap" style={{ justifyContent: "center" }}>
+                            { items.map((item) =>
+                                <div class="p-2">
+                                    <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
+                                        <Card.Body>
+                                            <Card.Text>
+                                                <Link to={`/search?category=${item.id}`}>
+                                                    <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
+                                                        <strong>{item.name}</strong>
+                                                    </div>
+                                                </Link>
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                </div>
+                            )}
                         </div>
-                    </div>
-                </Carousel.Item>
-                <Carousel.Item>
-                    <div className="d-flex flex-wrap" style={{ justifyContent: "center" }}>
-                        <div class="p-2">
-                            <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
-                                <Card.Img variant="top" src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur" />
-                                <Card.Body>
-                                    <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
-                                    <Card.Text>
-                                        <div style={{ fontSize: "12px" }}>Teacher Name</div>
-                                        <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
-                                        <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
-                                            <strong>Best Seller</strong>
-                                        </div>
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </div>
-                    </div>
-                </Carousel.Item>
+                    </Carousel.Item>
+                )}
             </Carousel>
         </div >
     }
 
     renderThreeOutstandingCourses() {
         return <div className="d-flex flex-wrap" style={{ justifyContent: "center" }}>
-            <div class="p-2">
-                <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
-                    <Card.Img variant="top" src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur" />
-                    <Card.Body>
-                        <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
-                        <Card.Text>
-                            <div style={{ fontSize: "12px" }}>Teacher Name</div>
-                            <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
-                            <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
-                                <strong>Best Seller</strong>
-                            </div>
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            </div>
-            <div class="p-2">
-                <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
-                    <Card.Img variant="top" src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur" />
-                    <Card.Body>
-                        <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
-                        <Card.Text>
-                            <div style={{ fontSize: "12px" }}>Teacher Name</div>
-                            <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
-                            <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
-                                <strong>Best Seller</strong>
-                            </div>
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            </div>
-            <div class="p-2">
-                <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
-                    <Card.Img variant="top" src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur" />
-                    <Card.Body>
-                        <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
-                        <Card.Text>
-                            <div style={{ fontSize: "12px" }}>Teacher Name</div>
-                            <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
-                            <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
-                                <strong>Best Seller</strong>
-                            </div>
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            </div>
+            { this.state.topCourseWeek.map(item => 
+                <Link class="p-2" to={`/details?id=${item.id}` }>
+                    <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
+                        <Card.Img variant="top" src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur" />
+                        <Card.Body>
+                            <Card.Title>{item.name}</Card.Title>
+                            <Card.Text>
+                                <div style={{ fontSize: "12px" }}>{item.teacher.name}</div>
+                                <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>{item.price} VND</div>
+                                <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
+                                    <strong>Best Seller</strong>
+                                </div>
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
+                </Link>    
+            ) }    
         </div>
     }
 
@@ -250,21 +235,21 @@ class HomePage extends Component {
                     <Carousel.Item>
                         <div className="d-flex flex-wrap" style={{ justifyContent: "center" }}>
                             { items.map((item) =>
-                                <div class="p-2">
+                                <Link class="p-2" to={`/details?id=${item.id}` }>
                                     <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
                                         <Card.Img variant="top" src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur" />
                                         <Card.Body>
-                                            <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
+                                            <Card.Title>{ item.name }</Card.Title>
                                             <Card.Text>
-                                                <div style={{ fontSize: "12px" }}>Teacher Name</div>
-                                                <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
+                                                <div style={{ fontSize: "12px" }}>{ item.teacher.name }</div>
+                                                <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>{item.price} VND</div>
                                                 <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
                                                     <strong>Top View</strong>
                                                 </div>
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
-                                </div>
+                                </Link>
                             )}
                         </div>
                     </Carousel.Item>
@@ -280,21 +265,21 @@ class HomePage extends Component {
                     <Carousel.Item>
                         <div className="d-flex flex-wrap" style={{ justifyContent: "center" }}>
                             { items.map((item) =>
-                                <div class="p-2">
+                                <Link class="p-2" to={`/details?id=${item.id}` }>
                                     <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
                                         <Card.Img variant="top" src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur" />
                                         <Card.Body>
-                                            <Card.Title>2021 Complete Python Bootcamp From Zero to Hero in Python</Card.Title>
+                                            <Card.Title>{item.name}</Card.Title>
                                             <Card.Text>
-                                                <div style={{ fontSize: "12px" }}>Teacher Name</div>
-                                                <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>$11.99</div>
+                                                <div style={{ fontSize: "12px" }}>{item.teacher.name}</div>
+                                                <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>{item.price.toLocaleString()} VND</div>
                                                 <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
                                                     <strong>Newest</strong>
                                                 </div>
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
-                                </div>
+                                </Link>
                             )}
                         </div>
                     </Carousel.Item>
@@ -309,13 +294,17 @@ class HomePage extends Component {
 const mapDispatchToProps = dispatch => {
     return {
         requestApiGetTop10CourseView: () => dispatch(requestApiGetTop10CourseView()),
-        requestApiGetTop10CourseNew: () => dispatch(requestApiGetTop10CourseNew())
+        requestApiGetTop10CourseNew: () => dispatch(requestApiGetTop10CourseNew()),
+        requestApiGetTopCategoryWeek: () => dispatch(requestApiGetTopCategoryWeek()),
+        requestApiGetTopCourseWeek: () => dispatch(requestApiGetTopCourseWeek()),
     };
 }
 
 const mapStateToProps = state => ({
     top10CourseView: state.requestGetTop10CourseViewReducer,
-    top10CourseNew: state.requestGetTop10CourseNewReducer
+    top10CourseNew: state.requestGetTop10CourseNewReducer,
+    topCategoryWeek: state.requestGetTopCategoryWeekReducer,
+    topCourseWeek: state.requestGetTopCourseWeekReducer
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage)

@@ -13,7 +13,9 @@ import {
 } from '../containers/teacher/redux/reducer';
 import {
     requestGetTop10CourseViewReducer,
-    requestGetTop10CourseNewReducer
+    requestGetTop10CourseNewReducer,
+    requestGetTopCategoryWeekReducer,
+    requestGetTopCourseWeekReducer
 } from '../containers/home-page/redux/reducer';
 
 const rootReducer = combineReducers({
@@ -22,7 +24,8 @@ const rootReducer = combineReducers({
     requestDeleteUserReducer, requestGetAllCoursesReducer,
     requestGetAllSlidesReducer, requestGetAllLessonsReducer,
     requestGetAllFeedbacksReducer, requestGetAllCategoriesReducer,
-    requestGetTop10CourseViewReducer, requestGetTop10CourseNewReducer
+    requestGetTop10CourseViewReducer, requestGetTop10CourseNewReducer,
+    requestGetTopCategoryWeekReducer, requestGetTopCourseWeekReducer
 })
 
 export default rootReducer;

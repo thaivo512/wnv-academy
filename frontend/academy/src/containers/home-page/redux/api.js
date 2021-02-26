@@ -37,3 +37,42 @@ export const requestGetTop10CourseNew = async () => {
         return { isFail: true };
     }
 }
+
+
+export const requestGetTopCategoryWeek = async () => {
+    const requestOptions = {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET',
+    };
+    try {
+        const response = await fetch(API_URL + 'category/agg/topEnrollWeek', requestOptions);
+        var categories = await response.json();
+        
+        return categories;
+    } catch (e) {
+        toast.error(e);
+        return { isFail: true };
+    }
+}
+
+
+export const requestGetTopCourseWeek = async () => {
+    const requestOptions = {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET',
+    };
+    try {
+        const response = await fetch(API_URL + 'course-search/top3enrollweek', requestOptions);
+        var courses = await response.json();
+        
+        if (courses == null) return;
+        return courses.data;
+    } catch (e) {
+        toast.error(e);
+        return { isFail: true };
+    }
+}

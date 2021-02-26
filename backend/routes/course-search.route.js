@@ -9,8 +9,8 @@ const router = express.Router();
  
 
 // COURSE SEARCH
-router.get('/top4enroll', async(req, res) => {
-    const data = await courseModel.top4enroll();
+router.get('/top3enrollweek', async(req, res) => {
+    const data = await courseModel.top3enrollweek();
 
     res.json({
         is_success: true,
