@@ -4,7 +4,7 @@ const auth = require('../middlewares/auth.mdw');
 const viTextHelper = require('../utils/viTextHelper'); 
 const enrolModel = require('../models/enrol.model'); 
 const watchlistModel = require('../models/watchlist.model'); 
-
+const token = require('../middlewares/token.mdw');
 const router = express.Router();
  
 
@@ -59,10 +59,9 @@ router.get('/top5enrolSimilar/:courseId', async(req, res) => {
 })
 
 
-router.get('/:courseId', async(req, res) => {
+router.get('/:courseId', token, async(req, res) => {
 
     const courseId = req.params.courseId;
-    const userId = req.accessTokenPayload.id;
 
     const course = await courseModel.singleView(courseId);
     if(course == null) {
@@ -72,8 +71,11 @@ router.get('/:courseId', async(req, res) => {
         })
     }
 
-    course.is_enrolled = await enrolModel.isEnrolled(userId, courseId);
-    course.is_watchlisted = await watchlistModel.exist(userId, courseId);
+    if(req.accessTokenPayload) {
+        const userId = req.accessTokenPayload.id;
+        course.is_enrolled = await enrolModel.isEnrolled(userId, courseId);
+        course.is_watchlisted = await watchlistModel.exist(userId, courseId);
+    }
 
     await courseModel.increaseViewCount(courseId);
 

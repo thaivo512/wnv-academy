@@ -22,6 +22,13 @@ import {
     requestSearchCourseReducer
 } from '../containers/search-page/redux/reducer';
 
+import {
+    requestGetCourseDetailReducer,
+    requestGetCourseSimilarReducer
+} from '../containers/detail-page/redux/reducer';
+
+
+
 const rootReducer = combineReducers({
     registerReducer, loginReducer, requestOPTReducer,
     verifyEmailReducer, loginGoogleReducer, requestGetAllUsersReducer,
@@ -30,7 +37,8 @@ const rootReducer = combineReducers({
     requestGetAllFeedbacksReducer, requestGetAllCategoriesReducer,
     requestGetTop10CourseViewReducer, requestGetTop10CourseNewReducer,
     requestGetTopCategoryWeekReducer, requestGetTopCourseWeekReducer,
-    requestSearchCourseReducer
+    requestSearchCourseReducer, requestGetCourseDetailReducer,
+    requestGetCourseSimilarReducer
 })
 
 export default rootReducer;

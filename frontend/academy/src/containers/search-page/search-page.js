@@ -7,6 +7,8 @@ import queryString from 'query-string';
 import { Pagination } from 'antd';
 import { withRouter } from 'react-router-dom';
 
+import { Link} from 'react-router-dom';
+import { Card } from 'react-bootstrap';
 
 import {
     requestApiSearchCourse
@@ -78,14 +80,25 @@ class SearchPage extends Component {
         return (
             <>
                 <NavBarComponent />
-                <div className="home-page-container">
-                    <div>
+                <div>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         {
                             this.state.courses.map(item => 
-                            <div style={{ border:"1px solid #000", margin:10, padding:10 }}>
-                                <p>{item.name}</p>
-                                <p>{item.price}</p>
-                            </div>)
+                                <div className="d-flex flex-wrap" style={{ justifyContent: "center" }}>
+                                    <Link class="p-2" to={`/details?id=${item.id}` }>
+                                        <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
+                                            <Card.Img variant="top" src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur" />
+                                            <Card.Body>
+                                                <Card.Title>{item.name}</Card.Title>
+                                                <Card.Text>
+                                                    <div style={{ fontSize: "12px" }}>{item.teacher.name}</div>
+                                                    <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>{item.price.toLocaleString()} VND</div>
+                                                </Card.Text>
+                                            </Card.Body>
+                                        </Card>
+                                    </Link>
+                                </div>
+                            )
                         }
                     </div>
 
