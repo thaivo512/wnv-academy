@@ -79,11 +79,11 @@ module.exports = {
     },
 
 
-    async top4enroll() {
+    async top3enrollweek() {
         return await db('course_view')
             .where('status', courseStatus.PUBLIC)
-            .orderBy('total_enrol', 'desc')
-            .limit(4);
+            .orderBy('week_enrol', 'desc')
+            .limit(3);
 
     },
 
@@ -148,9 +148,13 @@ module.exports = {
                 .orderBy(sort, direct); 
         }
 
-        return await db('course_view')
+        if(query) return await db('course_view')
             .where('status', courseStatus.PUBLIC)
             .where(db.raw(`to_tsvector(search_term) @@ to_tsquery(?)`, query))
+            .orderBy(sort, direct); 
+    
+        return await db('course_view')
+            .where('status', courseStatus.PUBLIC)
             .orderBy(sort, direct); 
     },
 };

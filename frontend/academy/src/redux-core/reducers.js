@@ -14,8 +14,21 @@ import {
 } from '../containers/teacher/redux/reducer';
 import {
     requestGetTop10CourseViewReducer,
-    requestGetTop10CourseNewReducer
+    requestGetTop10CourseNewReducer,
+    requestGetTopCategoryWeekReducer,
+    requestGetTopCourseWeekReducer
 } from '../containers/home-page/redux/reducer';
+
+import {
+    requestSearchCourseReducer
+} from '../containers/search-page/redux/reducer';
+
+import {
+    requestGetCourseDetailReducer,
+    requestGetCourseSimilarReducer
+} from '../containers/detail-page/redux/reducer';
+
+
 
 const rootReducer = combineReducers({
     registerReducer, loginReducer, requestOPTReducer,
@@ -25,7 +38,10 @@ const rootReducer = combineReducers({
     requestGetAllFeedbacksReducer, requestGetAllCategoriesReducer,
     requestGetTop10CourseViewReducer, requestGetTop10CourseNewReducer,
     requestUploadFileReducer, requestAddSlideReducer,
-    requestAddLessonReducer
+    requestAddLessonReducer,
+    requestGetTopCategoryWeekReducer, requestGetTopCourseWeekReducer,
+    requestSearchCourseReducer, requestGetCourseDetailReducer,
+    requestGetCourseSimilarReducer
 })
 
 export default rootReducer;
