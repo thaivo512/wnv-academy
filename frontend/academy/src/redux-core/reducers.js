@@ -9,7 +9,8 @@ import { requestGetAllUsersReducer, requestDeleteUserReducer } from '../containe
 import {
     requestGetAllCoursesReducer, requestGetAllSlidesReducer,
     requestGetAllLessonsReducer, requestGetAllFeedbacksReducer,
-    requestGetAllCategoriesReducer
+    requestGetAllCategoriesReducer, requestUploadFileReducer,
+    requestAddSlideReducer, requestAddLessonReducer
 } from '../containers/teacher/redux/reducer';
 import {
     requestGetTop10CourseViewReducer,
@@ -22,7 +23,9 @@ const rootReducer = combineReducers({
     requestDeleteUserReducer, requestGetAllCoursesReducer,
     requestGetAllSlidesReducer, requestGetAllLessonsReducer,
     requestGetAllFeedbacksReducer, requestGetAllCategoriesReducer,
-    requestGetTop10CourseViewReducer, requestGetTop10CourseNewReducer
+    requestGetTop10CourseViewReducer, requestGetTop10CourseNewReducer,
+    requestUploadFileReducer, requestAddSlideReducer,
+    requestAddLessonReducer
 })
 
 export default rootReducer;
