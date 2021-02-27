@@ -8,6 +8,7 @@ import AdminHomePage from './containers/admin/home-page';
 import TeacherHomePage from './containers/teacher/home-page';
 import StudentHomePage from './containers/student/home-page';
 import HomePage from './containers/home-page/home-page';
+import SearchPage from './containers/search-page/search-page';
 import { POSITION } from './authenicate/constants';
 
 class RouterConfig extends Component {
@@ -30,6 +31,12 @@ class RouterConfig extends Component {
         return (
             <Router>
                 <Route path='/home-page' exact={true} component={HomePage} />
+                {
+                    is_success ?
+                        this.routeByRole(teacherInfo.role) :
+                        this.routeUnauthorize()
+                }
+                <Route path='/search' exact={true} component={SearchPage}  />
                 {
                     is_success ?
                         this.routeByRole(teacherInfo.role) :

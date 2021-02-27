@@ -5,7 +5,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-pro-sidebar/dist/css/styles.css';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'antd/dist/antd.css'; 
 import RouterConfig from './RouterConfig';
+
 
 class App extends Component {
   constructor(props) {

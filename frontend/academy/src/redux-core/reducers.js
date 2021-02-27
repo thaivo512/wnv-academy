@@ -18,6 +18,10 @@ import {
     requestGetTopCourseWeekReducer
 } from '../containers/home-page/redux/reducer';
 
+import {
+    requestSearchCourseReducer
+} from '../containers/search-page/redux/reducer';
+
 const rootReducer = combineReducers({
     registerReducer, loginReducer, requestOPTReducer,
     verifyEmailReducer, loginGoogleReducer, requestGetAllUsersReducer,
@@ -25,7 +29,8 @@ const rootReducer = combineReducers({
     requestGetAllSlidesReducer, requestGetAllLessonsReducer,
     requestGetAllFeedbacksReducer, requestGetAllCategoriesReducer,
     requestGetTop10CourseViewReducer, requestGetTop10CourseNewReducer,
-    requestGetTopCategoryWeekReducer, requestGetTopCourseWeekReducer
+    requestGetTopCategoryWeekReducer, requestGetTopCourseWeekReducer,
+    requestSearchCourseReducer
 })
 
 export default rootReducer;
