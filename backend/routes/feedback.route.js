@@ -39,7 +39,7 @@ router.post('/', auth(userRole.STUDENT), validate(feedbackSchema), async(req, re
     })
 })
 
-router.get('/:courseId', auth(), async(req, res) => {
+router.get('/:courseId', async(req, res) => {
     
     const course_id = req.params.courseId;
 

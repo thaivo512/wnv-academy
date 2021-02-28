@@ -75,6 +75,13 @@ class NavBarComponent extends Component {
     handleClickMenu = (e) => {
         this.props.history.push(`/search?category=${e.key}`);
     }
+    onClickLogout = (e) => {
+        localStorage.removeItem('is_success');
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+
+        window.location = '/login';
+    }
 
     render() {
         return (
@@ -109,7 +116,9 @@ class NavBarComponent extends Component {
                                     <Button variant="info" onClick={this.onClickMoveToRegister}>Sign up</Button>
                                 </Nav.Item>
                             </>
-                            : <></>
+                            : <>
+                                <a onClick={this.onClickLogout}>Đăng xuất</a>
+                            </>
                         }
                     </Nav>
                 </Navbar >

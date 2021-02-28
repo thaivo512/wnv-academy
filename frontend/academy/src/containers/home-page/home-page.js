@@ -181,22 +181,16 @@ class HomePage extends Component {
     renderTopCategories() {
         return <div className="row-margin-top" style={{ backgroundColor: "#17a2b8", width: "195%", marginLeft: "-47%" }}>
             <Carousel>
-            { this.chunk(this.state.topCategoryWeek, 4).map((items) =>
+            { this.chunk(this.state.topCategoryWeek, 5).map((items) =>
                     <Carousel.Item>
                         <div className="d-flex flex-wrap" style={{ justifyContent: "center" }}>
                             { items.map((item) =>
                                 <div class="p-2">
-                                    <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
-                                        <Card.Body>
-                                            <Card.Text>
-                                                <Link to={`/search?category=${item.id}`}>
-                                                    <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
-                                                        <strong>{item.name}</strong>
-                                                    </div>
-                                                </Link>
-                                            </Card.Text>
-                                        </Card.Body>
-                                    </Card>
+                                    <Link to={`/search?category=${item.id}`}>
+                                        <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
+                                            <strong>{item.name}</strong>
+                                        </div>
+                                    </Link>
                                 </div>
                             )}
                         </div>
@@ -215,8 +209,18 @@ class HomePage extends Component {
                         <Card.Body>
                             <Card.Title>{item.name}</Card.Title>
                             <Card.Text>
-                                <div style={{ fontSize: "12px" }}>{item.teacher.name}</div>
-                                <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>{item.price} VND</div>
+                            <div style={{ fontSize: "15px" }}>Danh mục: {item.category.name}</div>
+                                                            <div style={{ fontSize: "15px" }}>Giảng viên: {item.teacher.name}</div>
+                                                            <div style={{ fontSize: "15px", color: "seagreen"}}>
+                                                                {!+item.total_feedback? 
+                                                                    'Chưa có lượt đánh giá' :  
+                                                                    <>
+                                                                        {`${item.total_feedback} đánh giá: ${item.avg_feedback}`} <i class="fas fa-star"></i>
+                                                                    </> 
+                                                                } 
+                                                            </div>
+                                                            <div style={{ fontSize: "15px", marginTop: "3%", textDecoration: "line-through" }}>{item.price.toLocaleString()} VND</div>
+                                                            <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%", color: "red"}}>{item.price_promote.toLocaleString()} VND</div>
                                 <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
                                     <strong>Best Seller</strong>
                                 </div>
@@ -241,8 +245,18 @@ class HomePage extends Component {
                                         <Card.Body>
                                             <Card.Title>{ item.name }</Card.Title>
                                             <Card.Text>
-                                                <div style={{ fontSize: "12px" }}>{ item.teacher.name }</div>
-                                                <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>{item.price} VND</div>
+                                            <div style={{ fontSize: "15px" }}>Danh mục: {item.category.name}</div>
+                                                            <div style={{ fontSize: "15px" }}>Giảng viên: {item.teacher.name}</div>
+                                                            <div style={{ fontSize: "15px", color: "seagreen"}}>
+                                                                {!+item.total_feedback? 
+                                                                    'Chưa có lượt đánh giá' :  
+                                                                    <>
+                                                                        {`${item.total_feedback} đánh giá: ${item.avg_feedback}`} <i class="fas fa-star"></i>
+                                                                    </> 
+                                                                } 
+                                                            </div>
+                                                            <div style={{ fontSize: "15px", marginTop: "3%", textDecoration: "line-through" }}>{item.price.toLocaleString()} VND</div>
+                                                            <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%", color: "red"}}>{item.price_promote.toLocaleString()} VND</div>
                                                 <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
                                                     <strong>Top View</strong>
                                                 </div>
@@ -271,8 +285,18 @@ class HomePage extends Component {
                                         <Card.Body>
                                             <Card.Title>{item.name}</Card.Title>
                                             <Card.Text>
-                                                <div style={{ fontSize: "12px" }}>{item.teacher.name}</div>
-                                                <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>{item.price.toLocaleString()} VND</div>
+                                            <div style={{ fontSize: "15px" }}>Danh mục: {item.category.name}</div>
+                                                            <div style={{ fontSize: "15px" }}>Giảng viên: {item.teacher.name}</div>
+                                                            <div style={{ fontSize: "15px", color: "seagreen"}}>
+                                                                {!+item.total_feedback? 
+                                                                    'Chưa có lượt đánh giá' :  
+                                                                    <>
+                                                                        {`${item.total_feedback} đánh giá: ${item.avg_feedback}`} <i class="fas fa-star"></i>
+                                                                    </> 
+                                                                } 
+                                                            </div>
+                                                            <div style={{ fontSize: "15px", marginTop: "3%", textDecoration: "line-through" }}>{item.price.toLocaleString()} VND</div>
+                                                            <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%", color: "red"}}>{item.price_promote.toLocaleString()} VND</div>
                                                 <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
                                                     <strong>Newest</strong>
                                                 </div>

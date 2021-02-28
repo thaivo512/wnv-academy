@@ -6,14 +6,21 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 import { Link} from 'react-router-dom';
 import { Carousel, Card } from 'react-bootstrap';
+import * as moment from 'moment'
+import { Comment, Rate, Avatar, Form, Input, Button } from 'antd';
 
 
 
 import {
     requestApiGetCourseDetail,
-    requestApiGetCourseSimilar
+    requestApiGetCourseSimilar,
+    requestApiGetSlidePreview,
+    requestApiGetFeedback,
+    requestApiPostFeedback
 } from './redux/action';
+import { toast } from 'react-toastify';
 
+const { TextArea } = Input;
 
 
 class DetailPage extends Component {
@@ -25,13 +32,19 @@ class DetailPage extends Component {
         this.state = {
             course: null,
             coursesSimilar: [],
-            id: params.id || 0
+            slidesPreview: [],
+            feedbacks: [],
+            id: params.id || 0,
+            comment: '',
+            rate: 4
         }
     }
 
     componentDidMount() {
         this.props.requestApiGetCourseDetail(this.state.id);
         this.props.requestApiGetCourseSimilar(this.state.id);
+        this.props.requestApiGetSlidePreview(this.state.id);
+        this.props.requestApiGetFeedback(this.state.id);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -44,6 +57,8 @@ class DetailPage extends Component {
 
             this.props.requestApiGetCourseDetail(params.id || 0);
             this.props.requestApiGetCourseSimilar(params.id || 0);
+            this.props.requestApiGetSlidePreview(params.id || 0);
+            this.props.requestApiGetFeedback(params.id || 0);
             window.scrollTo(0, 0)
         }
 
@@ -69,8 +84,58 @@ class DetailPage extends Component {
                 }
             )
         }  
+
+        const slidePreviewResponse = this.props.slidePreviewResponse;
+        if(slidePreviewResponse && slidePreviewResponse.is_success) {
+            this.props.slidePreviewResponse.is_success = false;
+            this.setState(
+                {
+                    slidesPreview: slidePreviewResponse.data
+                }
+            )
+        }  
+
+        const feedbackResponse = this.props.feedbackResponse;
+        if(feedbackResponse && feedbackResponse.is_success) {
+            this.props.feedbackResponse.is_success = false;
+            this.setState(
+                {
+                    feedbacks: feedbackResponse.data
+                }
+            )
+        }  
+
+
+        const postFeedbackResponse = this.props.postFeedbackResponse;
+        if(postFeedbackResponse && postFeedbackResponse.is_success) {
+            this.props.postFeedbackResponse.is_success = false;
+            this.setState(
+                {
+                    comment: ''
+                }
+            )
+
+            this.props.requestApiGetFeedback(this.state.id);
+        }  
     }
 
+
+    
+    onSubmitFeedback = () => {
+        if(!this.state.comment.trim()) return;
+
+        const enroled = this.state.course.is_enrolled;
+        if(!enroled) {
+            toast.error(`Bạn chưa tham gia khóa học`);
+            return;
+        }
+
+        this.props.requestApiPostFeedback({
+            course_id: +this.state.id,
+            review: this.state.comment,
+            rate: this.state.rate
+        });
+    }
     
 
     chunk(arr, size) {
@@ -92,16 +157,91 @@ class DetailPage extends Component {
 
                     <div style={{ padding: 25 }}>
                         {
-                            !this.state.course? <div>Not Found</div> :
+                            !this.state.course? <div style={{ padding: '140px 0' }}>Not Found</div> :
                             <div>
-                                <div>
-                                    <p>Course Name: {this.state.course.name}</p>
-                                    <p>Course Price: {this.state.course.price}</p>
+                                <div style={{ display: 'flex',justifyContent: 'center'}}>
+                                    <div>
+                                        <img src={`https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur`}/>
+                                    </div>
+                                    <div style={{ textAlign: 'left' }}>
+                                        <p>Ten khoa hoc: {this.state.course.name}</p>
+                                        <p>Danh muc: {this.state.course.category.name}</p>
+                                        <p>Giang vien: {this.state.course.teacher.name}</p>
+                                        <p>Mo ta ngan: {this.state.course.short_description}</p>
+                                        <p>So luong hoc vien: {this.state.course.total_enrol}</p>
+                                        <p>{!+this.state.course.total_feedback? 'Chưa có lượt đánh giá' :  
+                                            <>{`${this.state.course.total_feedback} đánh giá: ${this.state.course.avg_feedback}`} <i class="fas fa-star" style={{ color: 'yellow' }}></i></> }
+                                        </p>
+                                        <p>Lan cap nhat cuoi: {moment(new Date(+this.state.course.last_update)).format('DD/MM/YYYY HH:mm:ss') }</p>
+                                        <p>Hoc phi: {this.state.course.price}</p>
+                                        <p>Gia khuyen mai: {this.state.course.price_promote}</p>
+                                    </div>
+                                </div>
+                                <div style={{ textAlign: "left" }}>
+                                    <hr />
+                                    <h5>Mô tả chi tiết:</h5>
+                                    <p style={{ paddingLeft: 30 }} 
+                                        dangerouslySetInnerHTML={{__html: this.state.course.detail_description}}></p>
+                                </div>
+                                <div style={{ textAlign: "left" }}>
+                                    <hr />
+                                    <h5>Đề cương xem trước:</h5>
+                                    <p>{this.state.slidesPreview.map((item, index) => 
+                                        <a href={item.file_url} target="_blank"
+                                            style={{ paddingLeft: 30 }}>
+                                            {index + 1}.  {item.slide_name
+                                        }</a>
+                                    )}</p>
+                                </div>
+                                <div style={{ textAlign: "left" }}>
+                                    <hr />
+                                    <h5>Phản hồi từ học viên:</h5>
+                                    <div style={{ paddingLeft: 30 }}>
+                                    <Comment
+                                        avatar={ <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" alt="Han Solo" /> }
+                                        content={
+                                            <>
+                                                <Form.Item>
+                                                    <Rate onChange={(value) => this.setState({ rate: value })} value={this.state.rate} />
+                                                </Form.Item>
+                                                <Form.Item> 
+                                                    <TextArea rows={4} 
+                                                        onChange={(e) => this.setState({comment: e.target.value})} 
+                                                        value={this.state.comment} 
+                                                        />
+                                                </Form.Item>
+                                                <Form.Item> 
+                                                    <Button htmlType="submit" 
+                                                        onClick={this.onSubmitFeedback} 
+                                                        type="primary"> 
+                                                            Submit 
+                                                    </Button> 
+                                                </Form.Item>
+                                            </>    
+                                        }
+                                    />
+                                        <div>
+                                            {
+                                                this.state.feedbacks.map(item => <div>
+                                                    <Comment  author={item.user.name}
+                                                        avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" alt="Han Solo"/>}
+                                                        content={
+                                                            <div>
+                                                                <Rate disabled value={item.rate}/>
+                                                                <div> {item.review} </div>
+                                                            </div>
+                                                        }
+                                                        datetime={moment(new Date(+item.last_update)).format('DD/MM/YYYY HH:mm:ss') }
+                                                    />
+                                                </div>)
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div style={{ marginTop: 100 }}>
                                     <hr/>
-                                    <h4>Similar Courses</h4>
+                                    <h4>Khóa học cùng thể loại được đăng ký nhiều nhất</h4>
                                     <div style={{ marginTop: 20}}>
                                         <Carousel>
                                         { this.chunk(this.state.coursesSimilar, 4).map((items) =>
@@ -114,8 +254,18 @@ class DetailPage extends Component {
                                                                 <Card.Body>
                                                                     <Card.Title>{item.name}</Card.Title>
                                                                     <Card.Text>
-                                                                        <div style={{ fontSize: "12px" }}>{item.teacher.name}</div>
-                                                                        <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>{item.price.toLocaleString()} VND</div>
+                                                                    <div style={{ fontSize: "15px" }}>Danh mục: {item.category.name}</div>
+                                                            <div style={{ fontSize: "15px" }}>Giảng viên: {item.teacher.name}</div>
+                                                            <div style={{ fontSize: "15px", color: "seagreen"}}>
+                                                                {!+item.total_feedback? 
+                                                                    'Chưa có lượt đánh giá' :  
+                                                                    <>
+                                                                        {`${item.total_feedback} đánh giá: ${item.avg_feedback}`} <i class="fas fa-star"></i>
+                                                                    </> 
+                                                                } 
+                                                            </div>
+                                                            <div style={{ fontSize: "15px", marginTop: "3%", textDecoration: "line-through" }}>{item.price.toLocaleString()} VND</div>
+                                                            <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%", color: "red"}}>{item.price_promote.toLocaleString()} VND</div>
                                                                     </Card.Text>
                                                                 </Card.Body>
                                                             </Card>
@@ -168,12 +318,18 @@ const mapDispatchToProps = dispatch => {
     return {
         requestApiGetCourseDetail: (id) => dispatch(requestApiGetCourseDetail(id)),
         requestApiGetCourseSimilar: (id) => dispatch(requestApiGetCourseSimilar(id)),
+        requestApiGetSlidePreview: (id) => dispatch(requestApiGetSlidePreview(id)),
+        requestApiGetFeedback: (id) => dispatch(requestApiGetFeedback(id)),
+        requestApiPostFeedback: (body) => dispatch(requestApiPostFeedback(body)),
     };
 }
 
 const mapStateToProps = state => ({
     courseResponse: state.requestGetCourseDetailReducer,
-    coursesSimilarResponse: state.requestGetCourseSimilarReducer
+    coursesSimilarResponse: state.requestGetCourseSimilarReducer,
+    slidePreviewResponse: state.requestGetSlidePreviewReducer,
+    feedbackResponse: state.requestGetFeedbackReducer,
+    postFeedbackResponse: state.requestPostFeedbackReducer
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailPage)

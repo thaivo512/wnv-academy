@@ -41,3 +41,70 @@ export const requestGetCourseSimilar = async (id) => {
         return { isFail: true };
     }
 }
+
+
+export const requestGetSlidePreview = async (id) => {
+    const requestOptions = {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET',
+    };
+    try {
+        const response = await fetch(API_URL + `slide/preview/${id}`, requestOptions);
+
+        const rs = await response.json();
+        
+        return {
+            is_success: true,
+            data: rs
+        };
+    } catch (e) {
+        toast.error(e);
+        return { isFail: true };
+    }
+}
+
+
+
+export const requestGetFeedback = async (id) => {
+    const requestOptions = {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET',
+    };
+    try {
+        const response = await fetch(API_URL + `feedback/${id}`, requestOptions);
+
+        const rs = await response.json();
+        
+        return rs;
+    } catch (e) {
+        toast.error(e);
+        return { isFail: true };
+    }
+}
+
+
+
+export const requestPostFeedback = async (body) => {
+    const requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem('access_token')
+        },
+        body: JSON.stringify(body),
+        method: 'POST',
+    };
+    try {
+        const response = await fetch(API_URL + `feedback`, requestOptions);
+
+        const rs = await response.json();
+        
+        return rs;
+    } catch (e) {
+        toast.error(e);
+        return { isFail: true };
+    }
+}

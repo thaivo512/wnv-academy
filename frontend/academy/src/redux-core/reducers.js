@@ -24,7 +24,10 @@ import {
 
 import {
     requestGetCourseDetailReducer,
-    requestGetCourseSimilarReducer
+    requestGetCourseSimilarReducer,
+    requestGetSlidePreviewReducer,
+    requestGetFeedbackReducer,
+    requestPostFeedbackReducer
 } from '../containers/detail-page/redux/reducer';
 
 
@@ -38,7 +41,8 @@ const rootReducer = combineReducers({
     requestGetTop10CourseViewReducer, requestGetTop10CourseNewReducer,
     requestGetTopCategoryWeekReducer, requestGetTopCourseWeekReducer,
     requestSearchCourseReducer, requestGetCourseDetailReducer,
-    requestGetCourseSimilarReducer
+    requestGetCourseSimilarReducer, requestGetSlidePreviewReducer,
+    requestGetFeedbackReducer, requestPostFeedbackReducer
 })
 
 export default rootReducer;
