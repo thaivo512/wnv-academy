@@ -33,3 +33,21 @@ export const RECEIVE_API_POST_ADD_COURSE = "RECEIVE_API_POST_ADD_COURSE";
 
 export const requestApiPostAddCourse = (course) => ({ type: REQUEST_API_POST_ADD_COURSE, course });
 export const receiveApiPostAddCourse = result => ({ type: RECEIVE_API_POST_ADD_COURSE, result });
+
+export const REQUEST_API_POST_UPLOAD_FILE = "REQUEST_API_POST_UPLOAD_FILE";
+export const RECEIVE_API_POST_UPLOAD_FILE = "RECEIVE_API_POST_UPLOAD_FILE";
+
+export const requestApiPostUploadFile = (file) => ({ type: REQUEST_API_POST_UPLOAD_FILE, file });
+export const receiveApiPostUploadFile = fileResult => ({ type: RECEIVE_API_POST_UPLOAD_FILE, fileResult });
+
+export const REQUEST_API_POST_ADD_SLIDE = "REQUEST_API_POST_ADD_SLIDE";
+export const RECEIVE_API_POST_ADD_SLIDE = "RECEIVE_API_POST_ADD_SLIDE";
+
+export const requestApiPostAddSlide = (slide) => ({ type: REQUEST_API_POST_ADD_SLIDE, slide });
+export const receiveApiPostAddSlide = slideResult => ({ type: RECEIVE_API_POST_ADD_SLIDE, slideResult });
+
+export const REQUEST_API_POST_ADD_LESSON = "REQUEST_API_POST_ADD_LESSON";
+export const RECEIVE_API_POST_ADD_LESSON = "RECEIVE_API_POST_ADD_LESSON";
+
+export const requestApiPostAddLesson = (lesson) => ({ type: REQUEST_API_POST_ADD_LESSON, lesson });
+export const receiveApiPostAddLesson = lessonResult => ({ type: RECEIVE_API_POST_ADD_LESSON, lessonResult });

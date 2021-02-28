@@ -5,13 +5,17 @@ import {
     REQUEST_API_GET_ALL_LESSONS, receiveApiGetAllLessons,
     REQUEST_API_GET_ALL_FEEDBACKS, receiveApiGetAllFeedbacks,
     REQUEST_API_GET_ALL_CATEGORIES, receiveApiGetAllCategories,
-    REQUEST_API_POST_ADD_COURSE, receiveApiPostAddCourse
-
+    REQUEST_API_POST_ADD_COURSE, receiveApiPostAddCourse,
+    REQUEST_API_POST_UPLOAD_FILE, receiveApiPostUploadFile,
+    REQUEST_API_POST_ADD_SLIDE, receiveApiPostAddSlide,
+    REQUEST_API_POST_ADD_LESSON, receiveApiPostAddLesson
 } from './action';
 import {
     requestGetAllCourses, requestGetSlidesByCourseID,
     requestGetLessonsByCourseID, requestGetFeedbacksByCourseID,
-    requestGetAllCategories, requestPostAddCourse
+    requestGetAllCategories, requestPostAddCourse,
+    requestPostUploadFile, requestPostAddSlide,
+    requestPostAddLesson
 } from './api';
 
 function* getAllCoursesSaga() {
@@ -59,6 +63,41 @@ function* getAllCategories() {
     }
 }
 
+function* postAddCourse(payload) {
+    try {
+        const data = yield call(requestPostAddCourse, payload);
+        yield put(receiveApiPostAddCourse(data));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function* postUploadFile(payload) {
+    try {
+        const data = yield call(requestPostUploadFile, payload);
+        yield put(receiveApiPostUploadFile(data));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function* postAddSlide(payload) {
+    try {
+        const data = yield call(requestPostAddSlide, payload);
+        yield put(receiveApiPostAddSlide(data));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function* postAddLesson(payload) {
+    try {
+        const data = yield call(requestPostAddLesson, payload);
+        yield put(receiveApiPostAddLesson(data));
+    } catch (e) {
+        console.log(e);
+    }
+}
 
 export default function* courseSaga() {
     yield takeLatest(REQUEST_API_GET_ALL_COURSES, getAllCoursesSaga);
@@ -66,4 +105,8 @@ export default function* courseSaga() {
     yield takeLatest(REQUEST_API_GET_ALL_LESSONS, getAllLessonsSaga);
     yield takeLatest(REQUEST_API_GET_ALL_FEEDBACKS, getAllFeedbacksSaga);
     yield takeLatest(REQUEST_API_GET_ALL_CATEGORIES, getAllCategories);
+    yield takeLatest(REQUEST_API_POST_ADD_COURSE, postAddCourse);
+    yield takeLatest(REQUEST_API_POST_UPLOAD_FILE, postUploadFile);
+    yield takeLatest(REQUEST_API_POST_ADD_SLIDE, postAddSlide);
+    yield takeLatest(REQUEST_API_POST_ADD_LESSON, postAddLesson);
 }

@@ -4,8 +4,11 @@ import '../../assets/admin.scss';
 import { Editor } from '@tinymce/tinymce-react';
 import { connect } from 'react-redux';
 import {
-    requestApiGetAllCategories
+    requestApiGetAllCategories,
+    requestApiPostAddCourse,
+    requestApiPostUploadFile
 } from './redux/action';
+import { Redirect } from 'react-router-dom';
 
 class AddNewCourse extends Component {
     constructor(props) {
@@ -14,28 +17,37 @@ class AddNewCourse extends Component {
         this.state = {
             courseName: "",
             price: 0,
-            category: "",
+            category: 0,
             shortDetail: "",
             detail: "",
+            promoteRate: 1,
             isGetCategories: true,
-            categories: []
+            categories: [],
+            avatar: "https://martialartsplusinc.com/wp-content/uploads/2017/04/default-image-620x600.jpg"
         }
     }
-
 
     componentDidMount() {
         this.props.requestApiGetAllCategories();
     }
 
     componentDidUpdate() {
-        var { isGetCategories } = this.state;
+        var { isGetCategories, avatar } = this.state;
         if (isGetCategories) {
+            var temp = []
+            for (let item of this.props.allCategories) {
+                temp = temp.concat(item.sub_categorys);
+            }
             this.setState(
                 {
-                    categories: this.props.allCategories,
+                    categories: temp,
+                    category: temp[0].id,
                     isGetCategories: false,
                 }
             )
+        }
+        if (avatar != this.props.fileResult.url) {
+            this.setState({ avatar: this.props.fileResult.url })
         }
     }
 
@@ -55,16 +67,30 @@ class AddNewCourse extends Component {
         this.setState({ shortDetail: shortDetail })
     }
 
+    onChangePromoteRate(promoteRate) {
+        this.setState({ promoteRate: promoteRate })
+    }
+
+    onChangeSelectedFile(e) {
+        this.props.requestApiPostUploadFile(e.target.files[0])
+    }
+
     handleEditorChange = (content, editor) => {
         this.setState({ detail: content })
     }
 
-    render() {
+    upload() {
+        document.getElementById("selectImage").click()
+    }
 
+    render() {
+        var url = this.state.avatar;
+        console.log(url)
         return (
             <>
                 <Col className="col-5" style={{ left: "3%", marginTop: "3%" }}>
-                    <img className="button-icon" src="https://martialartsplusinc.com/wp-content/uploads/2017/04/default-image-620x600.jpg"></img>
+                    <img style={{ width: "95%", height: "60vh" }} onClick={() => this.upload()} className="button-icon" src={url} />
+                    <input id='selectImage' hidden type="file" onChange={(e) => this.onChangeSelectedFile(e)} />
                 </Col>
                 <Col>
                     <div style={{ textAlign: "center" }}>
@@ -73,32 +99,38 @@ class AddNewCourse extends Component {
                     <div className="add-course-container">
                         <Form.Group >
                             <Form.Label>Course Name </Form.Label>
-                            <Form.Control onChange={(e) => this.onChangeCourseName(e.target.value)} style={{ width: "97%" }} type="text" placeholder="Enter course name" />
+                            <Form.Control onChange={(e) => this.onChangeCourseName(e.target.value)} style={{ width: "97%" }} type="text" placeholder="Course name" />
                         </Form.Group>
                         <Row>
-                            <Col className="col-6">
+                            <Col className="col-4">
                                 <Form.Group>
-                                    <Form.Label>Price</Form.Label>
-                                    <Form.Control onChange={(e) => this.onChangeCoursePrice(e.target.value)} style={{ width: "95%" }} type="text" placeholder="Enter Price" />
+                                    <Form.Label>Price (VNĐ)</Form.Label>
+                                    <Form.Control onChange={(e) => this.onChangeCoursePrice(e.target.value)} style={{ width: "90%" }} type="text" placeholder="Price" />
                                 </Form.Group>
                             </Col>
-                            <Col className="col-6">
+                            <Col className="col-4">
+                                <Form.Group>
+                                    <Form.Label>Promote Rate (%)</Form.Label>
+                                    <Form.Control onChange={(e) => this.onChangePromoteRate(e.target.value)} style={{ width: "90%" }} type="text" placeholder="Promote Rate" />
+                                </Form.Group>
+                            </Col>
+                            <Col className="col-4">
                                 <Form.Group>
                                     <Form.Label>Category</Form.Label>
-                                    <Form.Control onChange={(e) => this.onChangeCourseCategory(e.target.value)} style={{ width: "95%" }} as="select" defaultValue="Select Category">
+                                    <Form.Control onChange={(e) => this.onChangeCourseCategory(e.target.value)} style={{ width: "90%" }} as="select" defaultValue="Select Category">
                                         {this.renderCategories()}
                                     </Form.Control>
                                 </Form.Group>
                             </Col>
                             <Form.Group >
                                 <Form.Label>Short Description</Form.Label>
-                                <Form.Control onChange={(e) => this.onChangeCourseShortDetail(e.target.value)} style={{ width: "97%" }} as="textarea" placeholder="Enter short description" />
+                                <Form.Control onChange={(e) => this.onChangeCourseShortDetail(e.target.value)} style={{ width: "97%" }} as="textarea" placeholder="Short description" />
                             </Form.Group>
                             <Form.Group style={{ width: "97%", height: "35vh" }}>
                                 <Form.Label>Description</Form.Label>
                                 <Editor
                                     apiKey='vnv0h8lv17ek5lg9pci17owmqylg8xnvucvdc5d8hkgqbhwr'
-                                    initialValue="<p>This is the initial content of the editor</p>"
+                                    initialValue=""
                                     init={{
                                         height: 300,
                                         menubar: true,
@@ -108,7 +140,7 @@ class AddNewCourse extends Component {
                                             'insertdatetime media table paste code help wordcount'
                                         ],
                                         toolbar: 'undo redo | formatselect | bold italic backcolor | \
-                                        alignleft aligncenter alignright alignjustify | \
+                                        alignleft aligncalignright alignjustify | \
                                         bullist numlist outdent indent | removeformat | help'
                                     }}
                                     onEditorChange={this.handleEditorChange}
@@ -116,13 +148,37 @@ class AddNewCourse extends Component {
                             </Form.Group>
                             <Col className="col-5"></Col>
                             <Col className="col-5">
-                                <Button variant="success">Confirm</Button>
+                                <Button variant="success" onClick={() => this.onAddCourse()}>Confirm</Button>
                             </Col>
                         </Row>
                     </div>
                 </Col>
             </>
         )
+    }
+
+    onAddCourse() {
+        var { courseName, price, category, detail, shortDetail, promoteRate, avatar } = this.state;
+        this.props.requestApiPostAddCourse(
+            {
+                courseName: courseName,
+                price: price,
+                category: category,
+                detail: detail,
+                shortDetail: shortDetail,
+                avatar: avatar,
+                promoteRate: promoteRate
+            });
+
+        this.setState({
+            courseName: "",
+            price: 0,
+            category: 0,
+            shortDetail: "",
+            detail: "",
+            promoteRate: 1,
+            avatar: "https://martialartsplusinc.com/wp-content/uploads/2017/04/default-image-620x600.jpg"
+        })
     }
 
     renderCategories() {
@@ -140,11 +196,14 @@ class AddNewCourse extends Component {
 const mapDispatchToProps = dispatch => {
     return {
         requestApiGetAllCategories: () => dispatch(requestApiGetAllCategories()),
+        requestApiPostAddCourse: (course) => dispatch(requestApiPostAddCourse(course)),
+        requestApiPostUploadFile: (file) => dispatch(requestApiPostUploadFile(file)),
     };
 }
 
 const mapStateToProps = state => ({
-    allCategories: state.requestGetAllCategoriesReducer
+    allCategories: state.requestGetAllCategoriesReducer,
+    fileResult: state.requestUploadFileReducer,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddNewCourse)

@@ -2,17 +2,16 @@ import React, { Component } from 'react';
 import '../../assets/admin.scss';
 import { Card, Button, Row, Col, Table } from 'react-bootstrap';
 import { FaEdit, FaTrash, FaCheck, FaPlay, FaArrowLeft } from 'react-icons/fa';
-import { Editor } from "react-draft-wysiwyg";
 import EsolModal from '../../components/modal';
-import { EditorState, convertToRaw, ContentState } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
 import { connect } from 'react-redux';
 import {
     requestApiGetAllCourses, requestApiGetAllSlides,
     requestApiGetAllLessons, requestApiGetAllFeedbacks,
-    requestApiGetAllCategories
+    requestApiGetAllCategories, requestApiPostAddSlide,
+    requestApiPostAddLesson, requestApiPostUploadFile
 } from './redux/action';
 import AddNewCourse from './add-new-course';
+import { Editor } from '@tinymce/tinymce-react';
 
 class ManagedCourses extends Component {
     constructor(props) {
@@ -27,11 +26,19 @@ class ManagedCourses extends Component {
             isEditingMode: false,
             isPreviewMode: false,
             selectedVideoUrl: "",
-            shortDetail: EditorState.createEmpty(),
-            detailDes: EditorState.createEmpty(),
+            shortDetail: "",
+            detailDes: "",
             feedbacks: [],
             selected_course: {},
-            courses: []
+            courses: [],
+            slideName: "",
+            isPreview: false,
+            slides: [],
+            promoteRate: 0,
+            slideInfo: {
+                file_name: "",
+                file_url: ""
+            }
         }
     }
 
@@ -41,15 +48,25 @@ class ManagedCourses extends Component {
     }
 
     componentDidUpdate() {
-        var { isGetCourses } = this.state;
-        if (isGetCourses) {
+        var { slideInfo, slides, courses } = this.state;
+        if (this.props.allCourses && courses.length != this.props.allCourses.length) {
             this.setState(
                 {
                     courses: this.props.allCourses,
-                    isGetCourses: false,
                     selected_course: this.props.allCourses[0],
                 }
             )
+        }
+        if (this.props.fileResult && slideInfo.file_name != this.props.fileResult.file_name) {
+            this.setState({
+                slideInfo: {
+                    file_name: this.props.fileResult.file_name,
+                    file_url: this.props.fileResult.url
+                }
+            })
+        }
+        if (this.props.allSlides && this.props.allSlides.length != slides.length) {
+            this.setState({ slides: this.props.allSlides })
         }
     }
 
@@ -80,7 +97,8 @@ class ManagedCourses extends Component {
 
     onShowAddCourse() {
         var { isShowAddCourse } = this.state;
-        this.setState({ isShowAddCourse: !isShowAddCourse })
+        this.props.requestApiGetAllCourses();
+        this.setState({ isShowAddCourse: !isShowAddCourse, isGetCourses: true })
     }
 
     onRenderViewCourses() {
@@ -99,6 +117,9 @@ class ManagedCourses extends Component {
     onRenderListCourses() {
         var elements = [];
         var courses = this.state.courses;
+        if (JSON.stringify(courses) === JSON.stringify({})) {
+            courses = []
+        }
         for (let item of courses) {
             let className = "md-2 " + item.status;
             elements.push(
@@ -114,30 +135,15 @@ class ManagedCourses extends Component {
         return elements;
     }
 
-    // onAddNewCourse() {
-    //     var courses = this.state.courses;
-    //     courses.push({
-    //         avg_feedback: "0",
-    //         category: {},
-    //         category_id: -1,
-    //         detail_description: "",
-    //         image_avatar: "https://lh3.googleusercontent.com/p397WtUokKazvBXnYWu7ToOgHj3mEFC5On1EipL5r_v4-0x-ks_7L3K8hEz1XanEKGpKvoTAgVaq-fPicG6pV0gN6Sw_xXtiobfnMQY60n3admBB4kmiTmkRZO_tCy5kenZg_H1N2LZYHMUGmqGySpy5s1QcSWBZItQBt2yDZDqmiQSaIMjYeuuP6pD9WjEIKDv1DfKZoOeICwhD9Bxmfo6odsZ0iXM655i6uW2fng_uAfrcCyoYTcsO68HSGWBa3b0XAjU3OZs3LG6zmDwsXkpzBHhEYEdVY_japfiAPcRNRdO3kOJ3nQFh8KbRniErAz_yRg4nEDVip58Dz4rNO8A1Jh9oRyMvjhJiqR5BGaRl5BCZ1PhDeNapgQ9bA9N4HuqCdXZjrOC37mYDntwECJwhJIxXun4R29mkcKDrve7U3U78G_LHtclY8OX_wakHVC9h2_4bb8tceM-MfJz7Dh3w1C0uGEfVd4JLVjNoFEvPTl1FPzLJiWbuoS3mBUOhj-AAZzCsnabl6RnkZnh58zxbLmVRpAm5zKuDBnRZc50pZWUx9AQ9HxRv7df56v8V3QI-pMXuV4uk86dLl-hpNQG7w9nCc0r1O7Tosg1oPGLKFgb0Jo1J0wrJRYwUE9o1TKqk2VZuMfhjPSICxy88e1VfJju1Ej5ayktkAkixALyuvh4y9oGZb30XIYG8VQ=s564-no?authuser=0 ",
-    //         last_update: "1609053572166",
-    //         name: "New Course",
-    //         price: 0,
-    //         price_promote: 0,
-    //         search_term: ""
-    //     })
-    // }
-
     onSelectedCourse(course) {
         this.props.requestApiGetAllSlides(course.id);
         this.props.requestApiGetAllLessons(course.id);
         this.props.requestApiGetAllFeedbacks(course.id);
         this.setState({
             selected_course: course,
-            shortDetail: EditorState.createWithContent(ContentState.createFromText(course.short_description)),
-            detailDes: EditorState.createWithContent(ContentState.createFromText(course.detail_description))
+            shortDetail: course.short_description,
+            detailDes: course.detail_description,
+            promoteRate: ((course.price - course.price_promote) / course.price) * 100
         })
     }
 
@@ -158,16 +164,18 @@ class ManagedCourses extends Component {
         this.setState({ selected_course: selected_course })
     }
 
-    onEditorShortDetailStateChange = (editorState) => {
-        this.setState({
-            shortDetail: editorState,
-        });
+    onChangePromoteRate(value) {
+        var { selected_course } = this.state;
+        selected_course.promoteRate = value;
+        this.setState({ selected_course: selected_course })
     }
 
-    onEditorDetailStateChange = (editorState) => {
-        this.setState({
-            detailDes: editorState,
-        });
+    onEditorShortDetailStateChange = (shortDetail) => {
+        this.setState({ shortDetail: shortDetail })
+    }
+
+    onEditorDetailStateChange = (detail) => {
+        this.setState({ detailDes: detail })
     }
 
     onShowManagedLesson() {
@@ -181,7 +189,7 @@ class ManagedCourses extends Component {
     }
 
     onShowCoursesDetail() {
-        var { isEditingMode, selected_course, isShowModalSlide, isShowModalLesson, isShowModalFeedBack } = this.state;
+        var { isEditingMode, selected_course, isShowModalSlide, isShowModalLesson, isShowModalFeedBack, shortDetail, detailDes, promoteRate } = this.state;
         var className = "md-2 ";
         var isPublic = false;
         if (selected_course != null) {
@@ -208,136 +216,171 @@ class ManagedCourses extends Component {
                 <div style={{ textAlign: "center" }}>
                     <h4>Select Courses To See Detail</h4>
                 </div> :
-                <div style={{ marginLeft: "1%", overflowY: 'scroll', height: '80vh' }} >
-                    <Row>
-                        <Card style={{ width: '95%', marginBottom: "1%" }}>
-                            <div style={{ textAlign: "center" }}>
-                                {isEditingMode ?
-                                    <input onChange={(e) => this.onChangeNameCourse(e.target.value)} type="text" class="form-control" value={selected_course.name} /> :
-                                    <h2><strong>{selected_course.name}</strong></h2>
-                                }
-                            </div>
-                            <Card.Body>
-                                <Row>
-                                    <Col className="col-5">
-                                        <Card.Img style={{ width: "350px", height: "250px" }} src={selected_course.image_avatar} />
-                                    </Col>
-                                    <Col className="col-7">
-                                        <Row style={{ textAlign: "left" }}>
-                                            <Col className="col-3">Status:</Col>
-                                            <Col className="col-4">
-                                                <Card.Title className={className} style={{ textAlign: "left", marginLeft: "5%" }}>
-                                                    {selected_course.status}
-                                                </Card.Title>
-                                            </Col>
-                                            <Col>
-                                                {isPublic ? <></> :
-                                                    <div style={{ textAlign: "right" }}>
-                                                        {isEditingMode ?
-                                                            <FaCheck onClick={() => this.onEditPage()} style={{ width: "30px", height: "30px", marginRight: "10%" }} className="button-icon" /> :
-                                                            <FaEdit onClick={() => this.onEditPage()} style={{ width: "30px", height: "30px", marginRight: "10%" }} className="button-icon" />
-                                                        }
-                                                    </div>
-                                                }
-                                            </Col>
-                                        </Row>
-                                        <Row style={{ textAlign: "left" }}>
-                                            <Col className="col-3">Price:</Col>
-                                            <Col className="col-4">
-                                                <Card.Title style={{ textAlign: "left", marginLeft: "5%" }}>
-                                                    {isEditingMode ?
-                                                        <input onChange={(e) => this.onChangePrice(e.target.value)} type="text" class="form-control" value={selected_course.price} /> :
-                                                        selected_course.price
+                <>
+                    <div style={{ marginLeft: "1%", overflowY: 'scroll', height: '76vh' }} >
+                        <Row>
+                            <Card style={{ width: '95%', marginBottom: "1%" }}>
+                                <div style={{ textAlign: "center" }}>
+                                    {isEditingMode ?
+                                        <input onChange={(e) => this.onChangeNameCourse(e.target.value)} type="text" class="form-control" value={selected_course.name} /> :
+                                        <h2><strong>{selected_course.name}</strong></h2>
+                                    }
+                                </div>
+                                <Card.Body>
+                                    <Row>
+                                        <Col className="col-5">
+                                            <Card.Img style={{ width: "350px", height: "250px" }} src={selected_course.image_avatar} />
+                                        </Col>
+                                        <Col className="col-7">
+                                            <Row style={{ textAlign: "left" }}>
+                                                <Col className="col-3">Status:</Col>
+                                                <Col className="col-4">
+                                                    <Card.Title className={className} style={{ textAlign: "left", marginLeft: "5%" }}>
+                                                        {selected_course.status}
+                                                    </Card.Title>
+                                                </Col>
+                                                <Col>
+                                                    {isPublic ? <></> :
+                                                        <div style={{ textAlign: "right" }}>
+                                                            {isEditingMode ?
+                                                                <FaCheck onClick={() => this.onEditPage()} style={{ width: "30px", height: "30px", marginRight: "10%" }} className="button-icon" /> :
+                                                                <FaEdit onClick={() => this.onEditPage()} style={{ width: "30px", height: "30px", marginRight: "10%" }} className="button-icon" />
+                                                            }
+                                                        </div>
                                                     }
-                                                </Card.Title>
-                                            </Col>
-                                        </Row>
-                                        <Row style={{ textAlign: "left" }}>
-                                            <Col className="col-3">Vews:</Col>
-                                            <Col className="col-4">
-                                                <Card.Title style={{ textAlign: "left", marginLeft: "5%" }}>
-                                                    {selected_course.view_count}
-                                                </Card.Title>
-                                            </Col>
-                                        </Row>
-                                        <Row style={{ textAlign: "left" }}>
-                                            <Col className="col-3">Erols:</Col>
-                                            <Col className="col-4">
-                                                <Card.Title style={{ textAlign: "left", marginLeft: "5%" }}>
-                                                    {selected_course.total_erol}
-                                                </Card.Title>
-                                            </Col>
-                                        </Row>
-                                        <Row style={{ textAlign: "left" }}>
-                                            <Col className="col-3">Feedback:</Col>
-                                            <Col className="col-4">
-                                                <Card.Title style={{ textAlign: "left", marginLeft: "5%" }}>
-                                                    {selected_course.total_feedback}
-                                                </Card.Title>
-                                            </Col>
-                                        </Row>
-                                        <Row style={{ textAlign: "left" }}>
-                                            <Col className="col-3">Type:</Col>
-                                            <Col className="col-5">
-                                                <Card.Title style={{ textAlign: "left", marginLeft: "5%" }}>
-                                                    {selected_course.type}
-                                                </Card.Title>
-                                            </Col>
-                                        </Row>
-                                        <Row style={{ textAlign: "left" }}>
-                                            <Col className="col-4">
-                                                <Card.Title>
-                                                    {this.renderStars(selected_course.avg_feedback)}
-                                                </Card.Title>
-                                            </Col>
-                                        </Row>
-                                        <Button style={{ width: "30%", fontSize: "12px" }} onClick={() => this.onShowOrCloseModalSlide()} variant="primary">View Slide</Button>
-                                        <Button style={{ width: "30%", fontSize: "12px" }} onClick={() => this.onShowManagedLesson()} variant="primary">View Lesson</Button>
-                                        <Button style={{ width: "30%", fontSize: "12px" }} onClick={() => this.onShowViewFeedBack()} variant="primary">View FeedBack</Button>
-                                    </Col>
-                                </Row>
-                            </Card.Body>
-                        </Card>
-                        <Card style={{ width: '95%', marginBottom: "1%" }}>
-                            <Card.Body>
-                                <Card.Title>
-                                    Short Detail
+                                                </Col>
+                                            </Row>
+                                            <Row style={{ textAlign: "left" }}>
+                                                <Col className="col-3">Price:</Col>
+                                                <Col className="col-4">
+                                                    <Card.Title style={{ textAlign: "left", marginLeft: "5%" }}>
+                                                        {isEditingMode ?
+                                                            <input onChange={(e) => this.onChangePrice(e.target.value)} type="text" class="form-control" value={selected_course.price} /> :
+                                                            selected_course.price
+                                                        }
+                                                    </Card.Title>
+                                                </Col>
+                                            </Row>
+                                            <Row style={{ textAlign: "left" }}>
+                                                <Col className="col-3">Promote Rate:</Col>
+                                                <Col className="col-4">
+                                                    <Card.Title style={{ textAlign: "left", marginLeft: "5%" }}>
+                                                        {isEditingMode ?
+                                                            <input onChange={(e) => this.onChangePromoteRate(e.target.value)} type="text" class="form-control" value={promoteRate} />
+                                                            : promoteRate
+                                                        }
+                                                    </Card.Title>
+                                                </Col>
+                                            </Row>
+                                            <Row style={{ textAlign: "left" }}>
+                                                <Col className="col-3">Vews:</Col>
+                                                <Col className="col-4">
+                                                    <Card.Title style={{ textAlign: "left", marginLeft: "5%" }}>
+                                                        {selected_course.view_count}
+                                                    </Card.Title>
+                                                </Col>
+                                            </Row>
+                                            <Row style={{ textAlign: "left" }}>
+                                                <Col className="col-3">Erols:</Col>
+                                                <Col className="col-4">
+                                                    <Card.Title style={{ textAlign: "left", marginLeft: "5%" }}>
+                                                        {selected_course.total_erol ? selected_course.total_erol : 0}
+                                                    </Card.Title>
+                                                </Col>
+                                            </Row>
+                                            <Row style={{ textAlign: "left" }}>
+                                                <Col className="col-3">Feedback:</Col>
+                                                <Col className="col-4">
+                                                    <Card.Title style={{ textAlign: "left", marginLeft: "5%" }}>
+                                                        {selected_course.total_feedback}
+                                                    </Card.Title>
+                                                </Col>
+                                            </Row>
+                                            <Row style={{ textAlign: "left" }}>
+                                                <Col className="col-3">Type:</Col>
+                                                <Col className="col-5">
+                                                    <Card.Title style={{ textAlign: "left", marginLeft: "5%" }}>
+                                                        {selected_course.type}
+                                                    </Card.Title>
+                                                </Col>
+                                            </Row>
+                                            <Row style={{ textAlign: "left" }}>
+                                                <Col className="col-4">
+                                                    <Card.Title>
+                                                        {this.renderStars(selected_course.avg_feedback)}
+                                                    </Card.Title>
+                                                </Col>
+                                            </Row>
+                                            <Button style={{ width: "30%", fontSize: "12px" }} onClick={() => this.onShowOrCloseModalSlide()} variant="primary">View Slide</Button>
+                                            <Button style={{ width: "30%", fontSize: "12px" }} onClick={() => this.onShowManagedLesson()} variant="primary">View Lesson</Button>
+                                            <Button style={{ width: "30%", fontSize: "12px" }} onClick={() => this.onShowViewFeedBack()} variant="primary">View FeedBack</Button>
+                                        </Col>
+                                    </Row>
+                                </Card.Body>
+                            </Card>
+                            <Card style={{ width: '95%', marginBottom: "1%" }}>
+                                <Card.Body>
+                                    <Card.Title>
+                                        Short Detail
                                 </Card.Title>
-                                <Card.Text>
-                                    {isEditingMode ?
-                                        <Editor
-                                            EditorState={this.state.shortDetail}
-                                            toolbarClassName="toolbarClassName"
-                                            wrapperClassName="wrapperClassName"
-                                            editorClassName="editorClassName"
-                                            onEditorStateChange={this.onEditorShortDetailStateChange}
-                                        /> :
-                                        draftToHtml(convertToRaw(this.state.shortDetail.getCurrentContent()))
-                                    }
-                                </Card.Text>
-                            </Card.Body>
-                        </Card>
-                        <Card style={{ width: '95%', marginBottom: "1%" }}>
-                            <Card.Body>
-                                <Card.Title>
-                                    Detail
+                                    <Editor
+                                        apiKey='vnv0h8lv17ek5lg9pci17owmqylg8xnvucvdc5d8hkgqbhwr'
+                                        value={shortDetail}
+                                        disabled={!isEditingMode}
+                                        init={{
+                                            height: 300,
+                                            menubar: true,
+                                            plugins: [
+                                                'advlist autolink lists link image charmap print preview anchor',
+                                                'searchreplace visualblocks code fullscreen',
+                                                'insertdatetime media table paste code help wordcount'
+                                            ],
+                                            toolbar: 'undo redo | formatselect | bold italic backcolor | \
+                                            alignleft aligncalignright alignjustify | \
+                                            bullist numlist outdent indent | removeformat | help'
+                                        }}
+                                        onChange={(e) => this.onEditorShortDetailStateChange(e.target.value)}
+                                    />
+                                </Card.Body>
+                            </Card>
+                            <Card style={{ width: '95%', marginBottom: "1%" }}>
+                                <Card.Body>
+                                    <Card.Title>
+                                        Detail
                             </Card.Title>
-                                <Card.Text>
-                                    {isEditingMode ?
-                                        <Editor
-                                            EditorState={this.state.detailDes}
-                                            toolbarClassName="toolbarClassName"
-                                            wrapperClassName="wrapperClassName"
-                                            editorClassName="editorClassName"
-                                            onEditorStateChange={this.onEditorDetailStateChange}
-                                        /> :
-                                        draftToHtml(convertToRaw(this.state.detailDes.getCurrentContent()))
-                                    }
-                                </Card.Text>
-                            </Card.Body>
-                        </Card>
-                    </Row >
-                </ div >
+                                    <Editor
+                                        apiKey='vnv0h8lv17ek5lg9pci17owmqylg8xnvucvdc5d8hkgqbhwr'
+                                        value={detailDes}
+                                        disabled={!isEditingMode}
+                                        init={{
+                                            height: 300,
+                                            menubar: true,
+                                            plugins: [
+                                                'advlist autolink lists link image charmap print preview anchor',
+                                                'searchreplace visualblocks code fullscreen',
+                                                'insertdatetime media table paste code help wordcount'
+                                            ],
+                                            toolbar: 'undo redo | formatselect | bold italic backcolor | \
+                                            alignleft aligncalignright alignjustify | \
+                                            bullist numlist outdent indent | removeformat | help'
+                                        }}
+                                        onChange={(e) => this.onEditorDetailStateChange(e.target.value)}
+                                    />
+                                </Card.Body>
+                            </Card>
+                        </Row >
+                    </ div >
+                    {!isPublic ?
+                        <Row>
+                            <Col className="col-5">
+                            </Col>
+                            <Col className="col-6">
+                                <Button variant="info">Public</Button>
+                            </Col>
+                        </Row> : <></>
+                    }
+
+                </>
             }
         </>
     }
@@ -460,16 +503,12 @@ class ManagedCourses extends Component {
                                 <label for="exampleForm2">Lesson Name</label>
                                 <input type="text" class="form-control" />
                             </div>
-                            <div style={{ paddingBottom: "2%" }}>
-                                <label for="exampleForm2">Lesson URL</label>
-                                <input type="text" class="form-control" />
-                            </div>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
                                 </div>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="inputGroupFile01"
+                                    <input onChange={(e) => this.onChangeSelectFile(e)} type="file" class="custom-file-input" id="inputGroupFile01"
                                         aria-describedby="inputGroupFileAddon01" />
                                     <label class="custom-file-label" for="inputGroupFile01">Choose video</label>
                                 </div>
@@ -484,7 +523,21 @@ class ManagedCourses extends Component {
         </>
     }
 
+    onChangeSlideName(slideName) {
+        this.setState({ slide_name: slideName })
+    }
+
+    onChecked() {
+        var { isPreview } = this.state;
+        this.setState({ isPreview: !isPreview })
+    }
+
+    onChangeSelectFile(e) {
+        this.props.requestApiPostUploadFile(e.target.files[0])
+    }
+
     renderManagedSlide(isPublic) {
+        var { slideInfo } = this.state;
         return <>
             <div className="table-wrapper-scroll-y my-custom-scrollbar" style={{ maxHeight: "30vh" }}>
                 <Table responsive="sm">
@@ -510,34 +563,50 @@ class ManagedCourses extends Component {
                     <h4><strong>Add New Slide</strong></h4>
                     <div style={{ paddingBottom: "2%" }}>
                         <label for="exampleForm2">Slide Name</label>
-                        <input type="text" class="form-control" />
-                    </div>
-                    <div style={{ paddingBottom: "2%" }}>
-                        <label for="exampleForm2">Slide URL</label>
-                        <input type="text" class="form-control" />
+                        <input onChange={(e) => this.onChangeSlideName(e.target.value)} type="text" class="form-control" />
                     </div>
                     <div class="form-check mb-2 mr-sm-2" style={{ paddingBottom: "2%" }}>
-                        <input class="form-check-input" type="checkbox" id="inlineFormCheckMD" />
+                        <input onChange={() => this.onChecked()} class="form-check-input" type="checkbox" id="inlineFormCheckMD" />
                         <label class="form-check-label" for="inlineFormCheckMD">
                             Is Preview
-                    </label>
+                        </label>
                     </div>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
                         </div>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="inputGroupFile01"
+                            <input onChange={(e) => this.onChangeSelectFile(e)} type="file" class="custom-file-input" id="inputGroupFile01"
                                 aria-describedby="inputGroupFileAddon01" />
-                            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                            <label class="custom-file-label" for="inputGroupFile01">{slideInfo.file_name != "" ? slideInfo.file_name : "Choose file"}</label>
                         </div>
                     </div>
                     <div style={{ textAlign: "right" }}>
-                        <Button style={{ marginTop: "5%" }} type="button" >Add</Button>
+                        <Button onClick={() => this.onAddSlide()} style={{ marginTop: "5%" }} type="button" >Add</Button>
                     </div>
                 </div>
             }
         </>
+    }
+
+    onAddSlide() {
+        var { slideName, isPreview, slideInfo, selected_course } = this.state;
+        this.props.requestApiPostAddSlide(
+            {
+                slide_name: slideName,
+                file_name: slideInfo.file_name,
+                file_url: slideInfo.file_url,
+                is_allow_preview: isPreview
+            });
+        this.setState({
+            lide_name: "",
+            slideInfo: {
+                file_name: "",
+                file_url: ""
+            },
+            is_allow_preview: false
+        });
+        this.props.requestApiGetAllSlides(selected_course.id);
     }
 
     renderViewFeedBack() {
@@ -573,6 +642,9 @@ const mapDispatchToProps = dispatch => {
         requestApiGetAllSlides: (id) => dispatch(requestApiGetAllSlides(id)),
         requestApiGetAllLessons: (id) => dispatch(requestApiGetAllLessons(id)),
         requestApiGetAllFeedbacks: (id) => dispatch(requestApiGetAllFeedbacks(id)),
+        requestApiPostAddLesson: (lesson) => dispatch(requestApiPostAddLesson(lesson)),
+        requestApiPostAddSlide: (slide) => dispatch(requestApiPostAddSlide(slide)),
+        requestApiPostUploadFile: (file) => dispatch(requestApiPostUploadFile(file)),
     };
 }
 
@@ -581,7 +653,10 @@ const mapStateToProps = state => ({
     allSlides: state.requestGetAllSlidesReducer,
     allLessons: state.requestGetAllLessonsReducer,
     allFeedbacks: state.requestGetAllFeedbacksReducer,
-    allCategories: state.requestGetAllCategoriesReducer
+    allCategories: state.requestGetAllCategoriesReducer,
+    slideResult: state.requestAddSlideReducer,
+    lessonResult: state.requestAddLessonReducer,
+    fileResult: state.requestUploadFileReducer,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManagedCourses)

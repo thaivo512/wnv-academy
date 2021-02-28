@@ -1,7 +1,8 @@
 import {
     RECEIVE_API_GET_ALL_COURSES, RECEIVE_API_GET_ALL_SLIDES,
     RECEIVE_API_GET_ALL_LESSONS, RECEIVE_API_GET_ALL_FEEDBACKS,
-    RECEIVE_API_GET_ALL_CATEGORIES
+    RECEIVE_API_GET_ALL_CATEGORIES, RECEIVE_API_POST_UPLOAD_FILE,
+    RECEIVE_API_POST_ADD_SLIDE, RECEIVE_API_POST_ADD_LESSON
 } from './action';
 
 export const requestGetAllCoursesReducer = (state = {}, { type, courses }) => {
@@ -48,4 +49,33 @@ export const requestGetAllCategoriesReducer = (state = {}, { type, categories })
             return state;
     }
 }
+
+export const requestUploadFileReducer = (state = {}, { type, fileResult }) => {
+    switch (type) {
+        case RECEIVE_API_POST_UPLOAD_FILE:
+            return fileResult;
+        default:
+            return state;
+    }
+}
+
+export const requestAddSlideReducer = (state = {}, { type, slideResult }) => {
+    switch (type) {
+        case RECEIVE_API_POST_ADD_SLIDE:
+            return slideResult;
+        default:
+            return state;
+    }
+}
+
+export const requestAddLessonReducer = (state = {}, { type, lessonResult }) => {
+    switch (type) {
+        case RECEIVE_API_POST_ADD_LESSON:
+            return lessonResult;
+        default:
+            return state;
+    }
+}
+
+
 
