@@ -27,3 +27,24 @@ export const RECEIVE_API_POST_FEEDBACK = "RECEIVE_API_POST_FEEDBACK";
 
 export const requestApiPostFeedback = body => ({ type: REQUEST_API_POST_FEEDBACK, body });
 export const receiveApiPostFeedback = data => ({ type: RECEIVE_API_POST_FEEDBACK, data });
+
+
+export const REQUEST_API_REMOVE_WATCHLIST = "REQUEST_API_REMOVE_WATCHLIST";
+export const RECEIVE_API_REMOVE_WATCHLIST = "RECEIVE_API_REMOVE_WATCHLIST";
+
+export const requestApiRemoveWatchlist = id => ({ type: REQUEST_API_REMOVE_WATCHLIST, id });
+export const receiveApiRemoveWatchlist = data => ({ type: RECEIVE_API_REMOVE_WATCHLIST, data });
+
+
+export const REQUEST_API_ADD_WATCHLIST = "REQUEST_API_ADD_WATCHLIST";
+export const RECEIVE_API_ADD_WATCHLIST = "RECEIVE_API_ADD_WATCHLIST";
+
+export const requestApiAddWatchlist = id => ({ type: REQUEST_API_ADD_WATCHLIST, id });
+export const receiveApiAddWatchlist = data => ({ type: RECEIVE_API_ADD_WATCHLIST, data });
+
+
+export const REQUEST_API_ENROL_COURSE = "REQUEST_API_ENROL_COURSE";
+export const RECEIVE_API_ENROL_COURSE = "RECEIVE_API_ENROL_COURSE";
+
+export const requestApiEnrolCourse = id => ({ type: REQUEST_API_ENROL_COURSE, id });
+export const receiveApiEnrolCourse = data => ({ type: RECEIVE_API_ENROL_COURSE, data });

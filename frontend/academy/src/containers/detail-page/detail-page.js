@@ -7,7 +7,7 @@ import queryString from 'query-string';
 import { Link} from 'react-router-dom';
 import { Carousel, Card } from 'react-bootstrap';
 import * as moment from 'moment'
-import { Comment, Rate, Avatar, Form, Input, Button } from 'antd';
+import { Comment, Rate, Avatar, Form, Input, Button, Divider } from 'antd';
 
 
 
@@ -16,7 +16,10 @@ import {
     requestApiGetCourseSimilar,
     requestApiGetSlidePreview,
     requestApiGetFeedback,
-    requestApiPostFeedback
+    requestApiPostFeedback,
+    requestApiRemoveWatchlist,
+    requestApiAddWatchlist,
+    requestApiEnrolCourse
 } from './redux/action';
 import { toast } from 'react-toastify';
 
@@ -117,9 +120,48 @@ class DetailPage extends Component {
 
             this.props.requestApiGetFeedback(this.state.id);
         }  
+
+        const removeWatchlistResponse = this.props.removeWatchlistResponse;
+        if(removeWatchlistResponse && removeWatchlistResponse.is_success) {
+            this.props.removeWatchlistResponse.is_success = false;
+            this.props.requestApiGetCourseDetail(this.state.id);
+        }  
+
+        const addWatchlistResponse = this.props.addWatchlistResponse;
+        if(addWatchlistResponse && addWatchlistResponse.is_success) {
+            this.props.addWatchlistResponse.is_success = false;
+            this.props.requestApiGetCourseDetail(this.state.id);
+        }  
+
+        const enrolCourseResponse = this.props.enrolCourseResponse;
+        if(enrolCourseResponse && enrolCourseResponse.is_success) {
+            this.props.enrolCourseResponse.is_success = false;
+            this.props.requestApiGetCourseDetail(this.state.id);
+        }  
+        
     }
 
+    onClickRemoveWatchlist = () => {
+        this.props.requestApiRemoveWatchlist(this.state.id);
+    }
 
+    onClickAddWatchlist = () => {
+        const isLogin = localStorage.getItem('is_success');
+        if(!isLogin) {
+            this.props.history.push('/login');
+            return;
+        }
+        this.props.requestApiAddWatchlist(+this.state.id);
+    }
+
+    onClickEnrolCourse = () => {
+        const isLogin = localStorage.getItem('is_success');
+        if(!isLogin) {
+            this.props.history.push('/login');
+            return;
+        }
+        this.props.requestApiEnrolCourse(+this.state.id);
+    }
     
     onSubmitFeedback = () => {
         if(!this.state.comment.trim()) return;
@@ -159,11 +201,26 @@ class DetailPage extends Component {
                         {
                             !this.state.course? <div style={{ padding: '140px 0' }}>Not Found</div> :
                             <div>
-                                <div style={{ display: 'flex',justifyContent: 'center'}}>
-                                    <div>
-                                        <img src={`https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur`}/>
+                                <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
+                                    <div style={{ flex: 1,}}>
+                                        <img style={{ width: '100%' }}
+                                            src={`https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur`}/>
+                                        <div>
+                                            { 
+                                                this.state.course.is_watchlisted? 
+                                                <Button danger onClick={this.onClickRemoveWatchlist}>Xóa khỏi Watchlist</Button>: 
+                                                <Button onClick={this.onClickAddWatchlist}>Thêm vào Watchlist</Button>
+                                                
+                                            }
+                                            <Divider type="vertical"/>
+                                            {
+                                                this.state.course.is_enrolled? 
+                                                <Button type='primary' onClick={() => this.props.history.push(`/course?id=${this.state.course.id}`)}>Đi đến khóa học</Button> : 
+                                                <Button type='primary' onClick={this.onClickEnrolCourse}>Đăng ký tham gia</Button>
+                                            }
+                                        </div>
                                     </div>
-                                    <div style={{ textAlign: 'left' }}>
+                                    <div style={{ textAlign: 'left', flex: 1 }}>
                                         <p>Ten khoa hoc: {this.state.course.name}</p>
                                         <p>Danh muc: {this.state.course.category.name}</p>
                                         <p>Giang vien: {this.state.course.teacher.name}</p>
@@ -321,6 +378,9 @@ const mapDispatchToProps = dispatch => {
         requestApiGetSlidePreview: (id) => dispatch(requestApiGetSlidePreview(id)),
         requestApiGetFeedback: (id) => dispatch(requestApiGetFeedback(id)),
         requestApiPostFeedback: (body) => dispatch(requestApiPostFeedback(body)),
+        requestApiRemoveWatchlist: (id) => dispatch(requestApiRemoveWatchlist(id)),
+        requestApiAddWatchlist: (id) => dispatch(requestApiAddWatchlist(id)),
+        requestApiEnrolCourse: (id) => dispatch(requestApiEnrolCourse(id)),
     };
 }
 
@@ -329,7 +389,10 @@ const mapStateToProps = state => ({
     coursesSimilarResponse: state.requestGetCourseSimilarReducer,
     slidePreviewResponse: state.requestGetSlidePreviewReducer,
     feedbackResponse: state.requestGetFeedbackReducer,
-    postFeedbackResponse: state.requestPostFeedbackReducer
+    postFeedbackResponse: state.requestPostFeedbackReducer,
+    removeWatchlistResponse: state.requestRemoveWatchlistReducer,
+    addWatchlistResponse: state.requestAddWatchlistReducer,
+    enrolCourseResponse: state.requestEnrolCourseReducer
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailPage)

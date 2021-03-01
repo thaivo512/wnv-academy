@@ -3,7 +3,10 @@ import {
     RECEIVE_API_GET_COURSE_SIMILAR,
     RECEIVE_API_GET_SLIDE_PREVIEW,
     RECEIVE_API_GET_FEEDBACK,
-    RECEIVE_API_POST_FEEDBACK
+    RECEIVE_API_POST_FEEDBACK,
+    RECEIVE_API_REMOVE_WATCHLIST,
+    RECEIVE_API_ADD_WATCHLIST,
+    RECEIVE_API_ENROL_COURSE
 } from './action';
 
 
@@ -53,6 +56,36 @@ export const requestGetFeedbackReducer = (state = {}, { type, data }) => {
 export const requestPostFeedbackReducer = (state = {}, { type, data }) => {
     switch (type) {
         case RECEIVE_API_POST_FEEDBACK:
+            return data;
+        default:
+            return state;
+    }
+}
+
+
+export const requestRemoveWatchlistReducer = (state = {}, { type, data }) => {
+    switch (type) {
+        case RECEIVE_API_REMOVE_WATCHLIST:
+            return data;
+        default:
+            return state;
+    }
+}
+
+
+export const requestAddWatchlistReducer = (state = {}, { type, data }) => {
+    switch (type) {
+        case RECEIVE_API_ADD_WATCHLIST:
+            return data;
+        default:
+            return state;
+    }
+}
+
+
+export const requestEnrolCourseReducer = (state = {}, { type, data }) => {
+    switch (type) {
+        case RECEIVE_API_ENROL_COURSE:
             return data;
         default:
             return state;

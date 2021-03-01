@@ -4,14 +4,20 @@ import {
     REQUEST_API_GET_COURSE_SIMILAR, receiveApiGetCourseSimilar,
     REQUEST_API_GET_SLIDE_PREVIEW, receiveApiGetSlidePreview,
     REQUEST_API_GET_FEEDBACK, receiveApiGetFeedback,
-    REQUEST_API_POST_FEEDBACK, receiveApiPostFeedback, requestApiPostFeedback
+    REQUEST_API_POST_FEEDBACK, receiveApiPostFeedback, 
+    REQUEST_API_REMOVE_WATCHLIST, receiveApiRemoveWatchlist,
+    REQUEST_API_ADD_WATCHLIST, receiveApiAddWatchlist,
+    REQUEST_API_ENROL_COURSE, receiveApiEnrolCourse
 } from './action';
 import {
     requestGetCourseDetail,
     requestGetCourseSimilar,
     requestGetSlidePreview,
     requestGetFeedback,
-    requestPostFeedback
+    requestPostFeedback,
+    requestRemoveWatchlist,
+    requestAddWatchlist,
+    requestEnrolCourse
 } from './api';
 
 
@@ -65,6 +71,34 @@ function* postFeedbackSaga({ body }) {
     }
 }
 
+
+function* removeWatchlistSaga({ id }) {
+    try {
+        const data = yield call(requestRemoveWatchlist, id);
+        yield put(receiveApiRemoveWatchlist(data));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function* addWatchlistSaga({ id }) {
+    try {
+        const data = yield call(requestAddWatchlist, id);
+        yield put(receiveApiAddWatchlist(data));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function* enrolCourseSaga({ id }) {
+    try {
+        const data = yield call(requestEnrolCourse, id);
+        yield put(receiveApiEnrolCourse(data));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 export default function* getCourseDetailSage() {
     yield takeLatest(REQUEST_API_GET_COURSE_DETAIL, getCourseDetailSaga);
 
@@ -75,4 +109,10 @@ export default function* getCourseDetailSage() {
     yield takeLatest(REQUEST_API_GET_FEEDBACK, getFeedbackSaga);
 
     yield takeLatest(REQUEST_API_POST_FEEDBACK, postFeedbackSaga);
+
+    yield takeLatest(REQUEST_API_REMOVE_WATCHLIST, removeWatchlistSaga);
+
+    yield takeLatest(REQUEST_API_ADD_WATCHLIST, addWatchlistSaga);
+
+    yield takeLatest(REQUEST_API_ENROL_COURSE, enrolCourseSaga);
 }
