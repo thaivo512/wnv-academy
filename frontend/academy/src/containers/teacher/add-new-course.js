@@ -8,7 +8,6 @@ import {
     requestApiPostAddCourse,
     requestApiPostUploadFile
 } from './redux/action';
-import { Redirect } from 'react-router-dom';
 
 class AddNewCourse extends Component {
     constructor(props) {

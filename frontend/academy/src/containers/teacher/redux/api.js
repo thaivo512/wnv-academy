@@ -126,6 +126,36 @@ export const requestPostAddCourse = async (payload) => {
     }
 }
 
+export const requestPostUpdateCourse = async (payload) => {
+    var course = payload.course;
+    const requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem('access_token'),
+        },
+        body: JSON.stringify({
+            name: course.courseName,
+            image_avatar: course.avatar,
+            short_description: course.shortDetail,
+            detail_description: course.detail,
+            price: parseInt(course.price),
+            price_promote: course.pricePromote,
+            category_id: course.category
+        }),
+        method: 'POST',
+    };
+    try {
+        const response = await fetch(API_URL + 'course/' + course.id, requestOptions);
+        var result = await response.json();
+        if (result == null && result.is_success == false) return;
+        toast.success("Update successed.");
+        return result;
+    } catch (e) {
+        toast.error(e);
+        return { isFail: true };
+    }
+}
+
 export const requestPostAddSlide = async (payload) => {
     var slide = payload.slide;
     const requestOptions = {
@@ -137,7 +167,8 @@ export const requestPostAddSlide = async (payload) => {
             slide_name: slide.slide_name,
             file_name: slide.file_name,
             file_url: slide.file_url,
-            is_allow_preview: slide.is_allow_preview
+            is_allow_preview: slide.is_allow_preview,
+            course_id: slide.course_id
         }),
         method: 'POST',
     };
@@ -154,16 +185,17 @@ export const requestPostAddSlide = async (payload) => {
 }
 
 export const requestPostAddLesson = async (payload) => {
-    var slide = payload.lesson;
+    var lesson = payload.lesson;
     const requestOptions = {
         headers: {
             'Content-Type': 'application/json',
             'x-access-token': localStorage.getItem('access_token'),
         },
         body: JSON.stringify({
-            lesson_name: slide.lesson_name,
-            file_name: slide.file_name,
-            file_url: slide.file_url,
+            course_id: lesson.course_id,
+            lesson_name: lesson.lesson_name,
+            file_name: lesson.file_name,
+            file_url: lesson.file_url,
         }),
         method: 'POST',
     };

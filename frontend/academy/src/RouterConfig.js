@@ -32,17 +32,7 @@ class RouterConfig extends Component {
         return (
             <Router>
                 <Route path='/home-page' exact={true} component={HomePage} />
-                {
-                    is_success ?
-                        this.routeByRole(teacherInfo.role) :
-                        this.routeUnauthorize()
-                }
                 <Route path='/search' exact={true} component={SearchPage}  />
-                {
-                    is_success ?
-                        this.routeByRole(teacherInfo.role) :
-                        this.routeUnauthorize()
-                }
                 <Route path='/details' exact={true} component={DetailPage}  />
                 {
                     is_success ?

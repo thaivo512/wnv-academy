@@ -8,7 +8,8 @@ import {
     requestApiGetAllCourses, requestApiGetAllSlides,
     requestApiGetAllLessons, requestApiGetAllFeedbacks,
     requestApiGetAllCategories, requestApiPostAddSlide,
-    requestApiPostAddLesson, requestApiPostUploadFile
+    requestApiPostAddLesson, requestApiPostUploadFile,
+    requestApiPostUpdateCourse
 } from './redux/action';
 import AddNewCourse from './add-new-course';
 import { Editor } from '@tinymce/tinymce-react';
@@ -25,17 +26,22 @@ class ManagedCourses extends Component {
             isShowModalFeedBack: false,
             isEditingMode: false,
             isPreviewMode: false,
+            lesson_name: "",
             selectedVideoUrl: "",
             shortDetail: "",
             detailDes: "",
             feedbacks: [],
             selected_course: {},
             courses: [],
-            slideName: "",
+            slide_name: "",
             isPreview: false,
             slides: [],
             promoteRate: 0,
-            slideInfo: {
+            isGetSlide: false,
+            isGetLesson: false,
+            isChangeImage: false,
+            allLessons: [],
+            fileInfo: {
                 file_name: "",
                 file_url: ""
             }
@@ -48,25 +54,54 @@ class ManagedCourses extends Component {
     }
 
     componentDidUpdate() {
-        var { slideInfo, slides, courses } = this.state;
+        var { fileInfo, slides, courses, selected_course, isGetCourses, isGetSlide, isGetLesson, allLessons, isChangeImage } = this.state;
+        var course = this.props.allCourses[0] ? this.props.allCourses[0] : {};
+
+        if (isGetSlide) {
+            this.props.requestApiGetAllSlides(selected_course.id);
+        }
+
+        if (isGetLesson) {
+            this.props.requestApiGetAllLessons(selected_course.id);
+        }
+
+        if (isGetCourses) {
+            this.props.requestApiGetAllCourses();
+        }
+
         if (this.props.allCourses && courses.length != this.props.allCourses.length) {
             this.setState(
                 {
                     courses: this.props.allCourses,
-                    selected_course: this.props.allCourses[0],
+                    selected_course: course,
+                    shortDetail: course.short_description,
+                    detailDes: course.detail_description,
+                    isGetCourses: false,
+                    promoteRate: ((course.price - course.price_promote) / course.price) * 100
                 }
             )
         }
-        if (this.props.fileResult && slideInfo.file_name != this.props.fileResult.file_name) {
+
+        if (this.props.fileResult && fileInfo.file_name != this.props.fileResult.file_name) {
             this.setState({
-                slideInfo: {
+                fileInfo: {
                     file_name: this.props.fileResult.file_name,
                     file_url: this.props.fileResult.url
                 }
             })
         }
-        if (this.props.allSlides && this.props.allSlides.length != slides.length) {
-            this.setState({ slides: this.props.allSlides })
+
+        if (isGetSlide || this.props.allSlides && this.props.allSlides.length != slides.length) {
+            this.setState({ slides: this.props.allSlides, isGetSlide: false })
+        }
+
+        if (isGetLesson || this.props.allLessons && this.props.allLessons.length != allLessons.length) {
+            this.setState({ allLessons: this.props.allLessons, isGetLesson: false })
+        }
+
+        if (this.props.fileResult && course.image_avatar != this.props.fileResult.url) {
+            course.image_avatar = this.props.fileResult.url;
+            this.setState({ selected_course: course, isChangeImage: false })
         }
     }
 
@@ -97,7 +132,6 @@ class ManagedCourses extends Component {
 
     onShowAddCourse() {
         var { isShowAddCourse } = this.state;
-        this.props.requestApiGetAllCourses();
         this.setState({ isShowAddCourse: !isShowAddCourse, isGetCourses: true })
     }
 
@@ -143,12 +177,26 @@ class ManagedCourses extends Component {
             selected_course: course,
             shortDetail: course.short_description,
             detailDes: course.detail_description,
+            isGetLesson: true,
+            isGetSlide: true,
             promoteRate: ((course.price - course.price_promote) / course.price) * 100
         })
     }
 
     onEditPage() {
-        var { isEditingMode } = this.state;
+        var { isEditingMode, selected_course } = this.state;
+        if (isEditingMode) {
+            this.props.requestApiPostUpdateCourse({
+                id: selected_course.id,
+                courseName: selected_course.name,
+                price: selected_course.price,
+                category: selected_course.category.id,
+                detail: selected_course.detail_description,
+                shortDetail: selected_course.short_description,
+                avatar: selected_course.image_avatar,
+                pricePromote: selected_course.price_promote
+            });
+        }
         this.setState({ isEditingMode: !isEditingMode })
     }
 
@@ -188,6 +236,15 @@ class ManagedCourses extends Component {
         this.setState({ isShowModalFeedBack: !isShowModalFeedBack })
     }
 
+    upload() {
+        document.getElementById("selectImage").click()
+    }
+
+    onChangeImage(e) {
+        this.props.requestApiPostUploadFile(e.target.files[0])
+        this.setState({ isChangeImage: true })
+    }
+
     onShowCoursesDetail() {
         var { isEditingMode, selected_course, isShowModalSlide, isShowModalLesson, isShowModalFeedBack, shortDetail, detailDes, promoteRate } = this.state;
         var className = "md-2 ";
@@ -196,6 +253,7 @@ class ManagedCourses extends Component {
             className += selected_course.status;
             isPublic = selected_course.status == "PUBLIC" ? true : false;
         }
+
         return <>
             <EsolModal isShow={isShowModalSlide}
                 title="Managed Slide"
@@ -229,7 +287,8 @@ class ManagedCourses extends Component {
                                 <Card.Body>
                                     <Row>
                                         <Col className="col-5">
-                                            <Card.Img style={{ width: "350px", height: "250px" }} src={selected_course.image_avatar} />
+                                            <Card.Img className="button-icon" onClick={() => this.upload()} style={{ width: "350px", height: "250px" }} src={selected_course.image_avatar} />
+                                            <input id="selectImage" hidden type="file" onChange={(e) => this.onChangeImage(e)} />
                                         </Col>
                                         <Col className="col-7">
                                             <Row style={{ textAlign: "left" }}>
@@ -450,7 +509,7 @@ class ManagedCourses extends Component {
     }
 
     renderManagedLesson(isPublic) {
-        var { isPreviewMode, selectedVideoUrl } = this.state;
+        var { isPreviewMode, selectedVideoUrl, fileInfo } = this.state;
         return <>
             {isPreviewMode ?
                 <>
@@ -501,7 +560,7 @@ class ManagedCourses extends Component {
                             <h4><strong>Add New Lesson</strong></h4>
                             <div style={{ paddingBottom: "2%" }}>
                                 <label for="exampleForm2">Lesson Name</label>
-                                <input type="text" class="form-control" />
+                                <input type="text" onChange={(e) => this.onChangeLessonName(e.target.value)} class="form-control" />
                             </div>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -510,17 +569,34 @@ class ManagedCourses extends Component {
                                 <div class="custom-file">
                                     <input onChange={(e) => this.onChangeSelectFile(e)} type="file" class="custom-file-input" id="inputGroupFile01"
                                         aria-describedby="inputGroupFileAddon01" />
-                                    <label class="custom-file-label" for="inputGroupFile01">Choose video</label>
+                                    <label class="custom-file-label" for="inputGroupFile01">{fileInfo.file_name != "" ? fileInfo.file_name : "Choose file"}</label>
                                 </div>
                             </div>
                             <div style={{ textAlign: "right" }}>
-                                <Button style={{ marginTop: "5%" }} type="button" >Add</Button>
+                                <Button style={{ marginTop: "5%" }} onClick={() => this.onAddLesson()} type="button" >Add</Button>
                             </div>
                         </div>
                     }
                 </>
             }
         </>
+    }
+
+    onAddLesson() {
+        var { lesson_name, fileInfo, lesson_name, selected_course } = this.state;
+
+        this.props.requestApiPostAddLesson({
+            lesson_name: lesson_name,
+            course_id: selected_course.id,
+            file_name: fileInfo.file_name,
+            file_url: fileInfo.file_url,
+        });
+
+        this.setState({ isGetLesson: true })
+    }
+
+    onChangeLessonName(lessonName) {
+        this.setState({ lesson_name: lessonName })
     }
 
     onChangeSlideName(slideName) {
@@ -537,7 +613,7 @@ class ManagedCourses extends Component {
     }
 
     renderManagedSlide(isPublic) {
-        var { slideInfo } = this.state;
+        var { fileInfo } = this.state;
         return <>
             <div className="table-wrapper-scroll-y my-custom-scrollbar" style={{ maxHeight: "30vh" }}>
                 <Table responsive="sm">
@@ -578,7 +654,7 @@ class ManagedCourses extends Component {
                         <div class="custom-file">
                             <input onChange={(e) => this.onChangeSelectFile(e)} type="file" class="custom-file-input" id="inputGroupFile01"
                                 aria-describedby="inputGroupFileAddon01" />
-                            <label class="custom-file-label" for="inputGroupFile01">{slideInfo.file_name != "" ? slideInfo.file_name : "Choose file"}</label>
+                            <label class="custom-file-label" for="inputGroupFile01">{fileInfo.file_name != "" ? fileInfo.file_name : "Choose file"}</label>
                         </div>
                     </div>
                     <div style={{ textAlign: "right" }}>
@@ -590,23 +666,24 @@ class ManagedCourses extends Component {
     }
 
     onAddSlide() {
-        var { slideName, isPreview, slideInfo, selected_course } = this.state;
+        var { slide_name, isPreview, fileInfo, selected_course } = this.state;
         this.props.requestApiPostAddSlide(
             {
-                slide_name: slideName,
-                file_name: slideInfo.file_name,
-                file_url: slideInfo.file_url,
-                is_allow_preview: isPreview
+                slide_name: slide_name,
+                file_name: fileInfo.file_name,
+                file_url: fileInfo.file_url,
+                is_allow_preview: isPreview,
+                course_id: selected_course.id
             });
         this.setState({
             lide_name: "",
-            slideInfo: {
+            fileInfo: {
                 file_name: "",
                 file_url: ""
             },
-            is_allow_preview: false
+            is_allow_preview: false,
+            isGetSlide: true,
         });
-        this.props.requestApiGetAllSlides(selected_course.id);
     }
 
     renderViewFeedBack() {
@@ -645,6 +722,7 @@ const mapDispatchToProps = dispatch => {
         requestApiPostAddLesson: (lesson) => dispatch(requestApiPostAddLesson(lesson)),
         requestApiPostAddSlide: (slide) => dispatch(requestApiPostAddSlide(slide)),
         requestApiPostUploadFile: (file) => dispatch(requestApiPostUploadFile(file)),
+        requestApiPostUpdateCourse: (course) => dispatch(requestApiPostUpdateCourse(course)),
     };
 }
 

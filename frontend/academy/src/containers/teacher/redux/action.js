@@ -51,3 +51,10 @@ export const RECEIVE_API_POST_ADD_LESSON = "RECEIVE_API_POST_ADD_LESSON";
 
 export const requestApiPostAddLesson = (lesson) => ({ type: REQUEST_API_POST_ADD_LESSON, lesson });
 export const receiveApiPostAddLesson = lessonResult => ({ type: RECEIVE_API_POST_ADD_LESSON, lessonResult });
+
+
+export const REQUEST_API_POST_UPDATE_COURSE = "REQUEST_API_POST_UPDATE_COURSE";
+export const RECEIVE_API_POST_UPDATE_COURSE = "RECEIVE_API_POST_UPDATE_COURSE";
+
+export const requestApiPostUpdateCourse = (course) => ({ type: REQUEST_API_POST_UPDATE_COURSE, course });
+export const receiveApiPostUpdateCourse = result => ({ type: RECEIVE_API_POST_UPDATE_COURSE, result });
