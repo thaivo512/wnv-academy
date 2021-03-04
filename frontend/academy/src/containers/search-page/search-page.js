@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 import { Pagination } from 'antd';
 import { withRouter } from 'react-router-dom';
+import { Radio } from 'antd';
 
 import { Link} from 'react-router-dom';
 import { Card } from 'react-bootstrap';
@@ -27,6 +28,8 @@ class SearchPage extends Component {
             page: params.page || 1,
             category: params.category || '',
             q: params.q || '',
+            sort: params.sort || 'price',
+            direct: params.direct || 'asc',
             total: 0,
             size: 20
         }
@@ -37,7 +40,9 @@ class SearchPage extends Component {
             page: this.state.page,
             category: this.state.category,
             q: this.state.q,
-            size: this.state.size
+            size: this.state.size,
+            sort: this.state.sort,
+            direct: this.state.direct,
         });
     }
 
@@ -49,12 +54,16 @@ class SearchPage extends Component {
                 page: params.page || 1,
                 category: params.category || '',
                 q: params.q || '',
+                sort: params.sort || 'price',
+                direct: params.direct || 'asc',
             })
 
             this.props.requestApiSearchCourse({
                 page: params.page || 1,
                 category: params.category || '',
                 q: params.q || '',
+                sort: params.sort || 'price',
+                direct: params.direct || 'asc',
                 size: this.state.size
             });
         }
@@ -72,42 +81,85 @@ class SearchPage extends Component {
     }
 
     onChangePage = (page, pageSize) => {
-        this.props.history.push(`/search?page=${page}&category=${this.state.category}&q=${this.state.q}`);
+        this.props.history.push(
+            `/search?page=${page}&category=${this.state.category}&q=${this.state.q}&sort=${this.state.sort}&direct=${this.state.direct}`);
     }
 
+    handleChangeSort = (e) => {
+        const value = e.target.value.split('|');
+        this.props.history.push(
+            `/search?page=${this.state.page}&category=${this.state.category}&q=${this.state.q}&sort=${value[0]}&direct=${value[1]}`);
+    }
 
     render() {
         return (
             <>
                 <NavBarComponent />
                 <div>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div>
                         {
-                            this.state.courses.map(item => 
-                                <div className="d-flex flex-wrap" style={{ justifyContent: "center" }}>
-                                    <Link class="p-2" to={`/details?id=${item.id}` }>
-                                        <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
-                                            <Card.Img variant="top" src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur" />
-                                            <Card.Body>
-                                                <Card.Title>{item.name}</Card.Title>
-                                                <Card.Text>
-                                                    <div style={{ fontSize: "12px" }}>{item.teacher.name}</div>
-                                                    <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%" }}>{item.price.toLocaleString()} VND</div>
-                                                </Card.Text>
-                                            </Card.Body>
-                                        </Card>
-                                    </Link>
-                                </div>
-                            )
+                            !this.state.courses.length? <div style={{ padding:'160px 0px' }}>Không tìm thấy khóa học nào</div> :
+                            <>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom:'25px' }}>
+                                <Radio.Group value={this.state.sort + '|' + this.state.direct} onChange={this.handleChangeSort}>
+                                    <Radio.Button value="price|asc">Giá tăng dần</Radio.Button>
+                                    <Radio.Button value="price|desc">Giá giảm dần</Radio.Button>
+                                    <Radio.Button value="avg_feedback|asc">Đánh giá tăng dần</Radio.Button>
+                                    <Radio.Button value="avg_feedback|desc">Đánh giá giảm dần</Radio.Button>
+                                </Radio.Group>
+                            </div>
+
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                {
+                                    this.state.courses
+                                        .map(item => {
+                                            let className = 'p-2 ';
+                                            if(item.total_enrol > 0) className += 'best-seller ';
+                                            if(+new Date() - +item.last_update < 1000*60*60*24*100) className += 'newest ';
+
+                                            item.className = className;
+                                            return item;
+                                        })
+                                        .map(item => 
+                                        <div className="d-flex flex-wrap" style={{ justifyContent: "center" }}>
+                                            <Link class={item.className}  
+                                                style={{ position: 'relative' }}
+                                                to={`/details?id=${item.id}` }>
+                                                <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
+                                                    <Card.Img variant="top" src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur" />
+                                                    <Card.Body>
+                                                        <Card.Title>{item.name}</Card.Title>
+                                                        <Card.Text>
+                                                            <div style={{ fontSize: "15px" }}>Danh mục: {item.category.name}</div>
+                                                            <div style={{ fontSize: "15px" }}>Giảng viên: {item.teacher.name}</div>
+                                                            <div style={{ fontSize: "15px", color: "seagreen"}}>
+                                                                {!+item.total_feedback? 
+                                                                    'Chưa có lượt đánh giá' :  
+                                                                    <>
+                                                                        {`${item.total_feedback} đánh giá: ${item.avg_feedback}`} <i class="fas fa-star"></i>
+                                                                    </> 
+                                                                } 
+                                                            </div>
+                                                            <div style={{ fontSize: "15px", marginTop: "3%", textDecoration: "line-through" }}>{item.price.toLocaleString()} VND</div>
+                                                            <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%", color: "red"}}>{item.price_promote.toLocaleString()} VND</div>
+                                                        </Card.Text>
+                                                    </Card.Body>
+                                                </Card>
+                                            </Link>
+                                        </div>
+                                    )
+                                }
+                            </div>
+
+                            <Pagination
+                                style={{ marginTop:30 }}
+                                pageSize={this.state.size}
+                                onChange={this.onChangePage}
+                                total={this.state.total} 
+                                current={this.state.page - 1 + 1} />
+                            </>
                         }
                     </div>
-
-                    <Pagination
-                        style={{ marginTop:30 }}
-                        pageSize={this.state.size}
-                        onChange={this.onChangePage}
-                        total={this.state.total} 
-                        current={this.state.page - 1 + 1} />
                 </div>
                 {this.renderFooter()}
             </>

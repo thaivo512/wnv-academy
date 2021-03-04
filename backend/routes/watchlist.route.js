@@ -12,7 +12,7 @@ const router = express.Router();
 
 
 // WATCH LIST
-router.post('/', auth(userRole.STUDENT), validate(watchlistSchema), async(req, res) => {
+router.post('/', auth(), validate(watchlistSchema), async(req, res) => {
     watchlist = req.body;
     watchlist.user_id = req.accessTokenPayload.id;
 
@@ -37,8 +37,17 @@ router.post('/', auth(userRole.STUDENT), validate(watchlistSchema), async(req, r
     })
 })
 
+router.delete('/:id', auth(), async(req, res) => {
 
-router.get('/', auth(userRole.STUDENT), async(req, res) => {
+    await watchlistModel.delete(req.accessTokenPayload.id, req.params.id);
+
+    res.json({
+        is_success: true
+    })
+})
+
+
+router.get('/', auth(), async(req, res) => {
 
     userId = req.accessTokenPayload.id;
 

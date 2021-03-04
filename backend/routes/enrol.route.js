@@ -14,7 +14,7 @@ const router = express.Router();
  
 
 // ENROL
-router.post('/', auth(userRole.STUDENT), requireActive(), validate(enrolSchema), async(req, res) => {
+router.post('/', auth(), requireActive(), validate(enrolSchema), async(req, res) => {
     enrolCourse = req.body;
     enrolCourse.user_id = req.accessTokenPayload.id;
     enrolCourse.enrol_at = +new Date();
@@ -41,7 +41,7 @@ router.post('/', auth(userRole.STUDENT), requireActive(), validate(enrolSchema),
 })
 
 
-router.get('/', auth(userRole.STUDENT), async(req, res) => {
+router.get('/', auth(), async(req, res) => {
 
     userId = req.accessTokenPayload.id;
 

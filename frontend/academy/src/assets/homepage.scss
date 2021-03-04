@@ -43,3 +43,25 @@ a {
     margin-top: 1%;
     border-top: black solid 1px;
 }
+
+.newest::after {
+    content: "Newest";
+    position: absolute;
+    background: seagreen;
+    color: #fff;
+    padding: 5px;
+    font-size: 13px;
+    top: 20px;
+    right: -5px;
+}
+
+.best-seller::after {
+    content: "Best Seller";
+    position: absolute;
+    background: rgb(218, 120, 9);
+    color: #fff;
+    padding: 5px;
+    font-size: 13px;
+    top: 20px;
+    right: -5px;
+}
