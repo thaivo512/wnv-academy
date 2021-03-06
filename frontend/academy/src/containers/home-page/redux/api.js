@@ -1,78 +1,42 @@
-import { API_URL } from '../../../authenicate/constants';
-import { toast } from 'react-toastify';
+import { exec } from '../../../redux-core/api';
+
 
 export const requestGetTop10CourseView = async () => {
-    const requestOptions = {
-        headers: {
-            'Content-Type': 'application/json'
-        },
+    const courses = await exec({
         method: 'GET',
-    };
-    try {
-        const response = await fetch(API_URL + 'course-search/top10view', requestOptions);
-        var courses = await response.json();
-        if (courses == null) return;
-        return courses.data;
-    } catch (e) {
-        toast.error(e);
-        return { isFail: true };
-    }
+        path: 'course-search/top10view'
+    })
+    
+    if (courses == null) return;
+    return courses.data;
 }
 
 
 export const requestGetTop10CourseNew = async () => {
-    const requestOptions = {
-        headers: {
-            'Content-Type': 'application/json'
-        },
+    const courses = await exec({
         method: 'GET',
-    };
-    try {
-        const response = await fetch(API_URL + 'course-search/top10new', requestOptions);
-        var courses = await response.json();
-        if (courses == null) return;
-        return courses.data;
-    } catch (e) {
-        toast.error(e);
-        return { isFail: true };
-    }
+        path: 'course-search/top10new'
+    })
+    
+    if (courses == null) return;
+    return courses.data;
 }
 
 
 export const requestGetTopCategoryWeek = async () => {
-    const requestOptions = {
-        headers: {
-            'Content-Type': 'application/json'
-        },
+    return exec({
         method: 'GET',
-    };
-    try {
-        const response = await fetch(API_URL + 'category/agg/topEnrollWeek', requestOptions);
-        var categories = await response.json();
-        
-        return categories;
-    } catch (e) {
-        toast.error(e);
-        return { isFail: true };
-    }
+        path: 'category/agg/topEnrollWeek'
+    })
 }
 
 
 export const requestGetTopCourseWeek = async () => {
-    const requestOptions = {
-        headers: {
-            'Content-Type': 'application/json'
-        },
+    const courses = await exec({
         method: 'GET',
-    };
-    try {
-        const response = await fetch(API_URL + 'course-search/top3enrollweek', requestOptions);
-        var courses = await response.json();
-        
-        if (courses == null) return;
-        return courses.data;
-    } catch (e) {
-        toast.error(e);
-        return { isFail: true };
-    }
+        path: 'course-search/top3enrollweek'
+    })
+    
+    if (courses == null) return;
+    return courses.data;
 }

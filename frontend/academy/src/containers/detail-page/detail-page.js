@@ -221,17 +221,17 @@ class DetailPage extends Component {
                                         </div>
                                     </div>
                                     <div style={{ textAlign: 'left', flex: 1 }}>
-                                        <p>Ten khoa hoc: {this.state.course.name}</p>
-                                        <p>Danh muc: {this.state.course.category.name}</p>
-                                        <p>Giang vien: {this.state.course.teacher.name}</p>
-                                        <p>Mo ta ngan: {this.state.course.short_description}</p>
-                                        <p>So luong hoc vien: {this.state.course.total_enrol}</p>
+                                        <p style={{ fontSize: 23, color: 'teal', fontWeight: 'bold' }}>{this.state.course.name}</p>
+                                        <p>{this.state.course.short_description}</p>
                                         <p>{!+this.state.course.total_feedback? 'Chưa có lượt đánh giá' :  
                                             <>{`${this.state.course.total_feedback} đánh giá: ${this.state.course.avg_feedback}`} <i class="fas fa-star" style={{ color: 'yellow' }}></i></> }
                                         </p>
-                                        <p>Lan cap nhat cuoi: {moment(new Date(+this.state.course.last_update)).format('DD/MM/YYYY HH:mm:ss') }</p>
-                                        <p>Hoc phi: {this.state.course.price}</p>
-                                        <p>Gia khuyen mai: {this.state.course.price_promote}</p>
+                                        <p><span style={{ color: 'seagreen', fontWeight:'bold' }}>Danh mục: </span> {this.state.course.category.name}</p>
+                                        <p><span style={{ color: 'seagreen', fontWeight:'bold' }}>Giảng viên: </span> {this.state.course.teacher.name}</p>
+                                        <p><span style={{ color: 'seagreen', fontWeight:'bold' }}>Số lượng học viên: </span> {this.state.course.total_enrol}</p>
+                                        <p><span style={{ color: 'seagreen', fontWeight:'bold' }}>Học phí: </span> {this.state.course.price}</p>
+                                        <p style={{ color: 'red', fontWeight:'bold' }}><span style={{ color: 'seagreen', fontWeight:'bold' }}>Giá khuyến mãi: </span> {this.state.course.price_promote}</p>
+                                        <p><span style={{ color: 'seagreen', fontWeight:'bold' }}>Lần cập nhật cuối: </span> {moment(new Date(+this.state.course.last_update)).format('DD/MM/YYYY HH:mm:ss') }</p>
                                     </div>
                                 </div>
                                 <div style={{ textAlign: "left" }}>
@@ -271,7 +271,7 @@ class DetailPage extends Component {
                                                     <Button htmlType="submit" 
                                                         onClick={this.onSubmitFeedback} 
                                                         type="primary"> 
-                                                            Submit 
+                                                            Gửi phản hồi 
                                                     </Button> 
                                                 </Form.Item>
                                             </>    
@@ -301,7 +301,7 @@ class DetailPage extends Component {
                                     <h4>Khóa học cùng thể loại được đăng ký nhiều nhất</h4>
                                     <div style={{ marginTop: 20}}>
                                         <Carousel>
-                                        { this.chunk(this.state.coursesSimilar, 4).map((items) =>
+                                        { this.chunk(this.state.coursesSimilar, 5).map((items) =>
                                             <Carousel.Item>
                                                 <div className="d-flex flex-wrap" style={{ justifyContent: "center" }}>
                                                     { items.map((item) =>

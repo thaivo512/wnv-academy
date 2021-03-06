@@ -109,7 +109,7 @@ class SearchPage extends Component {
                                 </Radio.Group>
                             </div>
 
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
                                 {
                                     this.state.courses
                                         .map(item => {
