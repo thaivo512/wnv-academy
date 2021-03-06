@@ -10,6 +10,7 @@ import StudentHomePage from './containers/student/home-page';
 import HomePage from './containers/home-page/home-page';
 import SearchPage from './containers/search-page/search-page';
 import DetailPage from './containers/detail-page/detail-page';
+import InfoPage from './containers/info-page/info-page';
 import { POSITION } from './authenicate/constants';
 
 class RouterConfig extends Component {
@@ -34,6 +35,7 @@ class RouterConfig extends Component {
                 <Route path='/home-page' exact={true} component={HomePage} />
                 <Route path='/search' exact={true} component={SearchPage}  />
                 <Route path='/details' exact={true} component={DetailPage}  />
+                <Route path='/info' exact={true} component={ InfoPage }  />
                 {
                     is_success ?
                         this.routeByRole(teacherInfo.role) :

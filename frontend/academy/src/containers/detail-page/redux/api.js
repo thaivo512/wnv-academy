@@ -1,178 +1,74 @@
-import { API_URL } from '../../../authenicate/constants';
-import { toast } from 'react-toastify';
+import { exec } from '../../../redux-core/api';
 
 export const requestGetCourseDetail = async (id) => {
-    const requestOptions = {
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': localStorage.getItem('access_token')
-        },
+    return exec({
         method: 'GET',
-    };
-    try {
-        const response = await fetch(API_URL + `course-search/${id}`, requestOptions);
-
-        const rs = await response.json();
-        
-        return rs;
-    } catch (e) {
-        toast.error(e);
-        return { isFail: true };
-    }
+        path: `course-search/${id}`
+    });
 }
 
 
 
 export const requestGetCourseSimilar = async (id) => {
-    const requestOptions = {
-        headers: {
-            'Content-Type': 'application/json'
-        },
+    return exec({
         method: 'GET',
-    };
-    try {
-        const response = await fetch(API_URL + `course-search/top5enrolSimilar/${id}`, requestOptions);
-
-        const rs = await response.json();
-        
-        return rs;
-    } catch (e) {
-        toast.error(e);
-        return { isFail: true };
-    }
+        path: `course-search/top5enrolSimilar/${id}`
+    });
 }
 
 
 export const requestGetSlidePreview = async (id) => {
-    const requestOptions = {
-        headers: {
-            'Content-Type': 'application/json'
-        },
+    return exec({
         method: 'GET',
-    };
-    try {
-        const response = await fetch(API_URL + `slide/preview/${id}`, requestOptions);
-
-        const rs = await response.json();
-        
-        return {
-            is_success: true,
-            data: rs
-        };
-    } catch (e) {
-        toast.error(e);
-        return { isFail: true };
-    }
+        path: `slide/preview/${id}`
+    });
 }
 
 
 
 export const requestGetFeedback = async (id) => {
-    const requestOptions = {
-        headers: {
-            'Content-Type': 'application/json'
-        },
+    return exec({
         method: 'GET',
-    };
-    try {
-        const response = await fetch(API_URL + `feedback/${id}`, requestOptions);
-
-        const rs = await response.json();
-        
-        return rs;
-    } catch (e) {
-        toast.error(e);
-        return { isFail: true };
-    }
+        path: `feedback/${id}`
+    })
 }
 
 
 
 export const requestPostFeedback = async (body) => {
-    const requestOptions = {
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': localStorage.getItem('access_token')
-        },
-        body: JSON.stringify(body),
+    return exec({ 
         method: 'POST',
-    };
-    try {
-        const response = await fetch(API_URL + `feedback`, requestOptions);
-
-        const rs = await response.json();
-        
-        return rs;
-    } catch (e) {
-        toast.error(e);
-        return { isFail: true };
-    }
+        path: `feedback`, 
+        body: body 
+    });
 }
 
 
 export const requestRemoveWatchlist = async (id) => {
-    const requestOptions = {
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': localStorage.getItem('access_token')
-        },
+    return exec({ 
         method: 'DELETE',
-    };
-    try {
-        const response = await fetch(API_URL + `watchlist/${id}`, requestOptions);
-
-        const rs = await response.json();
-        
-        return rs;
-    } catch (e) {
-        toast.error(e);
-        return { isFail: true };
-    }
+        path: `watchlist/${id}`
+    });
 }
 
 
 
 export const requestAddWatchlist = async (id) => {
-    const requestOptions = {
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': localStorage.getItem('access_token')
-        },
-        body: JSON.stringify({ course_id: id }),
+    
+    return exec({ 
         method: 'POST',
-    };
-    try {
-        const response = await fetch(API_URL + `watchlist`, requestOptions);
-
-        const rs = await response.json();
-        
-        return rs;
-    } catch (e) {
-        toast.error(e);
-        return { isFail: true };
-    }
+        path: 'watchlist', 
+        body: { course_id: id } 
+    })
 }
 
 
 
 
 export const requestEnrolCourse = async (id) => {
-    const requestOptions = {
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': localStorage.getItem('access_token')
-        },
-        body: JSON.stringify({ course_id: id }),
+    return exec({ 
         method: 'POST',
-    };
-    try {
-        const response = await fetch(API_URL + `enrol`, requestOptions);
-
-        const rs = await response.json();
-        
-        return rs;
-    } catch (e) {
-        toast.error(e);
-        return { isFail: true };
-    }
+        path: 'enrol', 
+        body: { course_id: id } 
+    })
 }
