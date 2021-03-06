@@ -1,6 +1,32 @@
 import { API_URL } from '../../../authenicate/constants';
 import { toast } from 'react-toastify';
 
+export const requestPostAddUser = async (payload) => {
+    var info = payload.teacher;
+    const requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem('access_token')
+        },
+        body: JSON.stringify({
+            name: info.name,
+            username: info.username,
+            email: info.username,
+            password: info.password
+        }),
+        method: 'POST',
+    };
+    try {
+        const response = await fetch(API_URL + 'user/teachers', requestOptions);
+        var info = await response.json();
+        if (info == null) return;
+        return info;
+    } catch (e) {
+        toast.error(e);
+        return { isFail: true };
+    }
+}
+
 export const requestGetAllUsers = async () => {
     const requestOptions = {
         headers: {
