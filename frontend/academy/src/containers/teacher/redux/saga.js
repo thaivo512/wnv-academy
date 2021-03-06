@@ -9,14 +9,19 @@ import {
     REQUEST_API_POST_UPLOAD_FILE, receiveApiPostUploadFile,
     REQUEST_API_POST_ADD_SLIDE, receiveApiPostAddSlide,
     REQUEST_API_POST_ADD_LESSON, receiveApiPostAddLesson,
-    REQUEST_API_POST_UPDATE_COURSE, receiveApiPostUpdateCourse
+    REQUEST_API_POST_UPDATE_COURSE, receiveApiPostUpdateCourse,
+    REQUEST_API_PUBLISH_COURSE,
+    REQUEST_API_DELETE_SLIDE,
+    REQUEST_API_DELETE_LESSON,
 } from './action';
 import {
     requestGetAllCourses, requestGetSlidesByCourseID,
     requestGetLessonsByCourseID, requestGetFeedbacksByCourseID,
     requestGetAllCategories, requestPostAddCourse,
     requestPostUploadFile, requestPostAddSlide,
-    requestPostAddLesson, requestPostUpdateCourse
+    requestPostAddLesson, requestPostUpdateCourse,
+    requesPublishCourse, requestDeleteSlide,
+    requestDeleteLesson
 } from './api';
 
 function* getAllCoursesSaga() {
@@ -82,6 +87,30 @@ function* postUpdateCourse(payload) {
     }
 }
 
+function* putPublishCourse(payload) {
+    try {
+        yield call(requesPublishCourse, payload);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function* deleteLesson(payload) {
+    try {
+        yield call(requestDeleteLesson, payload);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function* deleteSlide(payload) {
+    try {
+        yield call(requestDeleteSlide, payload);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 function* postUploadFile(payload) {
     try {
         const data = yield call(requestPostUploadFile, payload);
@@ -120,4 +149,7 @@ export default function* courseSaga() {
     yield takeLatest(REQUEST_API_POST_ADD_SLIDE, postAddSlide);
     yield takeLatest(REQUEST_API_POST_ADD_LESSON, postAddLesson);
     yield takeLatest(REQUEST_API_POST_UPDATE_COURSE, postUpdateCourse);
+    yield takeLatest(REQUEST_API_PUBLISH_COURSE, putPublishCourse);
+    yield takeLatest(REQUEST_API_DELETE_SLIDE, deleteSlide);
+    yield takeLatest(REQUEST_API_DELETE_LESSON, deleteLesson);
 }

@@ -60,7 +60,7 @@ class NavBarComponent extends Component {
         })
     }
 
-    getAllCategory = async() => {
+    getAllCategory = async () => {
         const requestOptions = {
             headers: {
                 'Content-Type': 'application/json'
@@ -83,6 +83,10 @@ class NavBarComponent extends Component {
         window.location = '/login';
     }
 
+    onRedirectToTeacher() {
+        window.location = '/teacher-home-page';
+    }
+
     render() {
         return (
             <div>
@@ -93,18 +97,18 @@ class NavBarComponent extends Component {
 
                     <Input.Search addonBefore={
                         <Select defaultValue="" className="select-before" onChange={this.onChangeCategorySearch}>
-                        <Option value="">Tất cả danh mục</Option>
-                        {
-                            this.state.allCategories.map(i => i.sub_categorys).flat()
-                            .map(item =>  <Option value={item.id}>{item.name}</Option> )
-                        }
-                    </Select>
-                    } 
-                            placeholder="Search" 
-                            value={this.state.keyword}
-                            onChange={this.onChangeKeyword}
-                            style={{ marginRight: 30 }} 
-                            onSearch={this.onClickMoveToSearch}/>
+                            <Option value="">Tất cả danh mục</Option>
+                            {
+                                this.state.allCategories.map(i => i.sub_categorys).flat()
+                                    .map(item => <Option value={item.id}>{item.name}</Option>)
+                            }
+                        </Select>
+                    }
+                        placeholder="Search"
+                        value={this.state.keyword}
+                        onChange={this.onChangeKeyword}
+                        style={{ marginRight: 30 }}
+                        onSearch={this.onClickMoveToSearch} />
 
                     <Nav className="nav-wrap-button justify-content-end" >
                         {this.state.is_success == null ?
@@ -117,6 +121,7 @@ class NavBarComponent extends Component {
                                 </Nav.Item>
                             </>
                             : <>
+                                <a style={{ marginRight: "3%" }} onClick={() => this.onRedirectToTeacher()}>Teacher</a>
                                 <a onClick={this.onClickLogout}>Đăng xuất</a>
                             </>
                         }
@@ -125,10 +130,10 @@ class NavBarComponent extends Component {
 
                 <Menu onClick={this.handleClickMenu} mode="horizontal">
                     {
-                        this.state.allCategories.map(category => 
+                        this.state.allCategories.map(category =>
                             <SubMenu key={category.id} title={category.name}>
                                 {
-                                    category.sub_categorys.map(sub => 
+                                    category.sub_categorys.map(sub =>
                                         <Menu.Item key={sub.id}>{sub.name}</Menu.Item>
                                     )
                                 }

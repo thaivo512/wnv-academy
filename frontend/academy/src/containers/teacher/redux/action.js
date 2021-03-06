@@ -34,6 +34,9 @@ export const RECEIVE_API_POST_ADD_COURSE = "RECEIVE_API_POST_ADD_COURSE";
 export const requestApiPostAddCourse = (course) => ({ type: REQUEST_API_POST_ADD_COURSE, course });
 export const receiveApiPostAddCourse = result => ({ type: RECEIVE_API_POST_ADD_COURSE, result });
 
+export const REQUEST_API_PUBLISH_COURSE = "REQUEST_API_PUBLISH_COURSE";
+export const requestApiPublishCourse = (course) => ({ type: REQUEST_API_PUBLISH_COURSE, course });
+
 export const REQUEST_API_POST_UPLOAD_FILE = "REQUEST_API_POST_UPLOAD_FILE";
 export const RECEIVE_API_POST_UPLOAD_FILE = "RECEIVE_API_POST_UPLOAD_FILE";
 
@@ -52,9 +55,14 @@ export const RECEIVE_API_POST_ADD_LESSON = "RECEIVE_API_POST_ADD_LESSON";
 export const requestApiPostAddLesson = (lesson) => ({ type: REQUEST_API_POST_ADD_LESSON, lesson });
 export const receiveApiPostAddLesson = lessonResult => ({ type: RECEIVE_API_POST_ADD_LESSON, lessonResult });
 
-
 export const REQUEST_API_POST_UPDATE_COURSE = "REQUEST_API_POST_UPDATE_COURSE";
 export const RECEIVE_API_POST_UPDATE_COURSE = "RECEIVE_API_POST_UPDATE_COURSE";
 
 export const requestApiPostUpdateCourse = (course) => ({ type: REQUEST_API_POST_UPDATE_COURSE, course });
 export const receiveApiPostUpdateCourse = result => ({ type: RECEIVE_API_POST_UPDATE_COURSE, result });
+
+export const REQUEST_API_DELETE_SLIDE = "REQUEST_API_DELETE_SLIDE";
+export const requestApiDeleteSlide = (slide) => ({ type: REQUEST_API_DELETE_SLIDE, slide });
+
+export const REQUEST_API_DELETE_LESSON = "REQUEST_API_DELETE_LESSON";
+export const requestApiDeleteLesson = (lesson) => ({ type: REQUEST_API_DELETE_LESSON, lesson });

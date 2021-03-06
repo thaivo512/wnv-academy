@@ -142,13 +142,77 @@ export const requestPostUpdateCourse = async (payload) => {
             price_promote: course.pricePromote,
             category_id: course.category
         }),
-        method: 'POST',
+        method: 'PUT',
     };
     try {
         const response = await fetch(API_URL + 'course/' + course.id, requestOptions);
         var result = await response.json();
         if (result == null && result.is_success == false) return;
         toast.success("Update successed.");
+        return result;
+    } catch (e) {
+        toast.error(e);
+        return { isFail: true };
+    }
+}
+
+export const requesPublishCourse = async (payload) => {
+    var course = payload.course;
+    const requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem('access_token'),
+        },
+        method: 'PUT',
+    };
+    try {
+        const response = await fetch(API_URL + 'course/' + course.id + '/publish', requestOptions);
+        var result = await response.json();
+        if (result == null && result.is_success == false) return;
+        toast.success("Publish successed.");
+        return result;
+    } catch (e) {
+        toast.error(e);
+        return { isFail: true };
+    }
+}
+
+export const requestDeleteSlide = async (payload) => {
+    var slide = payload.slide;
+    const requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem('access_token'),
+        },
+        method: 'DELETE',
+    };
+    try {
+        console.log('slide/' + slide.course_id + '/' + slide.id);
+        const response = await fetch(API_URL + 'slide/' + slide.course_id + '/' + slide.id, requestOptions);
+        var result = await response.json();
+        if (result == null && result.is_success == false) return;
+        toast.success("Delete successed.");
+        return result;
+    } catch (e) {
+        toast.error(e);
+        return { isFail: true };
+    }
+}
+
+export const requestDeleteLesson = async (payload) => {
+    var lesson = payload.lesson;
+    const requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem('access_token'),
+        },
+        method: 'DELETE',
+    };
+    try {
+        const response = await fetch(API_URL + 'lesson/' + lesson.course_id + '/' + lesson.id, requestOptions);
+        var result = await response.json();
+        if (result == null && result.is_success == false) return;
+        toast.success("Delete successed.");
         return result;
     } catch (e) {
         toast.error(e);

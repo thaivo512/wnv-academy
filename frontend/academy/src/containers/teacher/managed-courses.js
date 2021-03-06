@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../assets/admin.scss';
 import { Card, Button, Row, Col, Table } from 'react-bootstrap';
-import { FaEdit, FaTrash, FaCheck, FaPlay, FaArrowLeft } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaCheck, FaPlay, FaArrowLeft, FaDownload } from 'react-icons/fa';
 import EsolModal from '../../components/modal';
 import { connect } from 'react-redux';
 import {
@@ -9,7 +9,8 @@ import {
     requestApiGetAllLessons, requestApiGetAllFeedbacks,
     requestApiGetAllCategories, requestApiPostAddSlide,
     requestApiPostAddLesson, requestApiPostUploadFile,
-    requestApiPostUpdateCourse
+    requestApiPostUpdateCourse, requestApiPublishCourse,
+    requestApiDeleteSlide, requestApiDeleteLesson
 } from './redux/action';
 import AddNewCourse from './add-new-course';
 import { Editor } from '@tinymce/tinymce-react';
@@ -36,11 +37,10 @@ class ManagedCourses extends Component {
             slide_name: "",
             isPreview: false,
             slides: [],
-            promoteRate: 0,
             isGetSlide: false,
             isGetLesson: false,
-            isChangeImage: false,
             allLessons: [],
+            avatar: "",
             fileInfo: {
                 file_name: "",
                 file_url: ""
@@ -54,8 +54,7 @@ class ManagedCourses extends Component {
     }
 
     componentDidUpdate() {
-        var { fileInfo, slides, courses, selected_course, isGetCourses, isGetSlide, isGetLesson, allLessons, isChangeImage } = this.state;
-        var course = this.props.allCourses[0] ? this.props.allCourses[0] : {};
+        var { fileInfo, slides, courses, selected_course, isGetCourses, isGetSlide, isGetLesson, allLessons } = this.state;
 
         if (isGetSlide) {
             this.props.requestApiGetAllSlides(selected_course.id);
@@ -69,15 +68,17 @@ class ManagedCourses extends Component {
             this.props.requestApiGetAllCourses();
         }
 
-        if (this.props.allCourses && courses.length != this.props.allCourses.length) {
+        if (this.props.allCourses && JSON.stringify(courses) != JSON.stringify({}) &&
+            (courses.length != this.props.allCourses.length || courses.filter(x => x.status == "PUBLIC").length != this.props.allCourses.filter(x => x.status == "PUBLIC").length)) {
+            var course = this.props.allCourses[0] ? this.props.allCourses[0] : {};
+            course.promoteRate = ((course.price - course.price_promote) / course.price) * 100;
             this.setState(
                 {
                     courses: this.props.allCourses,
                     selected_course: course,
                     shortDetail: course.short_description,
                     detailDes: course.detail_description,
-                    isGetCourses: false,
-                    promoteRate: ((course.price - course.price_promote) / course.price) * 100
+                    isGetCourses: false
                 }
             )
         }
@@ -91,17 +92,12 @@ class ManagedCourses extends Component {
             })
         }
 
-        if (isGetSlide || this.props.allSlides && this.props.allSlides.length != slides.length) {
+        if (isGetSlide || this.props.allSlides.length > 0 && this.props.allSlides.length != slides.length) {
             this.setState({ slides: this.props.allSlides, isGetSlide: false })
         }
 
         if (isGetLesson || this.props.allLessons && this.props.allLessons.length != allLessons.length) {
             this.setState({ allLessons: this.props.allLessons, isGetLesson: false })
-        }
-
-        if (this.props.fileResult && course.image_avatar != this.props.fileResult.url) {
-            course.image_avatar = this.props.fileResult.url;
-            this.setState({ selected_course: course, isChangeImage: false })
         }
     }
 
@@ -173,18 +169,20 @@ class ManagedCourses extends Component {
         this.props.requestApiGetAllSlides(course.id);
         this.props.requestApiGetAllLessons(course.id);
         this.props.requestApiGetAllFeedbacks(course.id);
+        course.promoteRate = ((course.price - course.price_promote) / course.price) * 100;
         this.setState({
             selected_course: course,
             shortDetail: course.short_description,
             detailDes: course.detail_description,
+            avatar: "",
             isGetLesson: true,
-            isGetSlide: true,
-            promoteRate: ((course.price - course.price_promote) / course.price) * 100
+            isGetSlide: true
         })
     }
 
     onEditPage() {
-        var { isEditingMode, selected_course } = this.state;
+        var { isEditingMode, selected_course, avatar } = this.state;
+        avatar = avatar == "" ? selected_course.image_avatar : this.props.fileResult.url;
         if (isEditingMode) {
             this.props.requestApiPostUpdateCourse({
                 id: selected_course.id,
@@ -193,7 +191,7 @@ class ManagedCourses extends Component {
                 category: selected_course.category.id,
                 detail: selected_course.detail_description,
                 shortDetail: selected_course.short_description,
-                avatar: selected_course.image_avatar,
+                avatar: avatar,
                 pricePromote: selected_course.price_promote
             });
         }
@@ -215,6 +213,7 @@ class ManagedCourses extends Component {
     onChangePromoteRate(value) {
         var { selected_course } = this.state;
         selected_course.promoteRate = value;
+        selected_course.price_promote = parseInt(selected_course.price - (selected_course.price * (selected_course.promoteRate / 100)));
         this.setState({ selected_course: selected_course })
     }
 
@@ -241,12 +240,15 @@ class ManagedCourses extends Component {
     }
 
     onChangeImage(e) {
+        var { avatar } = this.state;
         this.props.requestApiPostUploadFile(e.target.files[0])
-        this.setState({ isChangeImage: true })
+        avatar = URL.createObjectURL(e.target.files[0])
+        this.setState({ avatar: avatar })
     }
 
     onShowCoursesDetail() {
-        var { isEditingMode, selected_course, isShowModalSlide, isShowModalLesson, isShowModalFeedBack, shortDetail, detailDes, promoteRate } = this.state;
+        var { isEditingMode, selected_course, isShowModalSlide, isShowModalLesson, isShowModalFeedBack, shortDetail, detailDes, avatar } = this.state;
+        avatar = avatar == "" ? selected_course.image_avatar : avatar;
         var className = "md-2 ";
         var isPublic = false;
         if (selected_course != null) {
@@ -287,8 +289,12 @@ class ManagedCourses extends Component {
                                 <Card.Body>
                                     <Row>
                                         <Col className="col-5">
-                                            <Card.Img className="button-icon" onClick={() => this.upload()} style={{ width: "350px", height: "250px" }} src={selected_course.image_avatar} />
-                                            <input id="selectImage" hidden type="file" onChange={(e) => this.onChangeImage(e)} />
+                                            {isEditingMode ?
+                                                <>
+                                                    <Card.Img className="button-icon" onClick={() => this.upload()} style={{ width: "350px", height: "250px" }} src={avatar} />
+                                                    <input id="selectImage" hidden type="file" onChange={(e) => this.onChangeImage(e)} />
+                                                </> : <Card.Img style={{ width: "350px", height: "250px" }} src={avatar} />
+                                            }
                                         </Col>
                                         <Col className="col-7">
                                             <Row style={{ textAlign: "left" }}>
@@ -310,7 +316,7 @@ class ManagedCourses extends Component {
                                                 </Col>
                                             </Row>
                                             <Row style={{ textAlign: "left" }}>
-                                                <Col className="col-3">Price:</Col>
+                                                <Col className="col-3">Price(VND):</Col>
                                                 <Col className="col-4">
                                                     <Card.Title style={{ textAlign: "left", marginLeft: "5%" }}>
                                                         {isEditingMode ?
@@ -321,13 +327,21 @@ class ManagedCourses extends Component {
                                                 </Col>
                                             </Row>
                                             <Row style={{ textAlign: "left" }}>
-                                                <Col className="col-3">Promote Rate:</Col>
+                                                <Col className="col-3">Promote Rate(%):</Col>
                                                 <Col className="col-4">
                                                     <Card.Title style={{ textAlign: "left", marginLeft: "5%" }}>
                                                         {isEditingMode ?
-                                                            <input onChange={(e) => this.onChangePromoteRate(e.target.value)} type="text" class="form-control" value={promoteRate} />
-                                                            : promoteRate
+                                                            <input onChange={(e) => this.onChangePromoteRate(e.target.value)} type="text" class="form-control" value={selected_course.promoteRate} />
+                                                            : selected_course.promoteRate
                                                         }
+                                                    </Card.Title>
+                                                </Col>
+                                            </Row>
+                                            <Row style={{ textAlign: "left" }}>
+                                                <Col className="col-3">Promote Price(VND):</Col>
+                                                <Col className="col-4">
+                                                    <Card.Title style={{ textAlign: "left", marginLeft: "5%" }}>
+                                                        {selected_course.price_promote}
                                                     </Card.Title>
                                                 </Col>
                                             </Row>
@@ -434,7 +448,7 @@ class ManagedCourses extends Component {
                             <Col className="col-5">
                             </Col>
                             <Col className="col-6">
-                                <Button variant="info">Public</Button>
+                                <Button onClick={() => this.onPublishCourse()} variant="info">Publish</Button>
                             </Col>
                         </Row> : <></>
                     }
@@ -442,6 +456,16 @@ class ManagedCourses extends Component {
                 </>
             }
         </>
+    }
+
+    onPublishCourse() {
+        var { selected_course } = this.state;
+
+        this.props.requestApiPublishCourse({
+            id: selected_course.id
+        });
+
+        this.setState({ isGetCourses: true })
     }
 
     renderStars(avg_feedbacks) {
@@ -465,6 +489,10 @@ class ManagedCourses extends Component {
         this.setState({ isShowModalSlide: !isShowModalSlide });
     }
 
+    onDownloadFile(url) {
+        window.open(url);
+    }
+
     renderBodyTable(isPublic) {
         var elements = []
         var slides = this.props.allSlides && this.props.allSlides.length > 0 ? this.props.allSlides : [];
@@ -474,9 +502,9 @@ class ManagedCourses extends Component {
                     <td>{item.id}</td>
                     <td>{item.slide_name}</td>
                     <td>{item.is_allow_preview ? "True" : "False"}</td>
-                    <td><a href="#">{item.file_url}</a></td>
+                    <td><FaDownload variant="info" className="button-icon" s onClick={() => this.onDownloadFile(item.file_url)} /></td>
                     {isPublic ? <></> :
-                        <td><FaTrash className="button-icon" style={{ color: "red", width: "20px", height: "20px" }} /></td>
+                        <td><FaTrash onClick={() => this.onDeleteSlide(item.id)} className="button-icon" style={{ color: "red", width: "20px", height: "20px" }} /></td>
                     }
                 </tr>
             )
@@ -487,6 +515,26 @@ class ManagedCourses extends Component {
     onPreviewVideo(url) {
         var { isPreviewMode, selectedVideoUrl } = this.state;
         this.setState({ isPreviewMode: !isPreviewMode, selectedVideoUrl: url })
+    }
+
+    onDeleteSlide(id) {
+        var { selected_course } = this.state;
+        this.props.requestApiDeleteSlide({
+            id: id,
+            course_id: selected_course.id
+        });
+
+        this.setState({ isGetSlide: true });
+    }
+
+    onDeleteLesson(id) {
+        var { selected_course } = this.state;
+        this.props.requestApiDeleteLesson({
+            id: id,
+            course_id: selected_course.id
+        });
+
+        this.setState({ isGetLesson: true });
     }
 
     renderBodyLessonTable(isPublic) {
@@ -500,7 +548,7 @@ class ManagedCourses extends Component {
                     <td>{item.file_name}</td>
                     <td><FaPlay className="button-icon" style={{ color: "blueviolet", width: "20px", height: "20px" }} onClick={() => this.onPreviewVideo(item.file_url)} /></td>
                     {isPublic ? <></> :
-                        <td><FaTrash className="button-icon" style={{ color: "red", width: "20px", height: "20px" }} /></td>
+                        <td><FaTrash onClick={() => this.onDeleteLesson(item.id)} className="button-icon" style={{ color: "red", width: "20px", height: "20px" }} /></td>
                     }
                 </tr>
             )
@@ -676,13 +724,7 @@ class ManagedCourses extends Component {
                 course_id: selected_course.id
             });
         this.setState({
-            lide_name: "",
-            fileInfo: {
-                file_name: "",
-                file_url: ""
-            },
-            is_allow_preview: false,
-            isGetSlide: true,
+            isGetSlide: true
         });
     }
 
@@ -723,6 +765,9 @@ const mapDispatchToProps = dispatch => {
         requestApiPostAddSlide: (slide) => dispatch(requestApiPostAddSlide(slide)),
         requestApiPostUploadFile: (file) => dispatch(requestApiPostUploadFile(file)),
         requestApiPostUpdateCourse: (course) => dispatch(requestApiPostUpdateCourse(course)),
+        requestApiPublishCourse: (course) => dispatch(requestApiPublishCourse(course)),
+        requestApiDeleteSlide: (slide) => dispatch(requestApiDeleteSlide(slide)),
+        requestApiDeleteLesson: (lesson) => dispatch(requestApiDeleteLesson(lesson)),
     };
 }
 
