@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
+import { Navbar, Nav, Button } from 'react-bootstrap';
 import '../assets/nav-component.scss';
 import { Link, withRouter } from 'react-router-dom';
 import { API_URL } from '../authenicate/constants';
 import { Input, Select } from 'antd';
-import { Menu } from 'antd';
+import jwt from 'jwt-decode';
+import { Menu, Dropdown } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+
 
 
 const { SubMenu } = Menu;
@@ -16,8 +19,15 @@ class NavBarComponent extends Component {
     constructor(props) {
         super(props);
 
+        const token = localStorage.getItem('access_token');
+        let user = null;
+        try { 
+            user = jwt(token);
+        }
+        catch (err) { }
+
         this.state = {
-            is_success: localStorage.getItem('is_success'),
+            user: user,
             keyword: '',
             category: '',
             allCategories: []
@@ -83,8 +93,51 @@ class NavBarComponent extends Component {
         window.location = '/login';
     }
 
-    onRedirectToTeacher() {
-        window.location = '/teacher-home-page';
+    studentMenu = (
+        <Menu>
+          <Menu.Item key="0">
+            <Link to='/info'>Thông tin</Link>
+          </Menu.Item>
+          <Menu.Item key="1">
+            <Link to='/enrol-course'>Khóa học</Link>
+          </Menu.Item>
+          <Menu.Item key="2">
+            <Link to='/watchlist'>Watchlist</Link>
+          </Menu.Item>
+          <Menu.Divider />
+          <Menu.Item key="3" danger onClick={this.onClickLogout}>Đăng xuất</Menu.Item>
+        </Menu>
+    );
+    teacherMenu = (
+        <Menu>
+          <Menu.Item key="0">
+            <Link to='/info'>Thông tin</Link>
+          </Menu.Item>
+          <Menu.Item key="1">
+            <Link to='/teacher-home-page'>Trang giáo viên</Link>
+          </Menu.Item>
+          <Menu.Divider />
+          <Menu.Item key="3" danger onClick={this.onClickLogout}>Đăng xuất</Menu.Item>
+        </Menu>
+    );
+    adminMenu = (
+        <Menu>
+          <Menu.Item key="0">
+            <Link to='/info'>Thông tin</Link>
+          </Menu.Item>
+          <Menu.Item key="1">
+            <Link to='/admin-home-page'>Trang Admin</Link>
+          </Menu.Item>
+          <Menu.Divider />
+          <Menu.Item key="3" danger onClick={this.onClickLogout}>Đăng xuất</Menu.Item>
+        </Menu>
+    );
+    getMenuByRole = () => {
+        const role = this.state.user.role;
+        console.log(role);
+        if(role == 'ADMIN') return this.adminMenu;
+        if(role == 'TEACHER') return this.teacherMenu;
+        return this.studentMenu;
     }
 
     render() {
@@ -111,7 +164,7 @@ class NavBarComponent extends Component {
                         onSearch={this.onClickMoveToSearch} />
 
                     <Nav className="nav-wrap-button justify-content-end" >
-                        {this.state.is_success == null ?
+                        {!this.state.user ?
                             <>
                                 <Nav.Item className="nav-mr-right">
                                     <Button variant="outline-info" onClick={this.onClickMoveToLogin}>Login</Button>
@@ -121,8 +174,11 @@ class NavBarComponent extends Component {
                                 </Nav.Item>
                             </>
                             : <>
-                                <a style={{ marginRight: "3%" }} onClick={() => this.onRedirectToTeacher()}>Teacher</a>
-                                <a onClick={this.onClickLogout}>Đăng xuất</a>
+                                <Dropdown overlay={this.getMenuByRole} trigger={['click']}>
+                                    <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                                        { this.state.user.name } <DownOutlined />
+                                    </a>
+                                </Dropdown>
                             </>
                         }
                     </Nav>
