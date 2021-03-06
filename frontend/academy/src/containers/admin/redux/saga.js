@@ -16,9 +16,9 @@ function* getallUsersSaga() {
     }
 }
 
-function* requestDeleteUserSaga() {
+function* requestDeleteUserSaga(payload) {
     try {
-        const data = yield call(requestDeleteUser);
+        const data = yield call(requestDeleteUser, payload);
         yield put(receiveApiDeleteUser(data));
     } catch (e) {
         console.log(e);

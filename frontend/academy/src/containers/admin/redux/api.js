@@ -20,7 +20,6 @@ export const requestGetAllUsers = async () => {
     }
 }
 
-
 export const requestDeleteUser = async (params) => {
     const requestOptions = {
         headers: {
@@ -31,7 +30,7 @@ export const requestDeleteUser = async (params) => {
 
     };
     try {
-        const response = await fetch(API_URL + 'user/' + params.id, requestOptions);
+        const response = await fetch(API_URL + 'user/' + params.payload.id, requestOptions);
         var info = await response.json();
         if (info == null) return;
         if (!info.is_success) {

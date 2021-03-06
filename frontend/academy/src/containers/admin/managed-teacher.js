@@ -2,114 +2,49 @@ import React, { Component } from 'react';
 import '../../assets/admin.scss';
 import { Row, Col, Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 import { MDBDataTableV5 } from 'mdbreact';
-import '@fortawesome/fontawesome-free/css/all.min.css'; 
-import 'bootstrap-css-only/css/bootstrap.min.css'; 
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import EsolModal from '../../components/modal';
-import { FaTrashAlt, FaPlus, FaEdit } from 'react-icons/fa';
+import { FaPlus, FaEdit } from 'react-icons/fa';
 import ModalPage from '../../components/modal-warning'
+import { requestApiGetAllUser, requestApiDeleteUser } from './redux/action';
+import { connect } from 'react-redux';
+import { POSITION } from '../../authenicate/constants';
 
 class ManagedTeacher extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            teachers: [],
             isClicked: false,
             isShowModalAdd: false,
             isShowModalEdit: false,
             selectedList: {},
-            datatable:
-            {
-                columns: [
-                    {
-                        label: 'UserName',
-                        field: 'username',
-                        width: 70,
-                        attributes: {
-                            'aria-controls': 'DataTable',
-                            'aria-label': 'UserName',
-                        },
-                    },
-                    {
-                        label: 'Name',
-                        field: 'name',
-                        width: 150,
-                    },
-                    {
-                        label: 'Email',
-                        field: 'email',
-                        width: 200,
-                    },
-                    {
-                        label: 'Password',
-                        field: 'password',
-                        sort: 'asc',
-                        width: 100,
-                    }
-                ],
-                rows: [
-                    {
-                        username: 'Tiger Nixon',
-                        name: 'System Architect',
-                        email: 'Edinburgh',
-                        password: '61',
-                    },
-                    {
-                        username: 'Garrett Winters',
-                        name: 'Accountant',
-                        email: 'Tokyo',
-                        password: '63'
-                    },
-                    {
-                        username: 'Ashton Cox',
-                        name: 'Junior Technical Author',
-                        email: '66',
-                        password: '2009/01/12',
-                    },
-                    {
-                        username: 'Cedric Kelly',
-                        name: 'Senior Javascript Developer',
-                        email: 'Edinburgh',
-                        password: '22',
-                    },
-                    {
-                        username: 'Airi Satou',
-                        name: 'Accountant',
-                        email: 'Tokyo',
-                        password: '33',
-                    },
-                    {
-                        username: 'Brielle Williamson',
-                        name: 'Integration Specialist',
-                        email: 'New York',
-                        password: '61',
-                    },
-                    {
-                        username: 'Herrod Chandler',
-                        name: 'Sales Assistant',
-                        email: 'San Francisco',
-                        password: '59',
-                    },
-                    {
-                        username: 'Donna Snider',
-                        name: 'Customer Support',
-                        email: 'New York',
-                        password: '27',
-                    },
-                ]
-            }
         }
     }
 
-    handleChange(e) {
-        this.setState({ selectedList: e });
-        this.setState.selectedList = e;
-        this.setState.userNameSelected = e.username;
-        console.log(this.setState.selectedList.name);
+
+    componentDidMount() {
+        this.props.requestApiGetAllUser();
+    }
+
+    componentDidUpdate() {
+        var { isGetUsers, teachers } = this.state;
+        if (isGetUsers) {
+            this.props.requestApiGetAllUser();
+        }
+
+        if (JSON.stringify(this.props.allUsers) != JSON.stringify({})
+            && teachers.length != this.props.allUsers.filter(x => x.role == POSITION.TEACHER).length) {
+            var teachers = this.props.allUsers.filter(x => x.role == POSITION.TEACHER);
+            this.setState({ teachers: teachers, isGetUsers: false });
+        }
     }
 
     render() {
-        var { isShowModalAdd, isShowModalEdit, datatable, selectedList, userNameSelected } = this.state;
+        var { isShowModalAdd, isShowModalEdit, datatable } = this.state;
 
         return (
             <>
@@ -120,11 +55,11 @@ class ManagedTeacher extends Component {
                     size="xs"
                 />
                 {isShowModalEdit == true &&
-                    <EsolModal  isShow={isShowModalEdit}
-                                title="Edit Teacher"
-                                onHide={() => this.onShowOrCloseModalEditTeacher()}
-                                body={this.renderEditTeacherBodyModal(this.setState.selectedList)}
-                                size="xs"
+                    <EsolModal isShow={isShowModalEdit}
+                        title="Edit Teacher"
+                        onHide={() => this.onShowOrCloseModalEditTeacher()}
+                        body={this.renderEditTeacherBodyModal(this.setState.selectedList)}
+                        size="xs"
                     />
                 }
 
@@ -144,22 +79,7 @@ class ManagedTeacher extends Component {
                             </Button>
                             <ModalPage userName={this.setState.userNameSelected}></ModalPage>
                         </Col>
-                        <MDBDataTableV5
-                            scrollX
-                            scrollY
-                            maxHeight="56vh"
-                            bordered
-                            hover
-                            entries={10}
-                            pagesAmount={4}
-                            data={datatable}
-                            searchTop
-                            searchBottom={false}
-                            checkbox
-                            headCheckboxID='id2'
-                            bodyCheckboxID='checkboxes2'
-                            getValueCheckBox={e => this.handleChange(e)} 
-                        />
+
                     </Row>
                 </div>
             </>
@@ -204,15 +124,15 @@ class ManagedTeacher extends Component {
                 </Form.Group>
                 <Form.Group >
                     <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" placeholder="Name" value={el.name}/>
+                    <Form.Control type="text" placeholder="Name" value={el.name} />
                 </Form.Group>
                 <Form.Group >
                     <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" placeholder="Email" value={el.email}/>
+                    <Form.Control type="email" placeholder="Email" value={el.email} />
                 </Form.Group>
                 <Form.Group >
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="text" placeholder="Password" value={el.password}/>
+                    <Form.Control type="text" placeholder="Password" value={el.password} />
                 </Form.Group>
                 <Button type="button">Edit Teacher</Button>
             </Form>
@@ -230,4 +150,15 @@ class ManagedTeacher extends Component {
     }
 }
 
-export default ManagedTeacher;
+const mapDispatchToProps = dispatch => {
+    return {
+        requestApiGetAllUser: () => dispatch(requestApiGetAllUser()),
+        requestApiDeleteUser: (id) => dispatch(requestApiDeleteUser(id)),
+    };
+}
+
+const mapStateToProps = state => ({
+    allUsers: state.requestGetAllUsersReducer,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ManagedTeacher)
