@@ -5,6 +5,7 @@ import '../../assets/admin.scss';
 import { Row } from 'react-bootstrap';
 import ManagedTeacher from './managed-teacher';
 import ManagedStudent from './managed-student';
+import ManagedCategories from './managed-category';
 import Dashboard from './dashboard';
 
 class AdminHomePage extends Component {
@@ -55,7 +56,7 @@ class AdminHomePage extends Component {
             case 0:
                 return <Dashboard />
             case 1:
-                return <ManagedTeacher />
+                return <ManagedCategories />
             case 2:
                 return <ManagedTeacher />
             case 3:

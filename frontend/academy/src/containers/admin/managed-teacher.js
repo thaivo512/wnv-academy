@@ -1,116 +1,53 @@
 import React, { Component } from 'react';
 import '../../assets/admin.scss';
-import { Row, Col, Form, Button, InputGroup, FormControl } from 'react-bootstrap';
-import { MDBDataTableV5 } from 'mdbreact';
-import '@fortawesome/fontawesome-free/css/all.min.css'; 
-import 'bootstrap-css-only/css/bootstrap.min.css'; 
-import 'mdbreact/dist/css/mdb.css';
+import { Row, Col, Form, Button, Table, Pagination } from 'react-bootstrap';
 import EsolModal from '../../components/modal';
-import { FaTrashAlt, FaPlus, FaEdit } from 'react-icons/fa';
-import ModalPage from '../../components/modal-warning'
+import { FaPlus, FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { requestApiGetAllUser, requestApiDeleteUser, requestApiAddTeacher } from './redux/action';
+import { connect } from 'react-redux';
+import { POSITION } from '../../authenicate/constants';
+import { toast } from 'react-toastify';
 
 class ManagedTeacher extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            isClicked: false,
+            teachers: [],
             isShowModalAdd: false,
             isShowModalEdit: false,
-            selectedList: {},
-            datatable:
-            {
-                columns: [
-                    {
-                        label: 'UserName',
-                        field: 'username',
-                        width: 70,
-                        attributes: {
-                            'aria-controls': 'DataTable',
-                            'aria-label': 'UserName',
-                        },
-                    },
-                    {
-                        label: 'Name',
-                        field: 'name',
-                        width: 150,
-                    },
-                    {
-                        label: 'Email',
-                        field: 'email',
-                        width: 200,
-                    },
-                    {
-                        label: 'Password',
-                        field: 'password',
-                        sort: 'asc',
-                        width: 100,
-                    }
-                ],
-                rows: [
-                    {
-                        username: 'Tiger Nixon',
-                        name: 'System Architect',
-                        email: 'Edinburgh',
-                        password: '61',
-                    },
-                    {
-                        username: 'Garrett Winters',
-                        name: 'Accountant',
-                        email: 'Tokyo',
-                        password: '63'
-                    },
-                    {
-                        username: 'Ashton Cox',
-                        name: 'Junior Technical Author',
-                        email: '66',
-                        password: '2009/01/12',
-                    },
-                    {
-                        username: 'Cedric Kelly',
-                        name: 'Senior Javascript Developer',
-                        email: 'Edinburgh',
-                        password: '22',
-                    },
-                    {
-                        username: 'Airi Satou',
-                        name: 'Accountant',
-                        email: 'Tokyo',
-                        password: '33',
-                    },
-                    {
-                        username: 'Brielle Williamson',
-                        name: 'Integration Specialist',
-                        email: 'New York',
-                        password: '61',
-                    },
-                    {
-                        username: 'Herrod Chandler',
-                        name: 'Sales Assistant',
-                        email: 'San Francisco',
-                        password: '59',
-                    },
-                    {
-                        username: 'Donna Snider',
-                        name: 'Customer Support',
-                        email: 'New York',
-                        password: '27',
-                    },
-                ]
-            }
+            isShowDeleteModal: false,
+            selectedUser: "",
+            repassowrd: "",
+            username: "",
+            name: "",
+            email: "",
+            password: "",
+            pageIndex: 0,
+            pageNumber: 13,
         }
     }
 
-    handleChange(e) {
-        this.setState({ selectedList: e });
-        this.setState.selectedList = e;
-        this.setState.userNameSelected = e.username;
-        console.log(this.setState.selectedList.name);
+
+    componentDidMount() {
+        this.props.requestApiGetAllUser();
+    }
+
+    componentDidUpdate() {
+        var { isGetUsers, teachers } = this.state;
+        if (isGetUsers) {
+            this.props.requestApiGetAllUser();
+        }
+
+        if (JSON.stringify(this.props.allUsers) != JSON.stringify({})
+            && teachers.length != this.props.allUsers.filter(x => x.role == POSITION.TEACHER).length) {
+            var teachers = this.props.allUsers.filter(x => x.role == POSITION.TEACHER).sort(x => x.id);
+            this.setState({ teachers: teachers, isGetUsers: false });
+        }
     }
 
     render() {
-        var { isShowModalAdd, isShowModalEdit, datatable, selectedList, userNameSelected } = this.state;
-
+        var { isShowModalAdd, isShowDeleteModal, selectedUser } = this.state;
         return (
             <>
                 <EsolModal isShow={isShowModalAdd}
@@ -119,115 +56,215 @@ class ManagedTeacher extends Component {
                     body={this.renderAddTeacherBodyModal()}
                     size="xs"
                 />
-                {isShowModalEdit == true &&
-                    <EsolModal  isShow={isShowModalEdit}
-                                title="Edit Teacher"
-                                onHide={() => this.onShowOrCloseModalEditTeacher()}
-                                body={this.renderEditTeacherBodyModal(this.setState.selectedList)}
-                                size="xs"
-                    />
-                }
-
+                <EsolModal isShow={isShowDeleteModal}
+                    title="Confirm Delete User"
+                    onHide={() => this.onHideDeleteUser()}
+                    body={this.onRenderConfirmDelete(selectedUser)}
+                    size="xs"
+                />
                 <div className="managed-teacher-container">
                     <Row>
-                        <Col>
-                            <h3 className="title-page-admin">Teacher Management</h3>
+                        <Col className="col-3">
+                            <h3>Teacher Management</h3>
+                        </Col>
+                        <Col className="col-9" style={{ textAlign: "right" }}>
+                            <Button onClick={() => this.onShowOrCloseModalAddTeacher()} variant="success">+ Add Teacher</Button>
                         </Col>
                     </Row>
                     <Row>
-                        <Col>
-                            <Button variant="success" type="button" onClick={() => this.onShowOrCloseModalAddTeacher()}>
-                                <FaPlus /> Add Teacher
-                            </Button>
-                            <Button variant="primary" type="button" onClick={() => this.onShowOrCloseModalEditTeacher()}>
-                                <FaEdit />Edit Teacher
-                            </Button>
-                            <ModalPage userName={this.setState.userNameSelected}></ModalPage>
-                        </Col>
-                        <MDBDataTableV5
-                            scrollX
-                            scrollY
-                            maxHeight="56vh"
-                            bordered
-                            hover
-                            entries={10}
-                            pagesAmount={4}
-                            data={datatable}
-                            searchTop
-                            searchBottom={false}
-                            checkbox
-                            headCheckboxID='id2'
-                            bodyCheckboxID='checkboxes2'
-                            getValueCheckBox={e => this.handleChange(e)} 
-                        />
+                        <Table striped bordered hover style={{ textAlign: "center" }}>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Is Active</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.onRenderBodyTable()}
+                            </tbody>
+                        </Table>
+                    </Row>
+                    <Row>
+                        {this.renderPagination()}
                     </Row>
                 </div>
             </>
         )
     }
 
-    onClickActive() {
-        var isClicked = this.state.isClicked;
-        this.setState({ isClicked: !isClicked })
+    onHideDeleteUser() {
+        this.setState({ isShowDeleteModal: false })
+    }
+
+    onShowDeleteUser(id) {
+        this.setState({ isShowDeleteModal: true, selectedUser: id })
+    }
+
+    onRenderConfirmDelete(id) {
+        return (
+            <Row>
+                <Col>
+                    <Button onClick={() => this.onDeleteUser(id)} variant="info">Confirm</Button>
+                </Col>
+                <Col>
+                    <Button onClick={() => this.onHideDeleteUser()} variant="danger">Cancel</Button>
+                </Col>
+            </Row>
+        )
+    }
+
+    onDeleteUser(id) {
+        this.props.requestApiDeleteUser({ id: id })
+        this.onHideDeleteUser();
+        this.setState({ isGetUsers: true });
+    }
+
+    onRenderBodyTable() {
+        var { pageIndex, teachers, pageNumber } = this.state;
+        teachers = teachers.slice(pageIndex * pageNumber, pageIndex * pageNumber + pageNumber);
+        var elements = [];
+        for (let item of teachers) {
+            elements.push(
+                <tr>
+                    <td>{item.id}</td>
+                    <td>{item.name}</td>
+                    <td>{item.email}</td>
+                    <td>{item.is_active ? "True" : "False"}</td>
+                    <td>
+                        <FaTrashAlt onClick={() => this.onShowDeleteUser(item.id)} className="button-icon" style={{ marginRight: "3%", color: "red" }} />
+                    </td>
+                </tr>)
+        }
+
+        return elements;
+    }
+
+    renderPagination() {
+        var { pageIndex, teachers, pageNumber } = this.state;
+        var elements = [];
+        var totalPages = parseInt(teachers.length / pageNumber);
+        var pageNumber = teachers.length % pageNumber != 0 ? totalPages + 1 : totalPages;
+        for (let i = 0; i < pageNumber; i++) {
+            if (pageIndex == i) {
+                elements.push(<Pagination.Item active>{i}</Pagination.Item>)
+            }
+            else {
+                elements.push(<Pagination.Item onClick={() => this.onSelectPage(i)}>{i}</Pagination.Item>)
+            }
+        }
+
+        return (
+            totalPages == 0 ? <></> :
+                <Pagination size="lg">
+                    {elements}
+                </Pagination >
+        )
+    }
+
+    onSelectPage(pageIndex) {
+        this.setState({ pageIndex: pageIndex })
     }
 
     renderAddTeacherBodyModal() {
+        var { repassowrd, password } = this.state;
         return (
-            <Form style={{ textAlign: "left" }}>
+            <Form>
+                {password != repassowrd && repassowrd != "" ? <p style={{ color: "red", marginLeft: "10%" }}>Retype password is wrong</p> : <></>}
                 <Form.Group>
-                    <Form.Label>User name</Form.Label>
-                    <Form.Control type="text" placeholder="User name" />
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control onChange={(e) => this.onChangeUsername(e.target.value)} type="text" placeholder="User name" />
                 </Form.Group>
                 <Form.Group >
                     <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" placeholder="Name" />
+                    <Form.Control onChange={(e) => this.onChangeName(e.target.value)} type="text" placeholder="Name" />
                 </Form.Group>
                 <Form.Group >
                     <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" placeholder="Email" />
+                    <Form.Control onChange={(e) => this.onChangeEmail(e.target.value)} type="email" placeholder="Email" />
                 </Form.Group>
                 <Form.Group >
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="text" placeholder="Password" />
+                    <Form.Control onChange={(e) => this.onChangePassword(e.target.value)} type="password" placeholder="Password" />
                 </Form.Group>
-                <Button type="button">Add New Teacher</Button>
+                <Form.Group >
+                    <Form.Label>Retype-Password</Form.Label>
+                    <Form.Control onChange={(e) => this.onChangeRetypePassowrd(e.target.value)} type="password" placeholder="Password" />
+                </Form.Group>
+                <div style={{ textAlign: "center" }}>
+                    <Button onClick={() => this.onAddTeacher()} type="button">Add New Teacher</Button>
+                </div>
             </Form>
         )
     }
 
-    renderEditTeacherBodyModal(el) {
-        return (
-            <Form style={{ textAlign: "left" }}>
-                <Form.Group >
-                    <Form.Label>User name</Form.Label>
-                    <Form.Control type="text" placeholder="User name" value={el.username} />
-                </Form.Group>
-                <Form.Group >
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" placeholder="Name" value={el.name}/>
-                </Form.Group>
-                <Form.Group >
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" placeholder="Email" value={el.email}/>
-                </Form.Group>
-                <Form.Group >
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="text" placeholder="Password" value={el.password}/>
-                </Form.Group>
-                <Button type="button">Edit Teacher</Button>
-            </Form>
-        )
+    onChangeUsername(username) {
+        this.setState({ username: username })
+    }
+
+    onChangeName(name) {
+        this.setState({ name: name })
+    }
+
+    onChangeEmail(email) {
+        this.setState({ email: email })
+    }
+
+    onChangePassword(password) {
+        this.setState({ password: password })
+    }
+
+    onChangeRetypePassowrd(repassowrd) {
+        this.setState({ repassowrd: repassowrd })
+    }
+
+    onAddTeacher() {
+        var { username, name, email, password, repassowrd } = this.state;
+        if (password == repassowrd &&
+            username != "" && name != "" && email != "" && password != "") {
+            this.props.requestApiAddTeacher({
+                name: name,
+                username: username,
+                email: email,
+                password: password
+            })
+
+            this.setState({
+                repassowrd: "",
+                username: "",
+                name: "",
+                email: "",
+                password: "",
+                isGetUsers: true
+            })
+            this.onShowOrCloseModalAddTeacher();
+        }
+        else if (username != "" || name != "" || email != "" || password != "") {
+            toast.error("Please fill input fields.");
+        }
+        else {
+            toast.error("Please retype password correctly.");
+        }
     }
 
     onShowOrCloseModalAddTeacher() {
         var isShowModal = this.state.isShowModalAdd;
         this.setState({ isShowModalAdd: !isShowModal });
     }
-
-    onShowOrCloseModalEditTeacher() {
-        var isShowModal = this.state.isShowModalEdit;
-        this.setState({ isShowModalEdit: !isShowModal });
-    }
 }
 
-export default ManagedTeacher;
+const mapDispatchToProps = dispatch => {
+    return {
+        requestApiGetAllUser: () => dispatch(requestApiGetAllUser()),
+        requestApiDeleteUser: (id) => dispatch(requestApiDeleteUser(id)),
+        requestApiAddTeacher: (teacher) => dispatch(requestApiAddTeacher(teacher)),
+    };
+}
+
+const mapStateToProps = state => ({
+    allUsers: state.requestGetAllUsersReducer,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ManagedTeacher)
