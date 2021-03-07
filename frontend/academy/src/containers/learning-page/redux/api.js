@@ -3,7 +3,7 @@ import { exec } from '../../../redux-core/api';
 export const requestGetCourseLearning = async (id) => {
     return exec({
         method: 'GET',
-        path: `course-search/${id}`
+        path: `course-search/learn/${id}`
     });
 }
 

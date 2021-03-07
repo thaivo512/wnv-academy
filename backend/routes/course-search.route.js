@@ -59,6 +59,35 @@ router.get('/top5enrolSimilar/:courseId', async(req, res) => {
 })
 
 
+router.get('learn/:courseId', token, async(req, res) => {
+
+    const courseId = req.params.courseId;
+    const userId = req.accessTokenPayload.id;
+
+    const course = await courseModel.singleView(courseId);
+    if(course == null) {
+        return res.json({
+            is_success: false,
+            message: "Khong tim thay khoa hoc yeu cau"
+        })
+    }
+
+    const is_enrolled = await enrolModel.isEnrolled(userId, courseId);
+    if(!is_enrolled) {
+        return res.json({
+            is_success: false,
+            message: "Khong tim thay khoa hoc yeu cau"
+        })
+    }
+
+    await courseModel.increaseViewCount(courseId);
+
+    res.json({
+        is_success: true,
+        data: course
+    });
+})
+
 router.get('/:courseId', token, async(req, res) => {
 
     const courseId = req.params.courseId;

@@ -27,11 +27,11 @@ class RouterConfig extends Component {
     }
 
     render() {
-        var { is_success, access_token } = this.state;
-        var teacherInfo = { role: "" };
-        if (is_success) {
-            teacherInfo = JSON.parse(atob(access_token.split(".")[1]));
-        }
+        // var { is_success, access_token } = this.state;
+        // var teacherInfo = { role: "" };
+        // if (is_success) {
+        //     teacherInfo = JSON.parse(atob(access_token.split(".")[1]));
+        // }
 
         return (
             <Router>
@@ -44,56 +44,61 @@ class RouterConfig extends Component {
                 <Route path='/watchlist' exact={true} component={ WatchListPage }  />
                 <Route path='/course' exact={true} component={ LearningPage }  />
                 
-                {
+                <Route path='/login' exact={true} component={Login} />
+                <Route path='/verify/:emailHashed' exact={true} component={VerifyEmail} />
+                <Route path='/register' exact={true} component={Register} />
+                <Route path='/admin-home-page' exact={true} component={AdminHomePage} />
+                <Route path='/teacher-home-page' exact={true} component={TeacherHomePage} />
+                {/* {
                     is_success ?
                         this.routeByRole(teacherInfo.role) :
                         this.routeUnauthorize()
                 }
-                {this.autoRedirect(is_success, teacherInfo.role)}
+                {this.autoRedirect(is_success, teacherInfo.role)} */}
             </Router>
         )
     }
 
-    autoRedirect(is_success, role) {
-        var currentURL = window.location.href;
-        var position = role.toLowerCase() + "-home-page";
-        if (!is_success) {
-            if (this.isContains(currentURL, position)) {
-                return <Redirect to="/login" />
-            }
-        }
-        else {
-            if (!this.isContains(currentURL, position))
-                return <Redirect to="/home-page" />
-        }
-    }
+    // autoRedirect(is_success, role) {
+    //     var currentURL = window.location.href;
+    //     var position = role.toLowerCase() + "-home-page";
+    //     if (!is_success) {
+    //         if (this.isContains(currentURL, position)) {
+    //             return <Redirect to="/login" />
+    //         }
+    //     }
+    //     else {
+    //         if (!this.isContains(currentURL, position))
+    //             return <Redirect to="/home-page" />
+    //     }
+    // }
 
-    isContains(parent, child) {
-        return parent.indexOf(child) >= 0;
-    }
+    // isContains(parent, child) {
+    //     return parent.indexOf(child) >= 0;
+    // }
 
-    routeByRole(position) {
-        var elements = [];
-        switch (position) {
-            case POSITION.ADMIN:
-                elements.push(<Route path='/admin-home-page' exact={true} component={AdminHomePage} />);
-            case POSITION.STUDENT:
-                elements.push(<Route path='/student-home-page' exact={true} component={StudentHomePage} />);
-            case POSITION.TEACHER:
-                elements.push(<Route path='/teacher-home-page' exact={true} component={TeacherHomePage} />);
-        }
-        return elements;
-    }
+    // routeByRole(position) {
+    //     var elements = [];
+    //     switch (position) {
+    //         case POSITION.ADMIN:
+    //             elements.push(<Route path='/admin-home-page' exact={true} component={AdminHomePage} />);
+    //         case POSITION.STUDENT:
+    //             elements.push(<Route path='/student-home-page' exact={true} component={StudentHomePage} />);
+    //         case POSITION.TEACHER:
+    //             elements.push(<Route path='/teacher-home-page' exact={true} component={TeacherHomePage} />);
+    //     }
+    //     return elements;
+    // }
 
-    routeUnauthorize() {
-        return (
-            <>
-                <Route path='/login' exact={true} component={Login} />
-                <Route path='/verify/:emailHashed' exact={true} component={VerifyEmail} />
-                <Route path='/register' exact={true} component={Register} />
-            </>
-        )
-    }
+    // routeUnauthorize() {
+    //     return (
+    //         <>
+    //             <Route path='/login' exact={true} component={Login} />
+    //             <Route path='/verify/:emailHashed' exact={true} component={VerifyEmail} />
+    //             <Route path='/register' exact={true} component={Register} />
+    //         </>
+    //     )
+    // }
 }
 
 export default RouterConfig;

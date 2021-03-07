@@ -27,7 +27,9 @@ class Login extends Component {
             localStorage.setItem("access_token", info.access_token);
             localStorage.setItem("is_success", info.is_success);
             localStorage.setItem("refresh_token", info.refresh_token);
-            window.location.reload();
+            
+            
+            this.props.history.push('/');
         }
     }
 
@@ -59,7 +61,7 @@ class Login extends Component {
                 />
                 <br></br>
                 <Form.Group style={{ textAlign: "center" }} controlId="formBasicPassword">
-                    <a onClick={() => this.onShowNotification()} href="#">Forgot Password</a>
+                    <a onClick={() => this.onShowNotification()}>Forgot Password</a>
                 </Form.Group>
             </Form>
         );
@@ -71,7 +73,7 @@ class Login extends Component {
     }
 
     onShowNotification() {
-        toast.success("We haven't supported.")
+        // toast.success("We haven't supported.")
     }
 
     onChangeUsername(e) {
@@ -104,7 +106,8 @@ class Login extends Component {
                             localStorage.setItem("access_token", result.access_token);
                             localStorage.setItem("is_success", result.is_success);
                             localStorage.setItem("refresh_token", result.refresh_token);
-                            window.location.reload();
+                            
+                            this.props.history.push('/');
                         }
                     })
                     .catch(error => console.log('error', error));

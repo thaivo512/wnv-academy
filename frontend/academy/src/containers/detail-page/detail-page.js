@@ -204,7 +204,7 @@ class DetailPage extends Component {
                                 <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
                                     <div style={{ flex: 1,}}>
                                         <img style={{ width: '100%' }}
-                                            src={`https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur`}/>
+                                            src={this.state.course.image_avatar}/>
                                         <div>
                                             { 
                                                 this.state.course.is_watchlisted? 
@@ -310,7 +310,7 @@ class DetailPage extends Component {
                                                     { items.map((item) =>
                                                         <Link class="p-2" to={`/details?id=${item.id}` }>
                                                             <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
-                                                                <Card.Img variant="top" src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?aOSheI8E79KhllxbQda1eg1a6lT6i-WlEB_gSXpjQ-4BIwGR7zKNwLpJ2HmhEqtreyigHpKjGMwyAkWmS0yG9dWGhZBH8sRnRPBduXdI_Q2iKJD9tcoKn5fv5gur" />
+                                                                <Card.Img variant="top" src={item.image_avatar} />
                                                                 <Card.Body>
                                                                     <Card.Title>{item.name}</Card.Title>
                                                                     <Card.Text>

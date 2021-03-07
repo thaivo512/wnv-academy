@@ -90,7 +90,7 @@ class NavBarComponent extends Component {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
 
-        window.location = '/login';
+        this.props.history.push('/login');
     }
 
     studentMenu = (

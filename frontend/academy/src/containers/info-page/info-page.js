@@ -3,7 +3,7 @@ import '../../assets/homepage.scss';
 import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
 import NavBarComponent from '../../components/nav-bar';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Input } from 'antd';
 import { EditOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 
@@ -135,7 +135,20 @@ class InfoPage extends Component {
                                     </tr>
                                     <tr style={{  lineHeight: 2 }}>
                                         <td style={{ fontSize: '20px' }}>Tình trạng: </td>
-                                        <td style={{ fontSize: '20px', paddingLeft: 20 }}>{ this.state.user.is_active? 'Đã kích hoạt': 'Chưa kích hoạt' }</td>
+                                        <td style={{ fontSize: '20px', paddingLeft: 20 }}>
+                                            { this.state.user.is_active? 'Đã kích hoạt': 'Chưa kích hoạt' }
+                                        </td>
+                                    </tr>
+                                    <tr style={{  lineHeight: 2 }}>
+                                        <td style={{ fontSize: '20px' }}></td>
+                                        <td style={{ paddingLeft: 20 }}>
+                                            {
+                                                !this.state.user.is_active && 
+                                                <Link to={`/verify/${btoa(this.state.user.email)}`}>
+                                                    Nhấn để kích hoạt
+                                                </Link>
+                                            }
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
