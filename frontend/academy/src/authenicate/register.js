@@ -44,15 +44,15 @@ class Register extends Component {
         return (
             <Form className="auth-form register">
                 <h2 className="text-align-center">Create Account</h2>
-                <Form.Group controlId="formBasicEmail">
+                <Form.Group>
                     <Form.Label>Full Name</Form.Label>
                     <Form.Control onChange={(e) => this.onChangeFullname(e)} type="text" placeholder="Enter Full Name" />
                 </Form.Group>
-                <Form.Group controlId="formBasicEmail">
+                <Form.Group>
                     <Form.Label>Email</Form.Label>
                     <Form.Control onChange={(e) => this.onChangeEmail(e)} type="emal" placeholder="Enter Email" />
                 </Form.Group>
-                <Form.Group controlId="formBasicEmail">
+                <Form.Group>
                     <Form.Label>Username</Form.Label>
                     <Form.Control onChange={(e) => this.onChangeUsername(e)} type="text" placeholder="Enter Username" />
                 </Form.Group>

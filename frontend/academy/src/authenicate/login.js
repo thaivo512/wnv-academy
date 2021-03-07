@@ -17,18 +17,21 @@ class Login extends Component {
             username: "",
             password: "",
             loginInformation: null,
-            isClickedResgister: false
+            isClickedResgister: false,
+            isLogin: false
         }
     }
 
     componentDidUpdate() {
+        var { isLogin } = this.state;
         var info = this.props.loginInformation;
-        if (info != null && info.is_success == true) {
+        if (info != null && info.is_success == true && isLogin) {
             localStorage.setItem("access_token", info.access_token);
             localStorage.setItem("is_success", info.is_success);
             localStorage.setItem("refresh_token", info.refresh_token);
-            
-            
+            this.setState({
+                isLogin: false
+            })
             this.props.history.push('/');
         }
     }
@@ -46,11 +49,11 @@ class Login extends Component {
                     <Form.Label>Username</Form.Label>
                     <Form.Control onChange={(e) => this.onChangeUsername(e)} type="text" placeholder="Enter Username" />
                 </Form.Group>
-                <Form.Group controlId="formBasicPassword">
+                <Form.Group >
                     <Form.Label>Password</Form.Label>
                     <Form.Control onChange={(e) => this.onChangePassword(e)} type="password" placeholder="Enter Password" />
                 </Form.Group>
-                <Button className="styling-of-button" variant="primary" type="button" onClick={() => this.login()}> Sign in </Button>
+                <Button className="styling-of-button" variant="primary" onClick={() => this.onlogin()}> Sign in </Button>
                 <Button className="styling-of-button" variant="success" type="button" onClick={() => this.onRedirectToRegister()}> Create Account</Button>
                 <GoogleLogin className="styling-of-button"
                     clientId="86529023029-eldc5ub8ehvc6kpd5dhd3sb25tb2jaog.apps.googleusercontent.com"
@@ -60,16 +63,19 @@ class Login extends Component {
                     cookiePolicy={'single_host_origin'}
                 />
                 <br></br>
-                <Form.Group style={{ textAlign: "center" }} controlId="formBasicPassword">
+                <Form.Group style={{ textAlign: "center" }}>
                     <a onClick={() => this.onShowNotification()}>Forgot Password</a>
                 </Form.Group>
             </Form>
         );
     }
 
-    login() {
+    onlogin() {
         var { username, password } = this.state;
         this.props.requestApiLogin({ username, password });
+        this.setState({
+            isLogin: true
+        })
     }
 
     onShowNotification() {
@@ -106,7 +112,7 @@ class Login extends Component {
                             localStorage.setItem("access_token", result.access_token);
                             localStorage.setItem("is_success", result.is_success);
                             localStorage.setItem("refresh_token", result.refresh_token);
-                            
+
                             this.props.history.push('/');
                         }
                     })

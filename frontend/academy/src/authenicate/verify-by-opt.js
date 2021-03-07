@@ -30,7 +30,7 @@ class VerifyEmail extends Component {
             <Form className="auth-form verify">
                 <h2 className="text-align-center">Verify Your Email</h2>
                 <h5 className="text-align-center">We sent OTP to your Email.</h5>
-                <Form.Group controlId="formBasicEmail">
+                <Form.Group>
                     <Form.Control onChange={(e) => this.onChangeOPT(e)} type="text" placeholder="Enter OPT" />
                 </Form.Group>
                 <Button className="styling-of-button" variant="primary" type="button" onClick={() => this.onVerifyEmail()}> Verify </Button>
