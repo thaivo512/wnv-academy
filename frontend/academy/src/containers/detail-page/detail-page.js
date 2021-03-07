@@ -224,7 +224,10 @@ class DetailPage extends Component {
                                         <p style={{ fontSize: 23, color: 'teal', fontWeight: 'bold' }}>{this.state.course.name}</p>
                                         <p>{this.state.course.short_description}</p>
                                         <p>{!+this.state.course.total_feedback? 'Chưa có lượt đánh giá' :  
-                                            <>{`${this.state.course.total_feedback} đánh giá: ${this.state.course.avg_feedback}`} <i class="fas fa-star" style={{ color: 'yellow' }}></i></> }
+                                            <>
+                                                {`${this.state.course.total_feedback} đánh giá: `} 
+                                                <Rate value={+this.state.course.avg_feedback} disabled allowHalf/>     
+                                            </> }
                                         </p>
                                         <p><span style={{ color: 'seagreen', fontWeight:'bold' }}>Danh mục: </span> {this.state.course.category.name}</p>
                                         <p><span style={{ color: 'seagreen', fontWeight:'bold' }}>Giảng viên: </span> {this.state.course.teacher.name}</p>
@@ -317,7 +320,7 @@ class DetailPage extends Component {
                                                                 {!+item.total_feedback? 
                                                                     'Chưa có lượt đánh giá' :  
                                                                     <>
-                                                                        {`${item.total_feedback} đánh giá: ${item.avg_feedback}`} <i class="fas fa-star"></i>
+                                                                    {`${item.total_feedback} đánh giá: `} <Rate value={+item.avg_feedback} disabled allowHalf/>
                                                                     </> 
                                                                 } 
                                                             </div>

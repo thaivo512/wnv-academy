@@ -12,6 +12,7 @@ import SearchPage from './containers/search-page/search-page';
 import DetailPage from './containers/detail-page/detail-page';
 import InfoPage from './containers/info-page/info-page';
 import EnroledPage from './containers/enroled-page/enroled-page';
+import WatchListPage from './containers/watchlist-page/watchlist-page';
 import { POSITION } from './authenicate/constants';
 
 class RouterConfig extends Component {
@@ -38,6 +39,8 @@ class RouterConfig extends Component {
                 <Route path='/details' exact={true} component={DetailPage}  />
                 <Route path='/info' exact={true} component={ InfoPage }  />
                 <Route path='/enrol-course' exact={true} component={ EnroledPage }  />
+                <Route path='/watchlist' exact={true} component={ WatchListPage }  />
+                
                 {
                     is_success ?
                         this.routeByRole(teacherInfo.role) :

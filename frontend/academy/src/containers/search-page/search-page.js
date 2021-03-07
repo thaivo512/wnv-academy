@@ -7,6 +7,7 @@ import queryString from 'query-string';
 import { Pagination } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { Radio } from 'antd';
+import { Rate } from 'antd';
 
 import { Link} from 'react-router-dom';
 import { Card } from 'react-bootstrap';
@@ -136,7 +137,7 @@ class SearchPage extends Component {
                                                                 {!+item.total_feedback? 
                                                                     'Chưa có lượt đánh giá' :  
                                                                     <>
-                                                                        {`${item.total_feedback} đánh giá: ${item.avg_feedback}`} <i class="fas fa-star"></i>
+                                                                        {`${item.total_feedback} đánh giá: `} <Rate value={+item.avg_feedback} disabled allowHalf/>
                                                                     </> 
                                                                 } 
                                                             </div>

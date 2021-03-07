@@ -5,7 +5,8 @@ import { FaYoutube, FaMedal, FaHeartbeat, FaClock, FaUserAlt, FaSearch } from 'r
 import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
 import NavBarComponent from '../../components/nav-bar';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { Rate } from 'antd';
 
 import {
     requestApiGetTop10CourseView, 
@@ -215,7 +216,7 @@ class HomePage extends Component {
                                                                 {!+item.total_feedback? 
                                                                     'Chưa có lượt đánh giá' :  
                                                                     <>
-                                                                        {`${item.total_feedback} đánh giá: ${item.avg_feedback}`} <i class="fas fa-star"></i>
+                                                                    {`${item.total_feedback} đánh giá: `} <Rate value={+item.avg_feedback} disabled allowHalf/>
                                                                     </> 
                                                                 } 
                                                             </div>
@@ -251,7 +252,7 @@ class HomePage extends Component {
                                                                 {!+item.total_feedback? 
                                                                     'Chưa có lượt đánh giá' :  
                                                                     <>
-                                                                        {`${item.total_feedback} đánh giá: ${item.avg_feedback}`} <i class="fas fa-star"></i>
+                                                                    {`${item.total_feedback} đánh giá: `} <Rate value={+item.avg_feedback} disabled allowHalf/>
                                                                     </> 
                                                                 } 
                                                             </div>
@@ -291,7 +292,7 @@ class HomePage extends Component {
                                                                 {!+item.total_feedback? 
                                                                     'Chưa có lượt đánh giá' :  
                                                                     <>
-                                                                        {`${item.total_feedback} đánh giá: ${item.avg_feedback}`} <i class="fas fa-star"></i>
+                                                                    {`${item.total_feedback} đánh giá: `} <Rate value={+item.avg_feedback} disabled allowHalf/>
                                                                     </> 
                                                                 } 
                                                             </div>

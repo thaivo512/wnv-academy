@@ -41,7 +41,11 @@ import {
 
 import {
     requestGetCourseEnroledReducer
-} from '../containers/enroled-page/redux/reducer'
+} from '../containers/enroled-page/redux/reducer';
+
+import {
+    requestGetWatchlistReducer
+} from '../containers/watchlist-page/redux/reducer';
 
 const rootReducer = combineReducers({
     registerReducer, loginReducer, requestOPTReducer,
@@ -59,7 +63,8 @@ const rootReducer = combineReducers({
     requestRemoveWatchlistReducer, requestAddWatchlistReducer,
     requestEnrolCourseReducer,
     requestGetInfoReducer, requestChangeNameReducer,
-    requestGetCourseEnroledReducer
+    requestGetCourseEnroledReducer,
+    requestGetWatchlistReducer
 })
 
 export default rootReducer;

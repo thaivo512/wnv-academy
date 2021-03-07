@@ -9,31 +9,31 @@ import { Card } from 'react-bootstrap';
 import { Rate } from 'antd';
 
 import {
-    requestApiGetCourseEnroled
+    requestApiGetWatchlist
 } from './redux/action';
 
 
-class EnroledPage extends Component {
+class WatchlistPage extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            enroledCourses: []    
+            watchlist: []    
         }
     }
 
     componentDidMount() {
-        this.props.requestApiGetCourseEnroled();
+        this.props.requestApiGetWatchlist();
     }
 
     componentDidUpdate(prevProps, prevState) {     
 
-        const courseEnroledResponse = this.props.courseEnroledResponse;
-        if(courseEnroledResponse && courseEnroledResponse.is_success) {
-            this.props.courseEnroledResponse.is_success = false;
+        const watchlistResponse = this.props.watchlistResponse;
+        if(watchlistResponse && watchlistResponse.is_success) {
+            this.props.watchlistResponse.is_success = false;
             this.setState(
                 {
-                    enroledCourses: courseEnroledResponse.data
+                    watchlist: watchlistResponse.data
                 }
             )
         }  
@@ -48,12 +48,12 @@ class EnroledPage extends Component {
 
                     <div style={{ padding: 25 }}>
                         {
-                            !this.state.enroledCourses || !this.state.enroledCourses.length? 
-                            <div style={{ padding: '140px 0' }}>Bạn chưa đăng ký khóa học nào</div> :
+                            !this.state.watchlist || !this.state.watchlist.length? 
+                            <div style={{ padding: '140px 0' }}>Bạn chưa thêm khóa học nào vào watchlist</div> :
                             <div>
-                                <h3>Danh sách khóa học bạn đã đăng ký</h3>
+                                <h3> Danh sách khóa học bạn thêm vào watchlist</h3>
                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', marginTop:'50px' }}>
-                                        { this.state.enroledCourses.map((item) =>
+                                        { this.state.watchlist.map((item) =>
                                             <div className="d-flex flex-wrap" style={{ justifyContent: "center" }}>
                                                 <Link class="p-2" to={`/details?id=${item.id}` }>
                                                     <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
@@ -119,12 +119,12 @@ class EnroledPage extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        requestApiGetCourseEnroled: () => dispatch(requestApiGetCourseEnroled()),
+        requestApiGetWatchlist: () => dispatch(requestApiGetWatchlist()),
     };
 }
 
 const mapStateToProps = state => ({
-    courseEnroledResponse : state.requestGetCourseEnroledReducer
+    watchlistResponse : state.requestGetWatchlistReducer
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(EnroledPage)
+export default connect(mapStateToProps, mapDispatchToProps)(WatchlistPage)
