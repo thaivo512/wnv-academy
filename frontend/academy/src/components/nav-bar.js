@@ -134,7 +134,7 @@ class NavBarComponent extends Component {
     );
     getMenuByRole = () => {
         const role = this.state.user.role;
-        console.log(role);
+        
         if(role == 'ADMIN') return this.adminMenu;
         if(role == 'TEACHER') return this.teacherMenu;
         return this.studentMenu;

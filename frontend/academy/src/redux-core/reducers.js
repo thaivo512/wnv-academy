@@ -39,6 +39,9 @@ import {
     requestChangeNameReducer
 } from '../containers/info-page/redux/reducer';
 
+import {
+    requestGetCourseEnroledReducer
+} from '../containers/enroled-page/redux/reducer'
 
 const rootReducer = combineReducers({
     registerReducer, loginReducer, requestOPTReducer,
@@ -55,7 +58,8 @@ const rootReducer = combineReducers({
     requestGetFeedbackReducer, requestPostFeedbackReducer,
     requestRemoveWatchlistReducer, requestAddWatchlistReducer,
     requestEnrolCourseReducer,
-    requestGetInfoReducer, requestChangeNameReducer
+    requestGetInfoReducer, requestChangeNameReducer,
+    requestGetCourseEnroledReducer
 })
 
 export default rootReducer;

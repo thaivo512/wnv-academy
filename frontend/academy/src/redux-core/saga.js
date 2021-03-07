@@ -7,6 +7,7 @@ import homepageSage from '../containers/home-page/redux/saga';
 import searchpageSage from '../containers/search-page/redux/saga';
 import getCourseDetailSage from '../containers/detail-page/redux/saga';
 import getInfoSaga from '../containers/info-page/redux/saga';
+import courseEnroledSage from '../containers/enroled-page/redux/saga';
 
 export default function* rootSaga() {
     yield all([
@@ -16,6 +17,7 @@ export default function* rootSaga() {
         fork(homepageSage),
         fork(searchpageSage),
         fork(getCourseDetailSage),
-        fork(getInfoSaga)
+        fork(getInfoSaga),
+        fork(courseEnroledSage)
     ]);
 }
