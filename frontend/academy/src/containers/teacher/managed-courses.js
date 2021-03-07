@@ -92,11 +92,11 @@ class ManagedCourses extends Component {
             })
         }
 
-        if (isGetSlide || this.props.allSlides.length > 0 && this.props.allSlides.length != slides.length) {
+        if (this.props.allSlides.length > 0 && this.props.allSlides.length != slides.length) {
             this.setState({ slides: this.props.allSlides, isGetSlide: false })
         }
 
-        if (isGetLesson || this.props.allLessons && this.props.allLessons.length != allLessons.length) {
+        if (this.props.allLessons.length > 0 && this.props.allLessons.length != allLessons.length) {
             this.setState({ allLessons: this.props.allLessons, isGetLesson: false })
         }
     }

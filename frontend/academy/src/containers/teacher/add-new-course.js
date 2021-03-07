@@ -168,7 +168,6 @@ class AddNewCourse extends Component {
                 avatar: avatar,
                 promoteRate: promoteRate
             });
-        this.props.onGoBack(false);
         this.setState({
             courseName: "",
             price: 0,

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarFooter, SidebarContent } from 'react-pro-sidebar';
-import { FaGem, FaSignOutAlt, FaUserAlt, FaList } from 'react-icons/fa';
+import { FaGem, FaSignOutAlt, FaUserAlt, FaList, FaBook } from 'react-icons/fa';
 import '../../assets/admin.scss';
 import { Row } from 'react-bootstrap';
 import ManagedTeacher from './managed-teacher';
 import ManagedStudent from './managed-student';
 import ManagedCategories from './managed-category';
+import ManagedCourses from './managed-courses';
 import Dashboard from './dashboard';
 
 class AdminHomePage extends Component {
@@ -34,9 +35,10 @@ class AdminHomePage extends Component {
                         <Menu iconShape="square">
                             <MenuItem icon={<FaGem />} onClick={() => this.onSelectMenu(0)}>Dashboard</MenuItem>
                             <MenuItem onClick={() => this.onSelectMenu(1)} icon={<FaList />}> Managed Categories</MenuItem>
+                            <MenuItem onClick={() => this.onSelectMenu(2)} icon={<FaBook />}> Managed Courses</MenuItem>
                             <SubMenu title="Managed Users" icon={<FaUserAlt />}>
-                                <MenuItem onClick={() => this.onSelectMenu(2)}>Teacher</MenuItem>
-                                <MenuItem onClick={() => this.onSelectMenu(3)}>Student</MenuItem>
+                                <MenuItem onClick={() => this.onSelectMenu(3)}>Teacher</MenuItem>
+                                <MenuItem onClick={() => this.onSelectMenu(4)}>Student</MenuItem>
                             </SubMenu>
                         </Menu>
                     </SidebarContent>
@@ -58,9 +60,12 @@ class AdminHomePage extends Component {
             case 1:
                 return <ManagedCategories />
             case 2:
-                return <ManagedTeacher />
+                return <ManagedCourses />
             case 3:
+                return <ManagedTeacher />
+            case 4:
                 return <ManagedStudent />
+
         }
     }
 

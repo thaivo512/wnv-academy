@@ -56,7 +56,7 @@ class Login extends Component {
                 <Button className="styling-of-button" variant="primary" onClick={() => this.onlogin()}> Sign in </Button>
                 <Button className="styling-of-button" variant="success" type="button" onClick={() => this.onRedirectToRegister()}> Create Account</Button>
                 <GoogleLogin className="styling-of-button"
-                    clientId="86529023029-eldc5ub8ehvc6kpd5dhd3sb25tb2jaog.apps.googleusercontent.com"
+                    clientId="233633475297-iraf1qjlm6lvotjd5kqc32alt9840qs5.apps.googleusercontent.com" // hom bua cai nay cau dua dung ko 
                     buttonText="Login with Google"
                     onSuccess={this.responseGoogle}
                     onFailure={this.responseGoogle}
@@ -95,6 +95,7 @@ class Login extends Component {
     }
 
     responseGoogle(response) {
+        console.log(response)
         if (response != null) {
             const requestOptions = {
                 headers: { 'Content-Type': 'application/json' },
@@ -108,6 +109,7 @@ class Login extends Component {
                 fetch(API_URL + "auth/gg-oauth", requestOptions)
                     .then(response => response.text())
                     .then(result => {
+                        console.log(result)
                         if (result.is_success) {
                             localStorage.setItem("access_token", result.access_token);
                             localStorage.setItem("is_success", result.is_success);
