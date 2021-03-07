@@ -13,6 +13,7 @@ import DetailPage from './containers/detail-page/detail-page';
 import InfoPage from './containers/info-page/info-page';
 import EnroledPage from './containers/enroled-page/enroled-page';
 import WatchListPage from './containers/watchlist-page/watchlist-page';
+import LearningPage from './containers/learning-page/learning-page';
 import { POSITION } from './authenicate/constants';
 
 class RouterConfig extends Component {
@@ -34,12 +35,14 @@ class RouterConfig extends Component {
 
         return (
             <Router>
+                <Route path='/' exact={true} component={HomePage} />
                 <Route path='/home-page' exact={true} component={HomePage} />
                 <Route path='/search' exact={true} component={SearchPage}  />
                 <Route path='/details' exact={true} component={DetailPage}  />
                 <Route path='/info' exact={true} component={ InfoPage }  />
                 <Route path='/enrol-course' exact={true} component={ EnroledPage }  />
                 <Route path='/watchlist' exact={true} component={ WatchListPage }  />
+                <Route path='/course' exact={true} component={ LearningPage }  />
                 
                 {
                     is_success ?

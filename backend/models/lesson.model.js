@@ -10,6 +10,19 @@ module.exports = {
         return lessons;
     },
 
+    async learn(courseId, userId) {
+        const lessons = await db('course_lesson')
+        .leftJoin('watch_progress', function(){
+            this.on('course_lesson.id', 'watch_progress.lesson_id')
+            .andOn('watch_progress.user_id', userId)
+        })
+        .where({
+            course_id: courseId
+        });
+
+        return lessons;
+    },
+
     async single(lessonId) {
         const lessons = await db('course_lesson').where({
             id: lessonId

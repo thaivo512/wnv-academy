@@ -73,7 +73,7 @@ router.get('/:course_id', auth(), async(req, res) => {
     }
     else if(role == userRole.STUDENT) {
         const isEnrolled = await enrolModel.isEnrolled(user_id, course_id);
-        if(isEnrolled) return res.json({
+        if(!isEnrolled) return res.json({
             is_success: false,
             message: 'Ban can dang ky khoa hoc de xem'
         })
@@ -81,6 +81,37 @@ router.get('/:course_id', auth(), async(req, res) => {
 
 
     const lessons = await lessonModel.all(course_id);
+
+    res.json({
+        is_success: true,
+        lessons: lessons
+    })
+})
+
+router.get('/learn/:course_id', auth(), async(req, res) => {
+
+    const course_id = req.params.course_id;
+    const user_id = req.accessTokenPayload.id;
+    const role = req.accessTokenPayload.role;
+
+    if(role == userRole.TEACHER) {
+        const isCreated = await courseModel.isCreated(course_id, user_id);
+        if(!isCreated) return res.json({
+            is_success: false,
+            message: 'Ban khong co quyen de xem'
+        })
+        
+    }
+    else if(role == userRole.STUDENT) {
+        const isEnrolled = await enrolModel.isEnrolled(user_id, course_id);
+        if(!isEnrolled) return res.json({
+            is_success: false,
+            message: 'Ban can dang ky khoa hoc de xem'
+        })
+    }
+
+
+    const lessons = await lessonModel.learn(course_id, user_id);
 
     res.json({
         is_success: true,

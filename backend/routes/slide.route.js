@@ -68,7 +68,7 @@ router.get('/:course_id', auth(), async(req, res) => {
     }
     else if(role == userRole.STUDENT) {
         const isEnrolled = await enrolModel.isEnrolled(user_id, course_id);
-        if(isEnrolled) return res.json({
+        if(!isEnrolled) return res.json({
             is_success: false,
             message: 'Ban can dang ky khoa hoc de xem'
         })
