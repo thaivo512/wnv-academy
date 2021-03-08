@@ -2,12 +2,16 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import {
     REQUEST_API_GET_COURSE_LEARNING, receiveApiGetCourseLearning,
     REQUEST_API_GET_SLIDE_LEARNING, receiveApiGetSlideLearning,
-    REQUEST_API_GET_LESSON_LEARNING, receiveApiGetLessonLearning
+    REQUEST_API_GET_LESSON_LEARNING, receiveApiGetLessonLearning,
+    REQUEST_API_MARK_DONE_LESSON, receiveApiMarkDoneLesson,
+    REQUEST_API_TRACKING_LESSON
 } from './action';
 import {
     requestGetCourseLearning,
     requestGetSlideLearning,
-    requestGetLessonLearning
+    requestGetLessonLearning,
+    requestMarkDoneLesson,
+    requestTrackingLesson
 } from './api';
 
 
@@ -41,6 +45,26 @@ function* getLessonLearningSaga({ id }) {
 }
 
 
+function* markDoneLessonSaga({ id }) {
+    try {
+        const data = yield call(requestMarkDoneLesson, id);
+        yield put(receiveApiMarkDoneLesson(data));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+function* trackingLessonSaga({ body }) {
+    try {
+        yield call(requestTrackingLesson, body);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+
 export default function* getCourseLearningSage() {
     yield takeLatest(REQUEST_API_GET_COURSE_LEARNING, getCourseLearningSaga);
 
@@ -49,4 +73,10 @@ export default function* getCourseLearningSage() {
 
 
     yield takeLatest(REQUEST_API_GET_LESSON_LEARNING, getLessonLearningSaga);
+
+
+    yield takeLatest(REQUEST_API_MARK_DONE_LESSON, markDoneLessonSaga);
+
+
+    yield takeLatest(REQUEST_API_TRACKING_LESSON, trackingLessonSaga);
 }

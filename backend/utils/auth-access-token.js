@@ -11,7 +11,7 @@ function generate({id, username, name, email, role, is_active}){
         role: role,
         is_active: is_active
     }, 'SECRET_KEY', {
-        expiresIn: 150 * 60 // seconds
+        expiresIn: 60*60*24*14 // seconds
     });
 }
 

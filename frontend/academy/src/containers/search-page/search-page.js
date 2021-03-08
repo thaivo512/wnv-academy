@@ -127,7 +127,7 @@ class SearchPage extends Component {
                                                 style={{ position: 'relative' }}
                                                 to={`/details?id=${item.id}` }>
                                                 <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
-                                                    <Card.Img variant="top" src={item.image_avatar} />
+                                                <Card.Img variant="top" src={item.image_avatar} style={{ height: '200px' }} />
                                                     <Card.Body>
                                                         <Card.Title>{item.name}</Card.Title>
                                                         <Card.Text>

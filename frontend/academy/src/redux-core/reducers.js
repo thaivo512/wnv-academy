@@ -50,7 +50,8 @@ import {
 import {
     requestGetCourseLearningReducer,
     requestGetSlideLearningReducer,
-    requestGetLessonLearningReducer
+    requestGetLessonLearningReducer,
+    requestMarkDoneLessonReducer
 } from '../containers/learning-page/redux/reducer';
 
 const rootReducer = combineReducers({
@@ -73,7 +74,8 @@ const rootReducer = combineReducers({
     requestGetWatchlistReducer,
     requestGetCourseLearningReducer,
     requestGetSlideLearningReducer,
-    requestGetLessonLearningReducer
+    requestGetLessonLearningReducer,
+    requestMarkDoneLessonReducer
 })
 
 export default rootReducer;

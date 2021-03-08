@@ -59,7 +59,7 @@ router.get('/top5enrolSimilar/:courseId', async(req, res) => {
 })
 
 
-router.get('learn/:courseId', token, async(req, res) => {
+router.get('/learn/:courseId', token, async(req, res) => {
 
     const courseId = req.params.courseId;
     const userId = req.accessTokenPayload.id;

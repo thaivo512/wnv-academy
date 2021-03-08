@@ -206,7 +206,7 @@ class HomePage extends Component {
             { this.state.topCourseWeek.map(item => 
                 <Link class="p-2" to={`/details?id=${item.id}` }>
                     <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
-                        <Card.Img variant="top" src={item.image_avatar} />
+                    <Card.Img variant="top" src={item.image_avatar} style={{ height: '200px' }} />
                         <Card.Body>
                             <Card.Title>{item.name}</Card.Title>
                             <Card.Text>
@@ -222,9 +222,9 @@ class HomePage extends Component {
                                                             </div>
                                                             <div style={{ fontSize: "15px", marginTop: "3%", textDecoration: "line-through" }}>{item.price.toLocaleString()} VND</div>
                                                             <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%", color: "red"}}>{item.price_promote.toLocaleString()} VND</div>
-                                <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
+                                {/* <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
                                     <strong>Best Seller</strong>
-                                </div>
+                                </div> */}
                             </Card.Text>
                         </Card.Body>
                     </Card>
@@ -242,7 +242,7 @@ class HomePage extends Component {
                             { items.map((item) =>
                                 <Link class="p-2" to={`/details?id=${item.id}` }>
                                     <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
-                                        <Card.Img variant="top" src={item.image_avatar} />
+                                    <Card.Img variant="top" src={item.image_avatar} style={{ height: '200px' }} />
                                         <Card.Body>
                                             <Card.Title>{ item.name }</Card.Title>
                                             <Card.Text>
@@ -258,9 +258,9 @@ class HomePage extends Component {
                                                             </div>
                                                             <div style={{ fontSize: "15px", marginTop: "3%", textDecoration: "line-through" }}>{item.price.toLocaleString()} VND</div>
                                                             <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%", color: "red"}}>{item.price_promote.toLocaleString()} VND</div>
-                                                <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
+                                                {/* <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
                                                     <strong>Top View</strong>
-                                                </div>
+                                                </div> */}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
@@ -282,7 +282,7 @@ class HomePage extends Component {
                             { items.map((item) =>
                                 <Link class="p-2" to={`/details?id=${item.id}` }>
                                     <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
-                                        <Card.Img variant="top" src={item.image_avatar} />
+                                        <Card.Img variant="top" src={item.image_avatar} style={{ height: '200px' }} />
                                         <Card.Body>
                                             <Card.Title>{item.name}</Card.Title>
                                             <Card.Text>
@@ -298,9 +298,9 @@ class HomePage extends Component {
                                                             </div>
                                                             <div style={{ fontSize: "15px", marginTop: "3%", textDecoration: "line-through" }}>{item.price.toLocaleString()} VND</div>
                                                             <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "3%", color: "red"}}>{item.price_promote.toLocaleString()} VND</div>
-                                                <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
+                                                {/* <div class="alert alert-warning" role="alert" style={{ marginTop: "3%", textAlign: "center" }}>
                                                     <strong>Newest</strong>
-                                                </div>
+                                                </div> */}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>

@@ -203,7 +203,7 @@ class DetailPage extends Component {
                             <div>
                                 <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
                                     <div style={{ flex: 1,}}>
-                                        <img style={{ width: '100%' }}
+                                        <img style={{ width: 'auto', height: '300px' }}
                                             src={this.state.course.image_avatar}/>
                                         <div>
                                             { 
@@ -310,7 +310,7 @@ class DetailPage extends Component {
                                                     { items.map((item) =>
                                                         <Link class="p-2" to={`/details?id=${item.id}` }>
                                                             <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
-                                                                <Card.Img variant="top" src={item.image_avatar} />
+                                                            <Card.Img variant="top" src={item.image_avatar} style={{ height: '200px' }} />
                                                                 <Card.Body>
                                                                     <Card.Title>{item.name}</Card.Title>
                                                                     <Card.Text>

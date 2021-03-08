@@ -3,16 +3,43 @@ const db = require('../utils/db');
 
 module.exports = {
 
-    async add(progress) {
+    async done(lesson_id, user_id) {
         try {
-            await db('watch_progress').insert(progress);
+            await db('watch_progress').insert({
+                lesson_id: lesson_id,
+                user_id: user_id,
+                progress_time: 0,
+                is_done: true
+            });
         }
         catch(err) {
             await db('watch_progress').where({ 
-                lesson_id: progress.lesson_id, 
-                user_id: progress.user_id
+                lesson_id: lesson_id, 
+                user_id: user_id
             })
-            .update(progress);
+            .update({
+                is_done: true
+            });
+        }
+    },
+
+    async tracking(lesson_id, user_id, progress_time) {
+        try {
+            await db('watch_progress').insert({
+                lesson_id: lesson_id,
+                user_id: user_id,
+                progress_time: progress_time,
+                is_done: false
+            });
+        }
+        catch(err) {
+            await db('watch_progress').where({ 
+                lesson_id: lesson_id, 
+                user_id: user_id
+            })
+            .update({
+                progress_time: progress_time
+            });
         }
     },
 

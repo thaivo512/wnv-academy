@@ -20,3 +20,20 @@ export const requestGetLessonLearning = async (id) => {
         path: `lesson/learn/${id}`
     });
 }
+
+
+export const requestMarkDoneLesson = async (id) => {
+    return exec({
+        method: 'POST',
+        path: `progress/done/${id}`
+    });
+}
+
+
+export const requestTrackingLesson = async (body) => {
+    return exec({
+        method: 'POST',
+        path: `progress/tracking`,
+        body: body
+    });
+}
