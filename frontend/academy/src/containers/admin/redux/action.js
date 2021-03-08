@@ -12,3 +12,9 @@ export const receiveApiDeleteUser = result => ({ type: RECEIVE_API_DELETE_USER, 
 
 export const REQUEST_API_ADD_TEACHER = "REQUEST_API_ADD_TEACHER";
 export const requestApiAddTeacher = teacher => ({ type: REQUEST_API_ADD_TEACHER, teacher });
+
+export const REQUEST_API_GET_ALL_COURSES_ADMIN = "REQUEST_API_GET_ALL_COURSES_ADMIN";
+export const RECEIVE_API_GET_ALL_COURSES_ADMIN = "RECEIVE_API_GET_ALL_COURSES_ADMIN";
+
+export const requestApiGetAllCoursesAdmin = () => ({ type: REQUEST_API_GET_ALL_COURSES_ADMIN });
+export const receiveApiGetAllCoursesAdmin = allCourses => ({ type: RECEIVE_API_GET_ALL_COURSES_ADMIN, allCourses });

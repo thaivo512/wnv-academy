@@ -5,7 +5,10 @@ import {
     requestOPTReducer, verifyEmailReducer,
     loginGoogleReducer
 } from "../authenicate/redux/reducer";
-import { requestGetAllUsersReducer, requestDeleteUserReducer } from '../containers/admin/redux/reducer';
+import {
+    requestGetAllUsersReducer, requestDeleteUserReducer,
+    requestGetAllCoursesAdminReducer
+} from '../containers/admin/redux/reducer';
 import {
     requestGetAllCoursesReducer, requestGetAllSlidesReducer,
     requestGetAllLessonsReducer, requestGetAllFeedbacksReducer,

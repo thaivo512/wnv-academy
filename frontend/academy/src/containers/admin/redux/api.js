@@ -46,6 +46,25 @@ export const requestGetAllUsers = async () => {
     }
 }
 
+export const requestGetAllCourses = async () => {
+    const requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem('access_token')
+        },
+        method: 'GET',
+    };
+    try {
+        const response = await fetch(API_URL + 'course-search/?q=&sort=view_count&direct=asc', requestOptions);
+        var info = await response.json();
+        if (info == null) return;
+        return info.data;
+    } catch (e) {
+        toast.error(e);
+        return { isFail: true };
+    }
+}
+
 export const requestDeleteUser = async (params) => {
     const requestOptions = {
         headers: {

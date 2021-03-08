@@ -84,7 +84,6 @@ class AddNewCourse extends Component {
 
     render() {
         var url = this.state.avatar;
-        console.log(url)
         return (
             <>
                 <Col className="col-5" style={{ left: "3%", marginTop: "3%" }}>
@@ -103,7 +102,7 @@ class AddNewCourse extends Component {
                         <Row>
                             <Col className="col-4">
                                 <Form.Group>
-                                    <Form.Label>Price (VNĐ)</Form.Label>
+                                    <Form.Label>Price (VNĝ)</Form.Label>
                                     <Form.Control onChange={(e) => this.onChangeCoursePrice(e.target.value)} style={{ width: "90%" }} type="text" placeholder="Price" />
                                 </Form.Group>
                             </Col>
