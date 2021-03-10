@@ -5,10 +5,11 @@ import { Link, withRouter } from 'react-router-dom';
 import { API_URL } from '../authenicate/constants';
 import { Input, Select } from 'antd';
 import jwt from 'jwt-decode';
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown, Modal, Form } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-
-
+import { exec } from '../redux-core/api';
+import { toast } from 'react-toastify';
+ 
 
 const { SubMenu } = Menu;
 const { Option } = Select;
@@ -30,7 +31,8 @@ class NavBarComponent extends Component {
             user: user,
             keyword: '',
             category: '',
-            allCategories: []
+            allCategories: [],
+            isShowFormResetPassword: false
         }
     }
 
@@ -93,6 +95,34 @@ class NavBarComponent extends Component {
         this.props.history.push('/login');
     }
 
+    onToggleFormResetPassword = () => {
+        this.setState({
+            isShowFormResetPassword: !this.state.isShowFormResetPassword
+        })
+    }
+
+    onChangePassword = async(body) => {
+
+        const response = await exec({
+            method: 'POST',
+            path: 'user/reset-password',
+            body: body
+        })
+
+        if(response.is_success) {
+            localStorage.setItem('access_token', response.access_token);
+            localStorage.setItem('refresh_token', response.refresh_token);
+            this.setState({
+                isShowFormResetPassword: false,
+            })
+            toast.success('Đổi mật khẩu thành công')
+        }
+        else {
+            toast.error('Mật khẩu cũ không chính xác')
+        }
+    }
+
+
     studentMenu = (
         <Menu>
           <Menu.Item key="0">
@@ -103,6 +133,9 @@ class NavBarComponent extends Component {
           </Menu.Item>
           <Menu.Item key="2">
             <Link to='/watchlist'>Watchlist</Link>
+          </Menu.Item>
+          <Menu.Item key="4">
+            <Link onClick={this.onToggleFormResetPassword}>Đổi mật khẩu</Link>
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item key="3" danger onClick={this.onClickLogout}>Đăng xuất</Menu.Item>
@@ -116,6 +149,9 @@ class NavBarComponent extends Component {
           <Menu.Item key="1">
             <Link to='/teacher-home-page'>Trang giáo viên</Link>
           </Menu.Item>
+          <Menu.Item key="4">
+            <Link onClick={this.onToggleFormResetPassword}>Đổi mật khẩu</Link>
+          </Menu.Item>
           <Menu.Divider />
           <Menu.Item key="3" danger onClick={this.onClickLogout}>Đăng xuất</Menu.Item>
         </Menu>
@@ -127,6 +163,9 @@ class NavBarComponent extends Component {
           </Menu.Item>
           <Menu.Item key="1">
             <Link to='/admin-home-page'>Trang Admin</Link>
+          </Menu.Item>
+          <Menu.Item key="4">
+            <Link onClick={this.onToggleFormResetPassword}>Đổi mật khẩu</Link>
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item key="3" danger onClick={this.onClickLogout}>Đăng xuất</Menu.Item>
@@ -197,6 +236,33 @@ class NavBarComponent extends Component {
                         )
                     }
                 </Menu>
+           
+                <Modal title="Yêu cầu đổi mật khẩu" footer={null}
+                    visible={this.state.isShowFormResetPassword} 
+                    onCancel={this.onToggleFormResetPassword}>
+                    <Form onFinish={this.onChangePassword}>
+                        <Form.Item label="Mật khẩu cũ :: "
+                            name="old_password"
+                            rules={[{ required: true, message: 'Bạn chưa nhập mật khẩu!' }]}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+
+                        <Form.Item label="Mật khẩu mới: "
+                            name="new_password"
+                            rules={[{ required: true, message: 'Bạn chưa nhập mật khẩu!' }]}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+
+                        <Form.Item style={{ textAlign: "right" }}>
+                            <Button
+                                type="primary" htmlType="submit">
+                                Submit
+                            </Button>
+                        </Form.Item>
+                        </Form>
+                </Modal>
             </div>
         )
     }
