@@ -4,13 +4,14 @@ import {
     REQUEST_API_DELETE_USER, receiveApiDeleteUser,
     REQUEST_API_ADD_TEACHER, REQUEST_API_POST_ADD_CATEGORY,
     REQUEST_API_GET_ALL_COURSES_ADMIN, receiveApiGetAllCoursesAdmin,
-    REQUEST_API_DELETE_CATEGORY, REQUEST_API_PUT_CATEGORY
+    REQUEST_API_DELETE_CATEGORY, REQUEST_API_PUT_CATEGORY,
+    REQUEST_API_ADD_SUB_CATEGORY
 } from './action';
 import {
     requestGetAllUsers, requestDeleteUser,
     requestPostAddUser, requestGetAllCourses,
     requestPostAddCategory, requestDeleteCategory,
-    requestPostUpdateCategory
+    requestPostUpdateCategory, requestPostAddSubCategory
 } from './api';
 
 function* getallUsersSaga() {
@@ -72,6 +73,14 @@ function* requestDeletedCategory(payload) {
     }
 }
 
+function* requestAddSubCategory(payload) {
+    try {
+        yield call(requestPostAddSubCategory, payload);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 export default function* adminSaga() {
     yield takeLatest(REQUEST_API_GET_ALL_USERS, getallUsersSaga);
     yield takeLatest(REQUEST_API_DELETE_USER, requestDeleteUserSaga);
@@ -80,4 +89,5 @@ export default function* adminSaga() {
     yield takeLatest(REQUEST_API_POST_ADD_CATEGORY, requestAddCategory);
     yield takeLatest(REQUEST_API_DELETE_CATEGORY, requestDeletedCategory);
     yield takeLatest(REQUEST_API_PUT_CATEGORY, requestUpdateCategory);
+    yield takeLatest(REQUEST_API_ADD_SUB_CATEGORY, requestAddSubCategory);
 }

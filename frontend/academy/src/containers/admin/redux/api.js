@@ -100,6 +100,17 @@ export const requestPostAddCategory = async (payload) => {
     });
 }
 
+export const requestPostAddSubCategory = async (payload) => {
+    console.log(payload)
+    return exec({
+        method: 'POST',
+        path: `category/` + payload.sub.id,
+        body: {
+            name: payload.sub.name
+        }
+    });
+}
+
 export const requestPostUpdateCategory = async (payload) => {
     console.log(payload)
     return exec({

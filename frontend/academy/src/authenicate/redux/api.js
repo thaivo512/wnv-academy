@@ -60,7 +60,7 @@ export const requestOptToEmailApi = async (params) => {
         })
     };
     try {
-        const response = await fetch(API_URL + 'user/request-otp', requestOptions);
+        const response = await fetch('https://wnc-academy.herokuapp.com/api/user/request-otp', requestOptions);
         var info = await response.json();
         if (info == null) return;
         if (!info.is_success) {
@@ -87,7 +87,6 @@ export const verifyYourEmailApi = async (params) => {
         const response = await fetch(API_URL + 'user/verify-email', requestOptions);
         var info = await response.json();
         if (info == null) return;
-        debugger;
         if (!info.is_success) {
             toast.error(info.message);
             return null;

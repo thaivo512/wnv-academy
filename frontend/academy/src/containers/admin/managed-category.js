@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Row, Col, Card, Table, Button, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import '../../assets/admin.scss';
-import { FaSearch, FaTrash, FaArrowLeft, FaPlay, FaDownload, FaCheck, FaTimes } from 'react-icons/fa';
+import { FaSearch, FaTrash, FaArrowLeft, FaPlay, FaDownload, FaCheck, FaPlusCircle, FaTimes } from 'react-icons/fa';
 import { requestApiGetAllCategories } from '../teacher/redux/action'
 import {
     requestApiGetAllCoursesAdmin, requestApiPostAddCategory,
-    requestApiDeleteategory, requestApiPutCategory
+    requestApiDeleteategory, requestApiPutCategory,
+    requestApiAddSubCategory
 } from './redux/action';
 import EsolModal from '../../components/modal';
 
@@ -19,9 +20,11 @@ class ManagedCategories extends Component {
             selectedCaregory: {},
             courses: [],
             categoryName: "",
+            subCategoryName: "",
             isGetCategory: false,
             isShowDeleteModal: false,
-            isUpdateMode: false
+            isUpdateMode: false,
+            isShowAddSubCategory: false
         }
     }
 
@@ -31,7 +34,7 @@ class ManagedCategories extends Component {
     }
 
     componentDidUpdate() {
-        var { categories, isGetCategory } = this.state;
+        var { categories, isGetCategory, selectedCaregory } = this.state;
 
         if (isGetCategory) {
             this.props.requestApiGetAllCategories();
@@ -46,6 +49,23 @@ class ManagedCategories extends Component {
                 isGetCategory: false
             })
         }
+        var temp = {}
+        if (JSON.stringify(this.props.allCategories) != JSON.stringify({})
+            && this.props.allCategories.filter(x => x.id == selectedCaregory.id)[0]) {
+            temp = this.props.allCategories.filter(x => x.id == selectedCaregory.id)[0];
+        }
+
+        if (selectedCaregory
+            && isGetCategory
+            && temp.sub_categorys
+            && selectedCaregory.sub_categorys
+            && temp.sub_categorys.length != selectedCaregory.sub_categorys.length) {
+            this.setState({
+                categories: this.props.allCategories,
+                selectedCaregory: temp,
+                isGetCategory: false
+            })
+        }
     }
 
     onChangeSelectedCategoryName(name) {
@@ -57,7 +77,7 @@ class ManagedCategories extends Component {
     }
 
     render() {
-        var { selectedCaregory, isShowDeleteModal, isUpdateMode } = this.state;
+        var { selectedCaregory, isShowDeleteModal, isUpdateMode, isShowAddSubCategory } = this.state;
         return (
             <>
                 <EsolModal isShow={isShowDeleteModal}
@@ -78,10 +98,10 @@ class ManagedCategories extends Component {
                         </Col>
                         <Col className="col-8" style={{ marginLeft: "1%" }}>
                             {isUpdateMode ?
-                                <Form.Group style={{ width: "100%", marginLeft: "0" }}>
-                                    <Form.Control onChange={(e) => this.onChangeSelectedCategoryName(e.target.value)} style={{ width: "80%" }} type="text" value={selectedCaregory.name} />
+                                <Form.Group style={{ width: "50%", marginLeft: "0" }}>
+                                    <Form.Control onChange={(e) => this.onChangeSelectedCategoryName(e.target.value)} style={{ width: "50%" }} type="text" value={selectedCaregory.name} />
                                 </Form.Group> :
-                                <h3 style={{ textAlign: "center" }}>{selectedCaregory.name}</h3>
+                                <h3 style={{ textAlign: "center" }}>{selectedCaregory ? selectedCaregory.name : ""}</h3>
                             }
                             <div className="table-wrapper-scroll-y my-custom-scrollbar" style={{ maxHeight: "80vh" }}>
                                 <Table striped bordered hover>
@@ -93,12 +113,22 @@ class ManagedCategories extends Component {
                                     </thead>
                                     <tbody>
                                         {
-                                            selectedCaregory.sub_categorys && selectedCaregory.sub_categorys.length > 0 ?
+                                            selectedCaregory && selectedCaregory.sub_categorys && selectedCaregory.sub_categorys.length > 0 ?
                                                 this.onRenderSelectedCategory() :
                                                 <></>
                                         }
                                     </tbody>
                                 </Table>
+                            </div>
+                            <div style={{ textAlign: "right" }}>
+                                {
+                                    isShowAddSubCategory ?
+                                        <>
+                                            <FaTimes onClick={() => this.onCancelAddSubCategory()} className="button-icon" style={{ height: "30px", width: "30px", color: "red" }} />
+                                            <FaCheck onClick={() => this.onConfirmAddSubCategory()} className="button-icon" style={{ height: "30px", width: "30px", color: "green", marginLeft: "1%" }} />
+                                        </> :
+                                        <FaPlusCircle onClick={() => this.onShowAddSubCategory()} className="button-icon" style={{ height: "30px", width: "30px", color: "green" }} variant="success" />
+                                }
                             </div>
                             <div style={{ textAlign: "center" }}>
                                 {
@@ -113,6 +143,36 @@ class ManagedCategories extends Component {
                 </div>
             </>
         );
+    }
+
+    onConfirmAddSubCategory() {
+        var { selectedCaregory, subCategoryName } = this.state;
+        if (subCategoryName != "") {
+            this.props.requestApiAddSubCategory({ id: selectedCaregory.id, name: subCategoryName })
+            this.onCancelAddSubCategory()
+            this.setState({
+                isGetCategory: true,
+                subCategoryName: ""
+            })
+        }
+    }
+
+    onShowAddSubCategory() {
+        var { selectedCaregory } = this.state;
+        selectedCaregory.sub_categorys.push({ name: "" });
+        this.setState({
+            selectedCaregory: selectedCaregory,
+            isShowAddSubCategory: true
+        })
+    }
+
+    onCancelAddSubCategory() {
+        var { selectedCaregory } = this.state;
+        selectedCaregory.sub_categorys.pop();
+        this.setState({
+            isShowAddSubCategory: false,
+            selectedCaregory: selectedCaregory,
+        })
     }
 
     onShowUpdateMode() {
@@ -169,6 +229,12 @@ class ManagedCategories extends Component {
         })
     }
 
+    onChangeSubCategoryName(name) {
+        this.setState({
+            subCategoryName: name
+        })
+    }
+
     onRenderSelectedCategory() {
         var { courses, selectedCaregory } = this.state;
         if (JSON.stringify(selectedCaregory) === JSON.stringify({})) {
@@ -176,18 +242,31 @@ class ManagedCategories extends Component {
         }
         var elements = [];
         for (let item of selectedCaregory.sub_categorys) {
-            var courseName = []
-            for (let course of courses.filter(x => x.category_id == item.id)) {
-                courseName.push(<p>{course.name}</p>);
+            if (item.name == "") {
+                elements.push(
+                    <tr>
+                        <td>
+                            <Form.Group style={{ width: "100%", marginLeft: "0" }}>
+                                <Form.Control onChange={(e) => this.onChangeSubCategoryName(e.target.value)} style={{ width: "95%" }} type="text" placeholder="Enter category name" />
+                            </Form.Group>
+                        </td>
+                        <td></td>
+                    </tr>
+                )
             }
-            elements.push(
-                <tr>
-                    <td>{item.name}</td>
-                    <td>{courseName}</td>
-                </tr>
-            )
+            else {
+                var courseName = []
+                for (let course of courses.filter(x => x.category_id == item.id)) {
+                    courseName.push(<p>{course.name}</p>);
+                }
+                elements.push(
+                    <tr>
+                        <td>{item.name}</td>
+                        <td>{courseName}</td>
+                    </tr>
+                )
+            }
         }
-
         return elements;
     }
 
@@ -258,7 +337,8 @@ const mapDispatchToProps = dispatch => {
         requestApiGetAllCoursesAdmin: () => dispatch(requestApiGetAllCoursesAdmin()),
         requestApiPostAddCategory: (name) => dispatch(requestApiPostAddCategory(name)),
         requestApiDeleteategory: (id) => dispatch(requestApiDeleteategory(id)),
-        requestApiPutCategory: (category) => dispatch(requestApiPutCategory(category))
+        requestApiPutCategory: (category) => dispatch(requestApiPutCategory(category)),
+        requestApiAddSubCategory: (sub) => dispatch(requestApiAddSubCategory(sub))
     };
 }
 

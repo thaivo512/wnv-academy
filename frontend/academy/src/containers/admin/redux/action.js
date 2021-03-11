@@ -27,3 +27,6 @@ export const requestApiDeleteategory = (id) => ({ type: REQUEST_API_DELETE_CATEG
 
 export const REQUEST_API_PUT_CATEGORY = "REQUEST_API_PUT_CATEGORY";
 export const requestApiPutCategory = (category) => ({ type: REQUEST_API_PUT_CATEGORY, category });
+
+export const REQUEST_API_ADD_SUB_CATEGORY = "REQUEST_API_ADD_SUB_CATEGORY";
+export const requestApiAddSubCategory = (sub) => ({ type: REQUEST_API_ADD_SUB_CATEGORY, sub });
