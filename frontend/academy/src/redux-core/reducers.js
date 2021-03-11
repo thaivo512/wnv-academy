@@ -78,7 +78,8 @@ const rootReducer = combineReducers({
     requestGetCourseLearningReducer,
     requestGetSlideLearningReducer,
     requestGetLessonLearningReducer,
-    requestMarkDoneLessonReducer
+    requestMarkDoneLessonReducer,
+    requestGetAllCoursesAdminReducer
 })
 
 export default rootReducer;

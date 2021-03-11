@@ -46,8 +46,9 @@ class CoursesManagement extends Component {
             this.props.requestApiGetAllSlides(selectedCourse.id);
         }
 
-        if (isGetCourses && JSON.stringify(this.props.allCourses) != JSON.stringify({})
-            && originCourseData.length != this.props.allCourses.filter(x => x.status == 'PUBLIC').length) {
+        if ((originCourseData.length == 0 && this.props.allCourses.filter(x => x.status == 'PUBLIC').length != 0) ||
+            (isGetCourses && JSON.stringify(this.props.allCourses) != JSON.stringify({})
+                && originCourseData.length != this.props.allCourses.filter(x => x.status == 'PUBLIC').length)) {
             for (let item of this.props.allCourses.filter(x => x.status == 'PUBLIC').sort(x => x.id)) {
                 originCourseData.push({
                     course: item,

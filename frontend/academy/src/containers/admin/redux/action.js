@@ -18,3 +18,12 @@ export const RECEIVE_API_GET_ALL_COURSES_ADMIN = "RECEIVE_API_GET_ALL_COURSES_AD
 
 export const requestApiGetAllCoursesAdmin = () => ({ type: REQUEST_API_GET_ALL_COURSES_ADMIN });
 export const receiveApiGetAllCoursesAdmin = allCourses => ({ type: RECEIVE_API_GET_ALL_COURSES_ADMIN, allCourses });
+
+export const REQUEST_API_POST_ADD_CATEGORY = "REQUEST_API_POST_ADD_CATEGORY";
+export const requestApiPostAddCategory = (name) => ({ type: REQUEST_API_POST_ADD_CATEGORY, name });
+
+export const REQUEST_API_DELETE_CATEGORY = "REQUEST_API_DELETE_CATEGORY";
+export const requestApiDeleteategory = (id) => ({ type: REQUEST_API_DELETE_CATEGORY, id });
+
+export const REQUEST_API_PUT_CATEGORY = "REQUEST_API_PUT_CATEGORY";
+export const requestApiPutCategory = (category) => ({ type: REQUEST_API_PUT_CATEGORY, category });

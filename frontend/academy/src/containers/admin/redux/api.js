@@ -1,5 +1,6 @@
 import { API_URL } from '../../../authenicate/constants';
 import { toast } from 'react-toastify';
+import { exec } from '../../../redux-core/api';
 
 export const requestPostAddUser = async (payload) => {
     var info = payload.teacher;
@@ -87,4 +88,32 @@ export const requestDeleteUser = async (params) => {
         toast.error(e);
         return { isFail: true };
     }
+}
+
+export const requestPostAddCategory = async (payload) => {
+    return exec({
+        method: 'POST',
+        path: `category`,
+        body: {
+            name: payload.name.name
+        }
+    });
+}
+
+export const requestPostUpdateCategory = async (payload) => {
+    console.log(payload)
+    return exec({
+        method: 'PUT',
+        path: `category/` + payload.category.id,
+        body: {
+            name: payload.category.name
+        }
+    });
+}
+
+export const requestDeleteCategory = async (payload) => {
+    return exec({
+        method: 'DELETE',
+        path: `category/` + payload.id,
+    });
 }
