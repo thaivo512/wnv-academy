@@ -119,6 +119,22 @@ router.get('/learn/:course_id', auth(), async(req, res) => {
     })
 })
 
+router.get('/preview/:course_id', async(req, res) => {
+
+    const course_id = req.params.course_id;
+
+
+    const lessons = await lessonModel.all(course_id);
+
+    res.json({
+        is_success: true,
+        lessons: lessons.map(item => {
+            item.file_url = ''
+            return item;
+        })
+    })
+})
+
 router.get('/:course_id/:lession_id', auth(), async(req, res) => {
 
     const course_id = req.params.course_id;

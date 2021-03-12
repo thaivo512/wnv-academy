@@ -85,9 +85,16 @@ router.get('/:course_id', auth(), async(req, res) => {
 
 router.get('/preview/:course_id', async(req, res) => {
 
-    const slides = await slideModel.allPreview(req.params.course_id);
+    const slides = await slideModel.all(req.params.course_id);
 
-    res.json(slides)
+    res.json({
+        is_success: true,
+        slides: slides.map(item => {
+            if(!item.is_allow_preview) 
+                item.file_url = '';
+            return item;
+        })
+    })
 })
 
  

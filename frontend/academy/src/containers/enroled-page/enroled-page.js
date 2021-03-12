@@ -54,7 +54,8 @@ class EnroledPage extends Component {
                                 <h3>Danh sách khóa học bạn đã đăng ký</h3>
                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', marginTop:'50px' }}>
                                         { this.state.enroledCourses.map((item) =>
-                                            <div className="d-flex flex-wrap" style={{ justifyContent: "center" }}>
+                                            <div className={`d-flex flex-wrap ${item.total_lesson == item.total_done? 'done' : ''}`} 
+                                                    style={{ justifyContent: "center", position: 'relative'}}>
                                                 <Link class="p-2" to={`/details?id=${item.id}` }>
                                                     <Card style={{ width: '18rem', marginTop: "2%", marginLeft: "2%", textAlign: "left" }}>
                                                     <Card.Img variant="top" src={item.image_avatar} style={{ height: '200px' }} />

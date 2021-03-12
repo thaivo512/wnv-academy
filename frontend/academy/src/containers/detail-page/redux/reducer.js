@@ -6,7 +6,8 @@ import {
     RECEIVE_API_POST_FEEDBACK,
     RECEIVE_API_REMOVE_WATCHLIST,
     RECEIVE_API_ADD_WATCHLIST,
-    RECEIVE_API_ENROL_COURSE
+    RECEIVE_API_ENROL_COURSE,
+    RECEIVE_API_GET_LESSON_PREVIEW
 } from './action';
 
 
@@ -86,6 +87,16 @@ export const requestAddWatchlistReducer = (state = {}, { type, data }) => {
 export const requestEnrolCourseReducer = (state = {}, { type, data }) => {
     switch (type) {
         case RECEIVE_API_ENROL_COURSE:
+            return data;
+        default:
+            return state;
+    }
+}
+
+
+export const requestGetLessonPreviewReducer = (state = {}, { type, data }) => {
+    switch (type) {
+        case RECEIVE_API_GET_LESSON_PREVIEW:
             return data;
         default:
             return state;
