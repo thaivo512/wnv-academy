@@ -34,7 +34,8 @@ import {
     requestPostFeedbackReducer,
     requestRemoveWatchlistReducer,
     requestAddWatchlistReducer,
-    requestEnrolCourseReducer
+    requestEnrolCourseReducer,
+    requestGetLessonPreviewReducer
 } from '../containers/detail-page/redux/reducer';
 
 import {
@@ -69,6 +70,7 @@ const rootReducer = combineReducers({
     requestGetTopCategoryWeekReducer, requestGetTopCourseWeekReducer,
     requestSearchCourseReducer, requestGetCourseDetailReducer,
     requestGetCourseSimilarReducer, requestGetSlidePreviewReducer,
+    requestGetLessonPreviewReducer,
     requestGetFeedbackReducer, requestPostFeedbackReducer,
     requestRemoveWatchlistReducer, requestAddWatchlistReducer,
     requestEnrolCourseReducer,

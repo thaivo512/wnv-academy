@@ -19,7 +19,8 @@ import {
     requestApiPostFeedback,
     requestApiRemoveWatchlist,
     requestApiAddWatchlist,
-    requestApiEnrolCourse
+    requestApiEnrolCourse,
+    requestApiGetLessonPreivew
 } from './redux/action';
 import { toast } from 'react-toastify';
 
@@ -36,6 +37,7 @@ class DetailPage extends Component {
             course: null,
             coursesSimilar: [],
             slidesPreview: [],
+            lessonsPreview: [],
             feedbacks: [],
             id: params.id || 0,
             comment: '',
@@ -48,6 +50,7 @@ class DetailPage extends Component {
         this.props.requestApiGetCourseSimilar(this.state.id);
         this.props.requestApiGetSlidePreview(this.state.id);
         this.props.requestApiGetFeedback(this.state.id);
+        this.props.requestApiGetLessonPreivew(this.state.id);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -93,7 +96,7 @@ class DetailPage extends Component {
             this.props.slidePreviewResponse.is_success = false;
             this.setState(
                 {
-                    slidesPreview: slidePreviewResponse.data
+                    slidesPreview: slidePreviewResponse.slides
                 }
             )
         }  
@@ -139,6 +142,14 @@ class DetailPage extends Component {
             this.props.requestApiGetCourseDetail(this.state.id);
         }  
         
+
+        const lessonPreviewResponse = this.props.lessonPreviewResponse;
+        if(lessonPreviewResponse && lessonPreviewResponse.is_success) {
+            this.props.lessonPreviewResponse.is_success = false;
+            this.setState({
+                lessonsPreview: lessonPreviewResponse.lessons
+            })
+        } 
     }
 
     onClickRemoveWatchlist = () => {
@@ -203,7 +214,7 @@ class DetailPage extends Component {
                             <div>
                                 <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
                                     <div style={{ flex: 1,}}>
-                                        <img style={{ width: 'auto', height: '300px' }}
+                                        <img style={{ width: 'auto', height: '300px', marginBottom: 20 }}
                                             src={this.state.course.image_avatar}/>
                                         <div>
                                             { 
@@ -245,12 +256,32 @@ class DetailPage extends Component {
                                 </div>
                                 <div style={{ textAlign: "left" }}>
                                     <hr />
-                                    <h5>Đề cương xem trước:</h5>
+                                    <h5>Đề cương khóa học:</h5>
                                     <p>{this.state.slidesPreview.map((item, index) => 
-                                        <a href={item.file_url} target="_blank"
-                                            style={{ paddingLeft: 30 }}>
-                                            {index + 1}.  {item.slide_name
-                                        }</a>
+                                        <div style={{ paddingLeft: 30 }}>
+                                            {
+                                                item.is_allow_preview?
+                                                <a href={item.file_url} target="_blank">
+                                                    {index + 1}.  {item.slide_name} {item.file_name}
+                                                </a>
+                                                :
+                                                <a>
+                                                    {index + 1}.  {item.slide_name} {item.file_name}
+                                                </a>
+                                            }
+                                        </div>
+                                    )}</p>
+                                </div><div style={{ textAlign: "left" }}>
+                                    <hr />
+                                    <h5>Bài giảng khóa học:</h5>
+                                    <p>{this.state.lessonsPreview.map((item, index) => 
+                                        <div style={{ paddingLeft: 30 }}>
+                                            {
+                                                <a>
+                                                    {index + 1}.  {item.lesson_name}
+                                                </a>
+                                            }
+                                        </div>
                                     )}</p>
                                 </div>
                                 <div style={{ textAlign: "left" }}>
@@ -384,6 +415,7 @@ const mapDispatchToProps = dispatch => {
         requestApiRemoveWatchlist: (id) => dispatch(requestApiRemoveWatchlist(id)),
         requestApiAddWatchlist: (id) => dispatch(requestApiAddWatchlist(id)),
         requestApiEnrolCourse: (id) => dispatch(requestApiEnrolCourse(id)),
+        requestApiGetLessonPreivew: (id) => dispatch(requestApiGetLessonPreivew(id)),
     };
 }
 
@@ -395,7 +427,8 @@ const mapStateToProps = state => ({
     postFeedbackResponse: state.requestPostFeedbackReducer,
     removeWatchlistResponse: state.requestRemoveWatchlistReducer,
     addWatchlistResponse: state.requestAddWatchlistReducer,
-    enrolCourseResponse: state.requestEnrolCourseReducer
+    enrolCourseResponse: state.requestEnrolCourseReducer,
+    lessonPreviewResponse: state.requestGetLessonPreviewReducer
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailPage)

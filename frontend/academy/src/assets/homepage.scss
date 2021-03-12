@@ -65,3 +65,14 @@ a {
     top: 20px;
     right: -5px;
 }
+
+.done::after {
+    content: "Đã hoàn thành";
+    position: absolute;
+    background: seagreen;
+    color: #fff;
+    padding: 5px;
+    font-size: 13px;
+    top: 20px;
+    right: -5px;
+}

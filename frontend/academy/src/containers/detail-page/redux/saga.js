@@ -7,7 +7,8 @@ import {
     REQUEST_API_POST_FEEDBACK, receiveApiPostFeedback, 
     REQUEST_API_REMOVE_WATCHLIST, receiveApiRemoveWatchlist,
     REQUEST_API_ADD_WATCHLIST, receiveApiAddWatchlist,
-    REQUEST_API_ENROL_COURSE, receiveApiEnrolCourse
+    REQUEST_API_ENROL_COURSE, receiveApiEnrolCourse,
+    REQUEST_API_GET_LESSON_PREVIEW, receiveApiGetLessonPreview
 } from './action';
 import {
     requestGetCourseDetail,
@@ -17,7 +18,8 @@ import {
     requestPostFeedback,
     requestRemoveWatchlist,
     requestAddWatchlist,
-    requestEnrolCourse
+    requestEnrolCourse,
+    requestGetLessonPreview
 } from './api';
 
 
@@ -99,6 +101,16 @@ function* enrolCourseSaga({ id }) {
     }
 }
 
+
+function* getLessonPreviewSaga({ id }) {
+    try {
+        const data = yield call(requestGetLessonPreview, id);
+        yield put(receiveApiGetLessonPreview(data));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 export default function* getCourseDetailSage() {
     yield takeLatest(REQUEST_API_GET_COURSE_DETAIL, getCourseDetailSaga);
 
@@ -115,4 +127,6 @@ export default function* getCourseDetailSage() {
     yield takeLatest(REQUEST_API_ADD_WATCHLIST, addWatchlistSaga);
 
     yield takeLatest(REQUEST_API_ENROL_COURSE, enrolCourseSaga);
+
+    yield takeLatest(REQUEST_API_GET_LESSON_PREVIEW, getLessonPreviewSaga);
 }

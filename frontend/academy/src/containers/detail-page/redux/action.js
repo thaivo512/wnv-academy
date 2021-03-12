@@ -48,3 +48,10 @@ export const RECEIVE_API_ENROL_COURSE = "RECEIVE_API_ENROL_COURSE";
 
 export const requestApiEnrolCourse = id => ({ type: REQUEST_API_ENROL_COURSE, id });
 export const receiveApiEnrolCourse = data => ({ type: RECEIVE_API_ENROL_COURSE, data });
+
+
+export const REQUEST_API_GET_LESSON_PREVIEW = "REQUEST_API_GET_LESSON_PREVIEW";
+export const RECEIVE_API_GET_LESSON_PREVIEW = "RECEIVE_API_GET_LESSON_PREVIEW";
+
+export const requestApiGetLessonPreivew = id => ({ type: REQUEST_API_GET_LESSON_PREVIEW, id });
+export const receiveApiGetLessonPreview = data => ({ type: RECEIVE_API_GET_LESSON_PREVIEW, data });

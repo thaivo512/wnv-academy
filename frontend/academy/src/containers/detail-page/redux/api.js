@@ -24,6 +24,12 @@ export const requestGetSlidePreview = async (id) => {
     });
 }
 
+export const requestGetLessonPreview = async (id) => {
+    return exec({
+        method: 'GET',
+        path: `lesson/preview/${id}`
+    });
+}
 
 
 export const requestGetFeedback = async (id) => {
